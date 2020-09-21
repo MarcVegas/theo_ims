@@ -30,6 +30,16 @@ Route::resource('/customers', 'CustomerController');
 Route::resource('/orders', 'OrdersController');
 Route::resource('/transactions', 'TransactionController');
 
+//Cart
+Route::get('/cart/{id}', 'CartController@getCart');
+Route::post('/cart', 'CartController@store');
+Route::put('/cart/remove', 'CartController@removeItem');
+Route::get('/cart/count/{id}', 'CartController@getCartCount');
+Route::delete('/cart/{id}', 'CartController@destroy');
+
+Route::get('/shop/{id}', 'OrdersController@shop')->name('orders.shop');
+Route::get('/product/{id}', 'ProductsController@getProduct');
+
 //Store Routes
 Route::get('/settings', 'SettingController@index')->name('settings.index');
 Route::resource('/category', 'CategoryController');

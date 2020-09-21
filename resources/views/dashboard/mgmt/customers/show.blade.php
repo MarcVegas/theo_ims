@@ -51,7 +51,7 @@
                 </div>
                 <div class="right menu">
                     <div class="item">
-                        <a class="ui teal button" href=""><i class="cart plus icon"></i> New Order</a>
+                        <a class="ui teal button" href="/shop/{{$customer->id}}"><i class="cart plus icon"></i> New Order</a>
                     </div>
                 </div>
             </div>

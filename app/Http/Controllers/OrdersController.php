@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Customer;
+use App\Product;
 
 class OrdersController extends Controller
 {
@@ -13,7 +15,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -80,5 +82,13 @@ class OrdersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function shop($id)
+    {
+        $customer = Customer::find($id);
+        $products = Product::has('stock')->get();
+
+        return view('dashboard.order.index')->with('customer', $customer)->with('products', $products);
     }
 }

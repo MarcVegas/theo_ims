@@ -218,4 +218,10 @@ class ProductsController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Product removed successfully');
     }
+
+    public function getProduct($id){
+        $product = Product::with('stock')->find($id)->toJson();
+
+        return $product;
+    }
 }
