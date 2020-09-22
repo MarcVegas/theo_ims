@@ -19,7 +19,6 @@
                             <div class="field">
                                 <label>Payment Method</label>
                                 <select class="ui dropdown" name="transaction_type" id="transaction_type">
-                                    <option value="">Selected method</option>
                                     <option value="full">Full Payment</option>
                                     <option value="credit">Credit</option>
                                 </select>
@@ -41,7 +40,7 @@
                     <div class="item">
                         <div class="ui floating dropdown icon teal button">
                         <i class="cart icon"></i>
-                        <div class="floating ui small label">0</div>
+                        <div class="floating ui small label" id="cart_count">0</div>
                             <div class="menu">
                                 <div class="ui icon search input">
                                     <i class="search icon"></i>
@@ -49,19 +48,11 @@
                                 </div>
                                 <div class="divider"></div>
                                 <div class="header">
-                                <i class="shopping basket icon"></i>
-                                Your Cart
+                                    <i class="shopping basket icon"></i>
+                                    Your Cart
                                 </div>
-                                <div class="scrolling menu">
-                                    <div class="item">
-                                        <div class="ui red empty circular label"></div>
-                                        Important
-                                        <a class="ui black right floated label"><i class="x icon"></i></a>
-                                    </div>
-                                    <div class="item">
-                                        <div class="ui blue empty circular label"></div>
-                                        Announcement
-                                    </div>
+                                <div class="scrolling menu" id="cart_items">
+        
                                 </div>
                             </div>
                         </div>
@@ -135,7 +126,7 @@
                         <label>Order Quantity</label>
                         <input type="number" min="1" max="" id="cart_quantity">
                     </div>
-                    <button class="ui blue right floated button">Purchase</button>
+                    <button class="ui blue right floated purchase button">Purchase</button>
                 </div>
             </div>
         </div>
@@ -145,12 +136,12 @@
     <i class="close icon"></i>
     <div class="header"><i class="exclamation triangle red icon"></i> Cancel Order?</div>
     <div class="content">
-        <strong>Are you sure you want to cancel your order?</strong>
+        <strong>Are you sure you want to cancel your order? All the items in your cart will be removed.</strong>
     </div>
     <div class="actions">
-        <form action="" method="POST">
+        <form action="{!! action('CartController@destroy', $customer->id) !!}" method="POST">
             <div class="ui deny button">
-                No, I don't
+                No, I dont
             </div>
             <input type="hidden" name="_method" value="DELETE">
             <button type="submit" class="ui inverted red button">
@@ -185,6 +176,7 @@
         var product_id = '';
         var cart_quantity = 0;
         var customer_id = "{{$customer->id}}";
+        var subtotal;
 
         $('.cancel.modal').modal('attach events', '.cancel.button', 'show');
         $('.checkout.modal').modal('attach events', '.checkout.button', 'show');
@@ -200,10 +192,12 @@
                     type: "GET",
                     url: '/cart/' + customer_id,
                     data: "",
-                    dataType: "json",
                     cache: false,
                     success: function (data) {
-                        console.log(data);
+                        $('#cart_items').html(data);
+                        subtotal = $('#subtotal').val();
+                        $('#total').val(subtotal);
+                        getCartCount();
                     },
                     error: function(data) {
                         console.log(data);
@@ -211,15 +205,16 @@
                 });
         }
 
+        getCart();
+
         function getCartCount() {
             $.ajax({
                     type: "GET",
                     url: '/cart/count/' + customer_id,
                     data: "",
-                    dataType: "json",
                     cache: false,
                     success: function (data) {
-                        console.log(data);
+                        $('#cart_count').text(data)
                     },
                     error: function(data) {
                         console.log(data);
@@ -229,6 +224,7 @@
 
         $('.order.button').click(function () {
             product_id = $(this).attr('id');
+            $('#cart_quantity').val('');
             $.ajax({
                     type: "GET",
                     url: '/product/' + product_id,
@@ -240,6 +236,26 @@
                         $('#cart_quantity').attr("max", data.stock.quantity);
                         $('#product_image').attr("src","/storage/uploads/"+data.image);
                         $('.order.modal').modal('show');
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        });
+
+        $('.purchase.button').click(function () {
+            cart_quantity = $('#cart_quantity').val();
+            var datastr = "product_id=" + product_id + "&cart_quantity=" + cart_quantity + "&customer_id=" + customer_id;
+
+            $.ajax({
+                    type: "POST",
+                    url: '/cart',
+                    data: datastr,
+                    cache: false,
+                    success: function (data) {
+                        $('.order.modal').modal('hide');
+                        $('#'+product_id).addClass("disabled").text('ADDED TO CART');
+                        getCartCount();
                     },
                     error: function(data) {
                         console.log(data);

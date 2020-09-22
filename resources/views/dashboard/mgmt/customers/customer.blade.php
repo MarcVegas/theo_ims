@@ -7,7 +7,7 @@
     <div class="main-content">
         <div class="ui basic segment padded">
             @include('inc.messages')
-            <h2><i class="users icon"></i> Suppliers</h2>
+            <h2><i class="users icon"></i> Customers</h2>
             <div class="ui secondary menu">
                 <div class="item">
                     <div class="ui form">

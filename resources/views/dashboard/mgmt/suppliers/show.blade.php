@@ -75,3 +75,11 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+<script>
+    $(document).ready(function (){
+        $('.mini.modal').modal('attach events', '.delete.button', 'show');
+    });
+</script>
+@endpush
