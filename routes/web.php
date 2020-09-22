@@ -35,6 +35,7 @@ Route::get('/cart/{id}', 'CartController@getCart');
 Route::post('/cart', 'CartController@store');
 Route::put('/cart/remove', 'CartController@removeItem');
 Route::get('/cart/count/{id}', 'CartController@getCartCount');
+Route::get('/checkout/{id}', 'CartController@checkout');
 Route::delete('/cart/{id}', 'CartController@destroy');
 
 Route::get('/shop/{id}', 'OrdersController@shop')->name('orders.shop');

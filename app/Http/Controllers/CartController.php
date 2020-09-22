@@ -10,16 +10,20 @@ use App\Stock;
 
 class CartController extends Controller
 {
+    private $carts;
+
     public function getCart($id){
-        $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
+        $this->carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
         ->select('products.name','products.selling_price', 'carts.cart_quantity')
         ->where('carts.customer_id','=', $id)->get();
 
-        foreach ($carts as $item) {
+        $total = 0;
+        foreach ($this->carts as $item) {
             $subtotal = $item->selling_price * $item->cart_quantity;
+            $total += $subtotal;
         }
 
-        return view('dashboard.order.cart')->with('carts', $carts)->with('subtotal', $subtotal);
+        return view('dashboard.order.cart')->with('carts', $this->carts)->with('subtotal', $total);
     }
 
     public function getCartCount($id){
@@ -59,11 +63,9 @@ class CartController extends Controller
     }
 
     public function checkout($id){
-        $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
-        ->select('products.name','products.selling_price', 'carts.cart_quantity')
-        ->where('carts.customer_id','=', $id)->get();
+        $customer = Customer::find($id);
 
-        return view('dashboard.order.checkout')->with('carts', $carts);
+        return view('dashboard.order.checkout')->with('carts', $this->carts)->with('customer', $customer);
     }
 
     public function destroy($id){

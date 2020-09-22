@@ -18,21 +18,32 @@
                                 <div class="sub header">List of your selected items</div>
                             </div>
                         </h2>
-                        <table class="ui single line table">
-                            <thead>
-                                <tr>
-                                    <td>Product</td>
-                                    <td>Qty</td>
-                                    <td>Price</td>
-                                    <td>Amount</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
+                        @if ($carts ?? '')
+                            <table class="ui single line compact table">
+                                <thead>
+                                    <tr>
+                                        <td>Product</td>
+                                        <td>Qty</td>
+                                        <td>Price</td>
+                                        <td>Amount</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carts as $item)
+                                        <tr>
+                                            <td>{{$item->name}}</td>
+                                            <td>{{$item->cart_quantity}}</td>
+                                            <td>{{$item->selling_price}}</td>
+                                            <td>{{$item->selling_price * $item->cart_quantity}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <div class="ui basic center aligned segment">
+                                <h3>You have no items on your cart.</h3>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="six wide column">
@@ -43,8 +54,11 @@
                                 <input type="text" name="customer" id="customer" readonly>
                             </div>
                             <div class="field">
-                                <label>Method</label>
-                                <input type="text" name="payment_method" id="payment_method" readonly>
+                                <label>Payment Method</label>
+                                <select class="ui dropdown" name="transaction_type" id="transaction_type">
+                                    <option value="full">Full Payment</option>
+                                    <option value="credit">Credit</option>
+                                </select>
                             </div>
                             <div class="fields">
                                 <div class="field">

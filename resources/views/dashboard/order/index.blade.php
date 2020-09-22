@@ -17,14 +17,7 @@
                                 <input type="text" name="customer" id="customer" value="{{$customer->firstname}} {{$customer->lastname}}" readonly>
                             </div>
                             <div class="field">
-                                <label>Payment Method</label>
-                                <select class="ui dropdown" name="transaction_type" id="transaction_type">
-                                    <option value="full">Full Payment</option>
-                                    <option value="credit">Credit</option>
-                                </select>
-                            </div>
-                            <div class="field">
-                                <label>Total</label>
+                                <label>Current Total</label>
                                 <input type="text" name="total" id="total" value="" placeholder="Order Total" readonly>
                             </div>
                         </div>
@@ -157,15 +150,13 @@
         <strong>Are you sure you want to checkout?</strong>
     </div>
     <div class="actions">
-        <form action="" method="POST">
-            <div class="ui deny button">
-                No, continue shopping
-            </div>
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" class="ui inverted green button">
-                Yes, checkout
-            </button>
-        </form>
+        <div class="ui deny button">
+            No, continue shopping
+        </div>
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="ui inverted green button">
+            Yes, checkout
+        </button>
     </div>
 </div>
 @endsection
@@ -255,7 +246,7 @@
                     success: function (data) {
                         $('.order.modal').modal('hide');
                         $('#'+product_id).addClass("disabled").text('ADDED TO CART');
-                        getCartCount();
+                        getCart();
                     },
                     error: function(data) {
                         console.log(data);
