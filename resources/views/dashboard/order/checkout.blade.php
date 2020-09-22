@@ -7,25 +7,25 @@
     <div class="main-content">
         <div class="ui basic segment padded">
             @include('inc.messages')
-            <br><br>
+            <br>
             <div class="ui stackable grid">
                 <div class="ten wide column">
                     <div class="ui basic padded segment">
-                        <h2 class="ui header">
-                            <i class="credit card icon"></i>
+                        <h2 class="ui blue header">
+                            <i class="cart arrow down icon"></i>
                             <div class="content">
                                 Your Order
                                 <div class="sub header">List of your selected items</div>
                             </div>
                         </h2>
                         @if ($carts ?? '')
-                            <table class="ui single line compact table">
+                            <table class="ui single line table">
                                 <thead>
                                     <tr>
-                                        <td>Product</td>
-                                        <td>Qty</td>
-                                        <td>Price</td>
-                                        <td>Amount</td>
+                                        <td><b>Product</b></td>
+                                        <td><b>Qty</b></td>
+                                        <td><b>Price</b></td>
+                                        <td><b>Amount</b></td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,11 +47,11 @@
                     </div>
                 </div>
                 <div class="six wide column">
-                    <div style="background-color: #e0e1e3;border-radius:.5rem;padding:1rem">
-                        <form class="ui form" action="">
+                    <div style="background-color: #f5f6f6;border-radius:.5rem;padding:2rem">
+                        <form class="ui form" action="{{route('orders.store')}}" method="POST">
                             <div class="field">
                                 <label>Customer</label>
-                                <input type="text" name="customer" id="customer" readonly>
+                                <input type="text" name="customer" id="customer" value="{{$customer->firstname}} {{$customer->lastname}}" readonly>
                             </div>
                             <div class="field">
                                 <label>Payment Method</label>
@@ -63,14 +63,16 @@
                             <div class="fields">
                                 <div class="field">
                                     <label>Total</label>
-                                    <input type="text" name="total" id="total" readonly>
+                                    <input type="text" name="total" id="total" value="{{$total}}" readonly>
                                 </div>
                                 <div class="field">
                                     <label>Cash or Deposit</label>
-                                    <input type="text" name="cash" id="cash" readonly>
+                                    <input type="text" name="cash" id="cash" placeholder="Enter cash amount">
                                 </div>
                             </div>
-                            <button class="ui blue fluid button">Confirm Payment</button>
+                            <input type="hidden" name="customer_id" id="customer_id" value="{{$customer->id}}">
+                            <br>
+                            <button type="submit" class="ui blue fluid button">Confirm Payment</button>
                         </form>
                     </div>
                 </div>
@@ -79,3 +81,11 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+<script>
+    $(document).ready(function (){
+        
+    })
+</script>
+@endpush

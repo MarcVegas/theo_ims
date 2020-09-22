@@ -153,10 +153,9 @@
         <div class="ui deny button">
             No, continue shopping
         </div>
-        <input type="hidden" name="_method" value="DELETE">
-        <button type="submit" class="ui inverted green button">
+        <a class="ui inverted green button" href="/checkout/{{$customer->id}}">
             Yes, checkout
-        </button>
+        </a>
     </div>
 </div>
 @endsection
