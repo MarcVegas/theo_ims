@@ -48,11 +48,10 @@
                 </div>
                 <div class="six wide column">
                     <div style="background-color: #f5f6f6;border-radius:.5rem;padding:2rem">
+                        <label>Customer</label>
+                        <div style="font-size: 1.5rem">{{$customer->firstname}} {{$customer->lastname}}</div><br>
                         <form class="ui form" action="{{route('orders.store')}}" method="POST">
-                            <div class="field">
-                                <label>Customer</label>
-                                <input type="text" name="customer" id="customer" value="{{$customer->firstname}} {{$customer->lastname}}" readonly>
-                            </div>
+                            @csrf
                             <div class="field">
                                 <label>Payment Method</label>
                                 <select class="ui dropdown" name="transaction_type" id="transaction_type">

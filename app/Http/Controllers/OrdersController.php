@@ -48,6 +48,8 @@ class OrdersController extends Controller
             'cash' => 'required|numeric',
         ]);
 
+        $customer_id = $request->input('customer_id');
+
         $transaction_id = (string) Str::uuid();
         $type = $request->input('transaction_type');
         $total = $request->input('total');
@@ -56,20 +58,24 @@ class OrdersController extends Controller
         $customer_id = $request->input('customer_id');
 
         if ($type == 'full') {
-            if ($cash > $total) {
+            if ($cash >= $total) {
                 $change = $cash - $total;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,0,$change,'paid',$date,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                return redirect('/orders/'.$transaction_id);
             }else {
-                return view('dashboard.order.checkout')->with('error', 'Cash amount must be greater than order total for full payment transactions');
+                return redirect('/checkout/'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
             }
         }elseif ($type == 'credit') {
-            $balance = $total - $cash;
-            $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$customer_id);
-            $this->saveOrder($customer_id,$transaction_id);
+            if ($cash < $total) {
+                $balance = $total - $cash;
+                $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$customer_id);
+                $this->saveOrder($customer_id,$transaction_id);
+                return redirect('/orders/'.$transaction_id);
+            }else{
+                return redirect('/checkout/'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
+            }
         }
-
-        return redirect('/orders/{{$customer_id}}');
     }
 
     /**
@@ -80,9 +86,9 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $customers = Customer::has('transaction')->find($id);
+        $transaction = Transaction::has('customer')->find($id);
 
-        return view('dashboard.order.complete')->with('customers', $customers);
+        return view('dashboard.order.complete')->with('transaction', $transaction);
     }
 
     /**
@@ -149,7 +155,7 @@ class OrdersController extends Controller
         foreach ($carts as $item) {
             $subtotal = $item->selling_price * $item->cart_quantity;
             $order = new Order;
-            $order->product_id = $item->id;
+            $order->product_id = $item->product_id;
             $order->order_quantity = $item->cart_quantity;
             $order->order_price = $item->selling_price;
             $order->subtotal = $subtotal;

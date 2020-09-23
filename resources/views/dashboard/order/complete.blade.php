@@ -16,43 +16,49 @@
                                 <i class="check circle icon"></i>
                                 <div class="content">
                                     Order Complete!
-                                    <div class="sub header">Your order has been successfuly processed</div>
+                                    <div class="sub header" style="color: white">Your order has been successfuly processed</div>
                                 </div>
                             </h2>
                         </div>
                         <div class="ui padded segment">
-                            <h4>Transaction ID: <label class="ui green label"></label></h4>
-                            <div class="ui form">
-                                <div class="fields">
+                            @if ($transaction ?? '')
+                            <h4>Transaction ID: <label class="{{($transaction->type == 'full') ? 'ui green label' : 'ui blue label'}}">{{$transaction->id}}<div class="detail">{{$transaction->type}}</div></label></h4>
+                                <div class="ui form">
                                     <div class="field">
                                         <label>Customer Name</label>
-                                        <input type="text" name="customer" id="customer" readonly>
+                                        <input type="text" name="customer" id="customer" value="{{$transaction->customer->firstname}} {{$transaction->customer->lastname}}" readonly>
+                                    </div>
+                                    <div class="equal width fields">
+                                        <div class="field">
+                                            <label>Order Total</label>
+                                            <input type="text" name="total" id="total" value="{{$transaction->total}}" readonly>
+                                        </div>
+                                        <div class="field">
+                                            <label>Transaction Date</label>
+                                            <input type="text" name="date" id="date" value="{{$transaction->transaction_date}}" readonly>
+                                        </div>
                                     </div>
                                     <div class="field">
-                                        <div class="ui blue label">Credit</div>
-                                    </div>
-                                </div>
-                                <div class="fields">
-                                    <div class="field">
-                                        <label>Total</label>
-                                        <input type="text" name="total" id="total" readonly>
+                                        <label>Cash or Deposit</label>
+                                        <input type="text" name="cash" id="cash" value="{{$transaction->cash}}" readonly>
                                     </div>
                                     <div class="field">
-                                        <label>Transaction Date</label>
-                                        <input type="text" name="date" id="date" readonly>
+                                        @if ($transaction->type == 'credit')
+                                            <label>Balance</label>
+                                            <input type="text" name="cash" id="cash" value="{{$transaction->balance}}" readonly>
+                                        @else
+                                            <label>Change</label>
+                                            <input type="text" name="cash" id="cash" value="{{$transaction->change}}" readonly>
+                                        @endif
                                     </div>
+                                    <a class="ui button" href="{{route('transactions.index')}}">Go to transactions</a>
+                                    <a class="ui teal right floated button"><i class="file pdf icon"></i> Print Invoice</a>
                                 </div>
-                                <div class="field">
-                                    <label>Cash or Deposit</label>
-                                    <input type="text" name="cash" id="cash" readonly>
+                            @else
+                                <div class="ui basic center aligned segment">
+                                    Could not fetch transaction data
                                 </div>
-                                <div class="field">
-                                    <label>Balance</label>
-                                    <input type="text" name="balance" id="balance" readonly>
-                                </div>
-                                <a class="ui button" href="">Go to transactions</a>
-                                <button class="ui teal right floated button"><i class="file pdf icon"></i> Print Invoice</button>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

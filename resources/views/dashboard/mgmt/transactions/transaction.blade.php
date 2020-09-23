@@ -71,99 +71,41 @@
                 </div>
             </div>
             <div class="ui raised segment">
-                <table class="ui tablet stackable selectable definition table" id="transaction-table">
-                    <thead class="full-width">
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Total</th>
-                            <th>Cash</th>
-                            <th>Balance</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td><label class="ui teal label">credit</label></td>
-                            <td>1000</td>
-                            <td>500</td>
-                            <td>500</td>
-                            <td><label class="ui basic teal label">partial</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jane Doe</td>
-                            <td><label class="ui green label">full</label></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>0</td>
-                            <td><label class="ui basic green label">paid</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>John Doe</td>
-                            <td><label class="ui blue label">deposit</label></td>
-                            <td>500</td>
-                            <td>500</td>
-                            <td>0</td>
-                            <td><label class="ui basic green label">paid</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Johnny Doe</td>
-                            <td><label class="ui teal label">credit</label></td>
-                            <td>1000</td>
-                            <td>0</td>
-                            <td>1000</td>
-                            <td><label class="ui basic red label">unpaid</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>John Doe</td>
-                            <td><label class="ui teal label">credit</label></td>
-                            <td>1000</td>
-                            <td>500</td>
-                            <td>500</td>
-                            <td><label class="ui basic teal label">partial</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>John Doe</td>
-                            <td><label class="ui teal label">credit</label></td>
-                            <td>1000</td>
-                            <td>500</td>
-                            <td>500</td>
-                            <td><label class="ui basic teal label">partial</label></td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if ($transactions ?? '')
+                    <table class="ui tablet stackable selectable definition table" id="transaction-table">
+                        <thead class="full-width">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Total</th>
+                                <th>Cash</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($transactions as $transaction)
+                                <tr>
+                                    <td>{{$transaction->customer->lastname}}</td>
+                                    <td><label class="ui teal label">{{$transaction->type}}</label></td>
+                                    <td>{{$transaction->total}}</td>
+                                    <td>{{$transaction->cash}}</td>
+                                    <td>{{$transaction->balance}}</td>
+                                    <td><label class="ui basic teal label">{{$transaction->status}}</label></td>
+                                    <td class="collapsing">
+                                        <a class="ui icon button" href="/transactions/{{$transaction->id}}"><i class="eye icon"></i></a>
+                                        <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else 
+                    <div class="ui basic center aligned segment">
+                        <h3>No transactions have been made yet</h3>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

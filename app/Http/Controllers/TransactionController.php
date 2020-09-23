@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaction;
+use App\Customer;
 
 class TransactionController extends Controller
 {
@@ -14,9 +15,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        
+        $transactions = Transaction::has('customer')->get();
 
-        return view('dashboard.mgmt.transactions.transaction');
+        return view('dashboard.mgmt.transactions.transaction')->with('transactions', $transactions);
     }
 
     /**
