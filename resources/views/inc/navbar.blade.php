@@ -9,9 +9,24 @@
     </div>
 
     <div class="right menu">
-        <a href="#" class="item">
-            <i class="bell icon"></i>
-        </a>
+        <div class="item">
+            <div class="ui dropdown icon teal button">
+                <i class="bell icon"></i>
+                <div class="menu">
+                    <div class="header">
+                    My Notifications
+                    </div>
+                    <div class="item">
+                        <div class="ui red empty circular label"></div>
+                        Several items are out of stock
+                    </div>
+                    <div class="item">
+                        <div class="ui blue empty circular label"></div>
+                        Ordered items will arrive today
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="ui dropdown item">
             <div class="text">
                 <img class="ui avatar image" src="/storage/images/{{Auth::user()->avatar}}" id="sideAvatar">
