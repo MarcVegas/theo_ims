@@ -11,7 +11,7 @@
             <div class="ui stackable grid">
                 <div class="ten wide column">
                     <div class="ui basic padded segment">
-                        <h2 class="ui blue header">
+                        <h2 class="ui teal header">
                             <i class="cart arrow down icon"></i>
                             <div class="content">
                                 Your Order

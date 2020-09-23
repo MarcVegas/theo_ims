@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Customer;
 use App\Product;
+use App\Cart;
+use App\Order;
 use App\Transaction;
 
 class OrdersController extends Controller
@@ -57,12 +59,17 @@ class OrdersController extends Controller
             if ($cash > $total) {
                 $change = $cash - $total;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,0,$change,'paid',$date,$customer_id);
+                $this->saveOrder($customer_id,$transaction_id);
             }else {
                 return view('dashboard.order.checkout')->with('error', 'Cash amount must be greater than order total for full payment transactions');
             }
         }elseif ($type == 'credit') {
-            # code...
+            $balance = $total - $cash;
+            $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$customer_id);
+            $this->saveOrder($customer_id,$transaction_id);
         }
+
+        return redirect('/orders/{{$customer_id}}');
     }
 
     /**
@@ -73,7 +80,9 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        //
+        $customers = Customer::has('transaction')->find($id);
+
+        return view('dashboard.order.complete')->with('customers', $customers);
     }
 
     /**
@@ -130,6 +139,23 @@ class OrdersController extends Controller
         $transaction->transaction_date = $date;
         $transaction->customer_id = $customer;
         $transaction->save();
+    }
+
+    public function saveOrder($customer_id, $transaction_id){
+        $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
+        ->select('products.id','products.selling_price', 'carts.cart_quantity')
+        ->where('carts.customer_id','=', $customer_id)->get();
+
+        foreach ($carts as $item) {
+            $subtotal = $item->selling_price * $item->cart_quantity;
+            $order = new Order;
+            $order->product_id = $item->id;
+            $order->order_quantity = $item->cart_quantity;
+            $order->order_price = $item->selling_price;
+            $order->subtotal = $subtotal;
+            $order->transaction_id = $transaction_id;
+            $order->save();
+        }
     }
 
 }

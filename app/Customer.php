@@ -10,7 +10,7 @@ class Customer extends Model
     protected $keyType = 'string';
 
     public function transaction(){
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Transaction','customer_id');
     }
 
     public function cart(){
