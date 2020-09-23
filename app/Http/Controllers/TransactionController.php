@@ -49,7 +49,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        return view('dashboard.mgmt.transactions.transaction');
+        $transaction = Transaction::has('customer')->find($id);
+
+        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction);
     }
 
     /**

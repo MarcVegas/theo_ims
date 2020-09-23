@@ -7,85 +7,74 @@
     <div class="main-content">
         <div class="ui basic segment padded">
             @include('inc.messages')
-            <h2><i class="handshake icon"></i> Transaction Details</h2>
-            <div class="ui grid stackable padded">
-                <div class="four wide computer eight wide tablet sixteen wide mobile column">
-                    <div class="ui form">
-                        <div class="inline field">
-                            <label>ID:</label>
-                            <div class="ui green label"></div>
+            <br>
+            <div class="ui stackable grid">
+                <div class="ten wide column">
+                    <div class="ui segments">
+                        <div class="ui inverted teal padded segment">
+                            <h2 class="ui header">
+                                <i class="handshake icon"></i>
+                                <div class="content">
+                                    Transaction Details
+                                </div>
+                            </h2>
                         </div>
-                        <div class="inline field">
-                            <label>Customer:</label>
-                            <input type="text" name="name" id="name" readonly>
+                        <div class="ui padded segment">
+                            @if ($transaction ?? '')
+                            <h4>Transaction ID: <label class="{{($transaction->type == 'full') ? 'ui green label' : 'ui blue label'}}">{{$transaction->id}}<div class="detail">{{$transaction->type}}</div></label></h4>
+                                <div class="ui form">
+                                    <div class="field">
+                                        <label>Customer Name</label>
+                                        <input type="text" name="customer" id="customer" value="{{$transaction->customer->firstname}} {{$transaction->customer->lastname}}" readonly>
+                                    </div>
+                                    <div class="equal width fields">
+                                        <div class="field">
+                                            <label>Order Total</label>
+                                            <input type="text" name="total" id="total" value="{{$transaction->total}}" readonly>
+                                        </div>
+                                        <div class="field">
+                                            <label>Transaction Date</label>
+                                            <input type="text" name="date" id="date" value="{{$transaction->transaction_date}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label>Cash or Deposit</label>
+                                        <input type="text" name="cash" id="cash" value="{{$transaction->cash}}" readonly>
+                                    </div>
+                                    <div class="field">
+                                        @if ($transaction->type == 'credit')
+                                            <label>Balance</label>
+                                            <input type="text" name="cash" id="cash" value="{{$transaction->balance}}" readonly>
+                                        @else
+                                            <label>Change</label>
+                                            <input type="text" name="cash" id="cash" value="{{$transaction->change}}" readonly>
+                                        @endif
+                                    </div>
+                                    <a class="ui button" href="{{route('transactions.index')}}">Go to transactions</a>
+                                    <a class="ui orange right floated button"><i class="file pdf icon"></i> Print Invoice</a>
+                                    <button class="ui inverted violet right floated button">Add Deposit</button>
+                                </div>
+                            @else
+                                <div class="ui basic center aligned segment">
+                                    Could not fetch transaction data
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="four wide computer eight wide tablet sixteen wide mobile column">
-                    <div class="ui form">
-                        <div class="inline field">
-                            <label>Order Total:</label>
-                            <input type="text" name="total" id="total" readonly>
-                        </div>
-                        <div class="inline field">
-                            <label>Cash Payment:</label>
-                            <input type="text" name="cash" id="cash" readonly>
-                        </div>
-                    </div>
+                <div class="six wide column">
+
                 </div>
-                <div class="four wide computer eight wide tablet sixteen wide mobile column">
-                    <div class="ui form">
-                        <div class="inline field">
-                            <label>Status:</label>
-                            <input type="text" name="total" id="total" readonly>
-                        </div>
-                        <div class="inline field">
-                            <label>Date:</label>
-                            <input type="text" name="cash" id="cash" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="four wide computer eight wide tablet sixteen wide mobile column">
-                    <h1 class="ui blue header"></h1>
-                </div>
-            </div>
-            <h3>Orders</h3>
-            <div class="ui segment">
-                <table class="ui tablet stackable selectable definition table" id="order-table">
-                    <thead class="full-width">
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Subtotal</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Navy Jeans</td>
-                            <td>10</td>
-                            <td>200</td>
-                            <td>2000</td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href="p"><i class="eye icon"></i></a>
-                                <button class="ui icon delete button"><i class="trash icon"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 </div>
 @endsection
 
-@section('ajax')
+@push('ajax')
 <script>
     $(document).ready(function (){
-        $('#transaction-table').DataTable({
-            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]
-        });
-    });
+        
+    })
 </script>
-@endsection
+@endpush

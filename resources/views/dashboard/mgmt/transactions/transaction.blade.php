@@ -87,15 +87,14 @@
                         <tbody>
                             @foreach ($transactions as $transaction)
                                 <tr>
-                                    <td>{{$transaction->customer->lastname}}</td>
-                                    <td><label class="ui teal label">{{$transaction->type}}</label></td>
+                                    <td>{{$transaction->customer->firstname}} {{$transaction->customer->lastname}}</td>
+                                    <td><label class="{{($transaction->type == 'credit') ? 'ui teal label' : 'ui green label'}}">{{$transaction->type}}</label></td>
                                     <td>{{$transaction->total}}</td>
                                     <td>{{$transaction->cash}}</td>
                                     <td>{{$transaction->balance}}</td>
-                                    <td><label class="ui basic teal label">{{$transaction->status}}</label></td>
-                                    <td class="collapsing">
-                                        <a class="ui icon button" href="/transactions/{{$transaction->id}}"><i class="eye icon"></i></a>
-                                        <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
+                                    <td><label class="ui teal label">{{$transaction->status}}</label></td>
+                                    <td class="center aligned">
+                                        <a class="ui button" href="/transactions/{{$transaction->id}}"><i class="eye icon"></i> View</a>
                                     </td>
                                 </tr>
                             @endforeach
