@@ -48,7 +48,7 @@
                         <div class="ui icon header">
                           <i class="cart plus red icon"></i>
                         </div>
-                        <strong>Add new items to your inventory from your supplier</strong><br>
+                        <strong>Add new items to your inventory from this supplier</strong><br>
                         <div class="ui orange button">Order Now</div>
                       </div>
                 </div>

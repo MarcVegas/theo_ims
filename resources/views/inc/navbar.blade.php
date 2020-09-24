@@ -33,12 +33,13 @@
                 {{ Auth::user()->name }}
             </div>
             <div class="menu">
-                <a href="#" class="item"><i class="info circle icon"></i> Profile</a>
+                <a href="{{route('profile.index')}}" class="item"><i class="info circle icon"></i> Profile</a>
                 <a class="item" href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                     <i class="sign-out icon"></i>
                     {{ __('Logout') }}
                 </a>
+                
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

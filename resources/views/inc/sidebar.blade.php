@@ -19,7 +19,7 @@
             Store
         </div>
         <div class="menu">
-            <a class="item">
+            <a class="item" href="{{route('profile.index')}}">
                 <div><i class="user icon"></i>Profile</div>
             </a>
             <a class="item" href="/settings">

@@ -23,7 +23,7 @@
                                         <input type="text" name="category" id="category" placeholder="Add a new category">
                                     </div>
                                     <div class="four wide field">
-                                        <button type="submit" class="ui black button">Add</button>
+                                        <button type="submit" class="ui teal button">Add</button>
                                     </div>
                                 </div>
                             </form><br>
@@ -59,7 +59,7 @@
                                         <input type="text" name="customer_type" id="customer_type" placeholder="Add a new customer type">
                                     </div>
                                     <div class="four wide field">
-                                        <button type="submit" class="ui black button">Add</button>
+                                        <button type="submit" class="ui teal button">Add</button>
                                     </div>
                                 </div>
                             </form><br>
@@ -91,8 +91,8 @@
                         </div>
                     </div>
                     <div class="ten wide column">
-                        <div class="ui raised segment">
-                            <a class="ui black right floated button" href="">Reset Password</a>
+                        <div class="ui raised padded right aligned segment">
+                            <a class="ui black button" href="">Reset Password</a>
                         </div>
                     </div>
                 </div>

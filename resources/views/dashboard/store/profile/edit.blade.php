@@ -21,12 +21,15 @@
                                 <label>Email Address</label>
                                 <input type="text" name="email" id="email" value="{{$user->email}}" readonly>
                             </div>
-                            <a class="ui blue right floated button" href=""><i class="edit icon"></i> Edit</a>
+                            <a class="ui button" href="{{route('profile.index')}}">Go Back</a>
+                            <button class="ui green right floated button"><i class="save outline icon"></i> Save</button>
+                            <br><br>
                         </form>
                     </div>
                 </div>
                 <div class="six wide column">
-                    <div class="ui raised padded segment">
+                    <div class="ui raised padded center aligned segment">
+                        <img class="ui centered small circular image" src="/storage/images/{{$user->avatar}}" alt=""><br>
                         <input type="file" (change)="fileEvent($event)" form="profile-form" class="inputfile" name="photo" id="photo"/>
                         <label for="photo" class="ui blue button">
                             <i class="camera icon"></i>

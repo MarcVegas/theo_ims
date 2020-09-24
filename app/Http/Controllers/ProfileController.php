@@ -17,7 +17,7 @@ class ProfileController extends Controller
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
 
-        return view('dashboard.store.profile.index')->with('user', $user);
+        return view('dashboard.store.profile.profile')->with('user', $user);
     }
 
     /**
