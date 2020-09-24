@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -13,7 +14,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+
+        return view('dashboard.store.profile.index')->with('user', $user);
     }
 
     /**
@@ -56,7 +60,9 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        return view('dashboard.store.profile.edit')->with('user', $user);
     }
 
     /**
@@ -68,7 +74,28 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'email' => 'required|string',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('photo')->storeAs('public/images', $fileNameToStore);
+        }
+
+        $profile = User::find($id);
+        $profile->name = $request->input('name');
+        $profile->email = $request->input('email');
+        if ($request->hasFile('photo')) {
+            $profile->avatar = $fileNameToStore;
+        }
+        $profile->save();
+
+        return redirect()->route('profile.index')->with('success', 'Profile successfuly updated');
     }
 
     /**

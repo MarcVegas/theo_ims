@@ -15,33 +15,22 @@
                             <div class="fields">
                                 <div class="field">
                                     <label>Fullname</label>
-                                    <input type="text" name="name" id="name" readonly>
+                                    <input type="text" name="name" id="name" value="{{$user->name}}" readonly>
                                 </div>
                                 <div class="field">
                                     <label>Email Address</label>
-                                    <input type="text" name="email" id="email" readonly>
+                                    <input type="text" name="email" id="email" value="{{$user->email}}" readonly>
                                 </div>
                             </div>
-                            <div class="fields">
-                                <div class="field">
-                                    <label>Address</label>
-                                    <input type="text" name="address" id="address" required>
-                                </div>
-                                <div class="field">
-                                    <label>Customer type</label>
-                                    <select class="ui dropdown" name="type" id="type">
-                                        <option value="">Select Type</option>
-                                        <option value="reseller">Reseller</option>
-                                        <option value="owner">Owner (Me)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <a class="ui button" href="{{route('customers.index')}}"><i class="chevron left icon"></i> Back</a>
-                            <a class="ui blue right floated button"><i class="edit icon"></i> Edit</a>
+                            <a class="ui blue right floated button" href=""><i class="edit icon"></i> Edit</a>
                         </div>
                     </div>
                 </div>
                 <div class="six wide column">
+                    <div class="ui raised padded segment">
+                        <img class="ui centered circular image" src="/storage/images/{{$user->image}}" alt="">
+
+                    </div>
                 </div>
             </div>
         </div>

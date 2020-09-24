@@ -83,6 +83,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="six wide column">
+                        <div class="six wide column">
+                            <h3>Password Reset</h3>
+                            <p>Use a strong password with 8 characters or more</p>
+                        </div>
+                    </div>
+                    <div class="ten wide column">
+                        <div class="ui raised segment">
+                            <a class="ui black right floated button" href="">Reset Password</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
