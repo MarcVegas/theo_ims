@@ -11,21 +11,20 @@
     <title>{{ config('app.name', 'Theo IMS') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
 
     <!-- Styles -->
     <link href="{{ asset('css/semantic.min.css')}}" rel="stylesheet">
     <link href="{{ asset('css/dashboard.css')}}" rel="stylesheet">
     <link href="{{ asset('css/datatables.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/semantic.min.js') }}" defer></script>
     <script src="{{ asset('js/master-semantic.min.js') }}" defer></script>
-    <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+    @stack('datatables')
 </head>
 <body>
     @yield('content')

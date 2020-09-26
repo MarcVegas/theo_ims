@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('datatables')
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+@endpush
 @section('content')
 @include('inc.sidebar')
 @include('inc.navbar')
