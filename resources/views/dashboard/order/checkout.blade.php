@@ -35,6 +35,7 @@
                                             <td>{{$item->cart_quantity}}</td>
                                             <td>{{$item->selling_price}}</td>
                                             <td>{{$item->selling_price * $item->cart_quantity}}</td>
+                                            <td><button class="ui inverted red icon remove button"><i class="trash alternate icon"></i></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

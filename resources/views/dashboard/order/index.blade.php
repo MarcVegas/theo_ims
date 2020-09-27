@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <button class="ui blue icon labeled checkout button"><i class="chevron right icon"></i> Checkout</button>
+                        <button class="ui blue icon labeled checkout disabled button"><i class="chevron right icon"></i> Checkout</button>
                     </div>
                 </div>
             </div>
@@ -129,6 +129,7 @@
     </div>
     <div class="actions">
         <form action="{!! action('CartController@destroy', $customer->id) !!}" method="POST">
+            @csrf
             <div class="ui deny button">
                 No, I dont
             </div>
@@ -261,6 +262,7 @@
                         $('.order.modal').modal('hide');
                         $('#'+product_id).addClass("disabled").text('ADDED TO CART');
                         getCart();
+                        $('.checkout.button').removeClass('disabled');
                     },
                     error: function(data) {
                         console.log(data);

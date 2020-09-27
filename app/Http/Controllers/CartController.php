@@ -85,9 +85,12 @@ class CartController extends Controller
     }
 
     public function destroy($id){
-        $cart = Cart::find($id);
-        $cart->delete();
+        try {
+            $cart = Cart::where('customer_id', $id)->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
 
-        return redirect()->route('orders.shop');
+        return redirect('/customers/'.$id)->with('success', 'Order has been successfuly cancelled');
     }
 }
