@@ -55,16 +55,16 @@
     <div class="item">
         <div class="header">Other</div>
         <div class="menu">
-        <a href="#" class="item">
-            <div><i class="icon money bill alternate"></i>
-                Expense Tracker
-            </div>
-        </a>
-        <a href="#" class="item">
-            <div><i class="icon history"></i>
-                Price History
-            </div>
-        </a>
+            <a class="item" href="{{route('expenses.index')}}">
+                <div><i class="icon money bill alternate"></i>
+                    Expense Tracker
+                </div>
+            </a>
+            <a href="#" class="item">
+                <div><i class="icon history"></i>
+                    Price History
+                </div>
+            </a>
         </div>
     </div>
     <a class="item">

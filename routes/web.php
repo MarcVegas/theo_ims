@@ -29,6 +29,7 @@ Route::resource('/suppliers', 'SupplierController');
 Route::resource('/customers', 'CustomerController');
 Route::resource('/orders', 'OrdersController');
 Route::resource('/transactions', 'TransactionController');
+Route::resource('/expenses', 'ExpensesController');
 
 //Cart
 Route::get('/cart/{id}', 'CartController@getCart');
