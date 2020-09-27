@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Transaction;
 use Illuminate\Support\Str;
 
 class CustomerController extends Controller
@@ -66,9 +67,12 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::with('transaction')->find($id);
+        $credits = Transaction::where('status', 'credit')->find($id);
+        $receivable = Transaction::where('status', 'credit')->sum('balance');
 
-        return view('dashboard.mgmt.customers.show')->with('customer', $customer);
+        return view('dashboard.mgmt.customers.show')->with('customer', $customer)
+        ->with('credits', $credits)->with('receivable', $receivable);
     }
 
     /**

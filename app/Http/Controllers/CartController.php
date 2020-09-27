@@ -25,6 +25,12 @@ class CartController extends Controller
         return view('dashboard.order.cart')->with('carts', $carts)->with('subtotal', $total);
     }
 
+    public function setOrdered($id){
+        $carts = Cart::select('product_id','customer_id')->where('customer_id', $id)->get()->toJson();
+
+        return $carts;
+    }
+
     public function getCartCount($id){
         $count = Cart::where('customer_id','=', $id)->count();
 
@@ -79,6 +85,9 @@ class CartController extends Controller
     }
 
     public function destroy($id){
+        $cart = Cart::find($id);
+        $cart->delete();
 
+        return redirect()->route('orders.shop');
     }
 }

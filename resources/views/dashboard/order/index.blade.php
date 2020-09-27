@@ -35,10 +35,6 @@
                         <i class="cart icon"></i>
                         <div class="floating ui small label" id="cart_count">0</div>
                             <div class="menu">
-                                <div class="ui icon search input">
-                                    <i class="search icon"></i>
-                                    <input type="text" placeholder="Search items...">
-                                </div>
                                 <div class="divider"></div>
                                 <div class="header">
                                     <i class="shopping basket icon"></i>
@@ -187,6 +183,7 @@
                         $('#cart_items').html(data);
                         subtotal = $('#subtotal').val();
                         $('#total').val(subtotal);
+                        setOrdered();
                         getCartCount();
                     },
                     error: function(data) {
@@ -205,6 +202,24 @@
                     cache: false,
                     success: function (data) {
                         $('#cart_count').text(data)
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function setOrdered() {
+            $.ajax({
+                    type: "GET",
+                    url: '/cart/ordered/' + customer_id,
+                    data: "",
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        data.forEach(item => {
+                            $('#'+item.product_id).addClass("disabled").text('ADDED TO CART');
+                        });
                     },
                     error: function(data) {
                         console.log(data);

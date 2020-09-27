@@ -32,6 +32,7 @@ Route::resource('/transactions', 'TransactionController');
 
 //Cart
 Route::get('/cart/{id}', 'CartController@getCart');
+Route::get('/cart/ordered/{id}', 'CartController@setOrdered');
 Route::post('/cart', 'CartController@store');
 Route::put('/cart/remove', 'CartController@removeItem');
 Route::get('/cart/count/{id}', 'CartController@getCartCount');

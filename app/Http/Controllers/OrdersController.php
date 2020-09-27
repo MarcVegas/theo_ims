@@ -62,6 +62,7 @@ class OrdersController extends Controller
                 $change = $cash - $total;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,0,$change,'paid',$date,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else {
                 return redirect('/checkout/'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
@@ -71,6 +72,7 @@ class OrdersController extends Controller
                 $balance = $total - $cash;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else{
                 return redirect('/checkout/'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
@@ -162,6 +164,11 @@ class OrdersController extends Controller
             $order->transaction_id = $transaction_id;
             $order->save();
         }
+    }
+
+    public function clearCart($customer_id){
+        $cart = Cart::find($customer_id);
+        $cart->delete();
     }
 
 }
