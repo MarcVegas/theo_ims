@@ -16,6 +16,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/semantic.min.css')}}" rel="stylesheet">
+    <link rel="preload" href="{{ asset('css/semantic.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/semantic.min.css')}}"></noscript>
     <link href="{{ asset('css/dashboard.css')}}" rel="stylesheet">
     <link href="{{ asset('css/datatables.min.css')}}" rel="stylesheet">
 
