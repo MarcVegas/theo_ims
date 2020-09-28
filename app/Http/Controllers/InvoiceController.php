@@ -3,19 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Carbon;
 use App\Order;
 use App\Customer;
 use App\Transaction;
 
 class InvoiceController extends Controller
 {
-    public function invoice(){
-        $id = '631eeda7-de2a-4ae9-bfcb-0a3948574cb2';
-        $orders = Order::has('product')->where('transaction_id', $id)->get();
+    public function invoice($id){
+        $orders = Order::with('product')->where('transaction_id', $id)->get();
 
         $transaction = Transaction::has('customer')->find($id);
 
-        return view('dashboard.order.invoice')->with('orders', $orders)->with('customer', $transaction);
+        $pdf = PDF::loadView('dashboard.order.invoice', [
+            'orders' => $orders,
+            'transaction' => $transaction
+        ]);
+        $date = Carbon::now();
+        $pdfName = 'OrderInvoice'.$date.'.pdf';
+
+        return $pdf->download($pdfName);
+        //return view('dashboard.order.invoice')->with('orders', $orders)->with('transaction', $transaction);
     }
 }

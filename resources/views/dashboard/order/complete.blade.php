@@ -52,7 +52,7 @@
                                         @endif
                                     </div>
                                     <a class="ui button" href="{{route('transactions.index')}}">Go to transactions</a>
-                                    <a class="ui brown right floated button"><i class="file pdf outline icon"></i> Print Invoice</a>
+                                    <a class="ui brown right floated button" href="/transaction/invoice/{{$transaction->id}}"><i class="file pdf outline icon"></i> Print Invoice</a>
                                 </div>
                             @else
                                 <div class="ui basic center aligned segment">

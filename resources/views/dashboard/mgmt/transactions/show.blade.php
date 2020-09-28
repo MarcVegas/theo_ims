@@ -51,7 +51,7 @@
                                         @endif
                                     </div>
                                     <a class="ui button" href="{{route('transactions.index')}}">Go back</a>
-                                    <a class="ui brown right floated button"><i class="file pdf outline icon"></i> Print Invoice</a>
+                                    <a class="ui brown right floated button" href="/transaction/invoice/{{$transaction->id}}" target="_blank"><i class="file pdf outline icon"></i> Print Invoice</a>
                                     <button class="ui inverted secondary right floated {{($transaction->type == 'full') ? 'disabled' : ''}} button">Add Deposit</button>
                                 </div>
                             @else

@@ -49,6 +49,6 @@ Route::resource('/category', 'CategoryController');
 Route::resource('/profile', 'ProfileController');
 
 //Invoice
-Route::get('/transactions/invoice', 'TransactionController@invoice');
+Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
 
 
