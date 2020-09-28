@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Expense;
 
 class ExpensesController extends Controller
 {
@@ -13,7 +15,7 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        
+        return view('dashboard.other.expenses.index');
     }
 
     /**
@@ -34,7 +36,24 @@ class ExpensesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+
+        $date = Carbon::now()->toDateString();
+
+        $expense = new Expense;
+        $expense->title = $request->input('title');
+        $expense->amount = $request->input('amount');
+        if ($request->has('description')) {
+            $expense->description = $request->input('description');
+        }
+        $expense->expense_date = $date;
+        $expense->save();
+
+        return redirect()->route('expenses.index')->with('success', 'Expense successfuly added');
     }
 
     /**
@@ -45,7 +64,9 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        //
+        $expense = Expense::find($id);
+
+        return view('dashboard.other.expenses.show')->with('expense', $expense);
     }
 
     /**
@@ -56,7 +77,9 @@ class ExpensesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $expense = Expense::find($id);
+
+        return view('dashboard.other.expenses.edit')->with('expense', $expense);
     }
 
     /**
@@ -68,7 +91,21 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+
+        $expense = Expense::find($id);
+        $expense->title = $request->input('title');
+        $expense->amount = $request->input('amount');
+        if ($request->has('description')) {
+            $expense->description = $request->input('description');
+        }
+        $expense->save();
+
+        return redirect()->route('expenses.index')->with('success', 'Expense successfuly updated');
     }
 
     /**
@@ -79,6 +116,9 @@ class ExpensesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $expense = Expense::find($id);
+        $expense->delete();
+
+        return redirect()->route('expenses.index')->with('success', 'Expense removed successfuly');
     }
 }

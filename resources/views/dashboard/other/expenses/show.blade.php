@@ -20,21 +20,23 @@
                             </h2>
                         </div>
                         <div class="ui padded segment">
-                            <form class="ui form" action="" method="POST">
+                            <div class="ui form">
                                 <div class="field">
                                     <label>Expense Name</label>
-                                    <input type="text" name="title" id="title" required>
+                                    <input type="text" name="title" id="title" value="{{$expense->title}}" readonly>
                                 </div>
                                 <div class="field">
                                     <label>Cost</label>
-                                    <input type="number" name="amount" id="amount" min="1" required>
+                                    <input type="number" name="amount" id="amount" min="1" value="{{$expense->amount}}" readonly>
                                 </div>
                                 <div class="field">
                                     <label>Description (optional)</label>
-                                    <textarea name="description" id="description" rows="3"></textarea>
+                                    <textarea name="description" id="description" rows="3" readonly>
+                                        {{$expense->description}}
+                                    </textarea>
                                 </div>
                                 <button class="ui blue right floated button" type="submit"><i class="plus icon"></i> Add Expense</button><br><br>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

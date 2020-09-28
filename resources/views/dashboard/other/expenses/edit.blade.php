@@ -23,17 +23,20 @@
                             <form class="ui form" action="" method="POST">
                                 <div class="field">
                                     <label>Expense Name</label>
-                                    <input type="text" name="title" id="title" required>
+                                    <input type="text" name="title" id="title" value="{{$expense->title}}">
                                 </div>
                                 <div class="field">
                                     <label>Cost</label>
-                                    <input type="number" name="amount" id="amount" min="1" required>
+                                    <input type="number" name="amount" id="amount" min="1" value="{{$expense->amount}}">
                                 </div>
                                 <div class="field">
                                     <label>Description (optional)</label>
-                                    <textarea name="description" id="description" rows="3"></textarea>
+                                    <textarea name="description" id="description" rows="3">
+                                        {{$expense->description}}
+                                    </textarea>
                                 </div>
-                                <button class="ui blue right floated button" type="submit"><i class="plus icon"></i> Add Expense</button><br><br>
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="ui blue right floated button" type="submit"><i class="edit icon"></i> Update</button><br><br>
                             </form>
                         </div>
                     </div>
