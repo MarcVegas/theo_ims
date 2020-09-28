@@ -87,4 +87,10 @@ class TransactionController extends Controller
     {
         //
     }
+
+    public function invoice($id){
+        $transaction = Transaction::find($id);
+
+        return view('dashboard.order.invoice')->with('transaction', $transaction);
+    }
 }

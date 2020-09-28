@@ -22,10 +22,10 @@
                             <table class="ui single line table">
                                 <thead>
                                     <tr>
-                                        <td><b>Product</b></td>
-                                        <td><b>Qty</b></td>
-                                        <td><b>Price</b></td>
-                                        <td><b>Amount</b></td>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>

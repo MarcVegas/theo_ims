@@ -20,7 +20,8 @@
                             </h2>
                         </div>
                         <div class="ui padded segment">
-                            <form class="ui form" action="" method="POST">
+                            <form class="ui form" action="{{route('expenses.store')}}" method="POST">
+                                @csrf
                                 <div class="field">
                                     <label>Expense Name</label>
                                     <input type="text" name="title" id="title" required>
@@ -33,6 +34,7 @@
                                     <label>Description (optional)</label>
                                     <textarea name="description" id="description" rows="3"></textarea>
                                 </div>
+                                <a class="ui button" href="{{route('expenses.index')}}"><i class="angle left icon"></i> Go back</a>
                                 <button class="ui blue right floated button" type="submit"><i class="plus icon"></i> Add Expense</button><br><br>
                             </form>
                         </div>

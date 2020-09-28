@@ -20,7 +20,8 @@
                             </h2>
                         </div>
                         <div class="ui padded segment">
-                            <form class="ui form" action="" method="POST">
+                            <form class="ui form" action="{!! action('ExpensesController@update', $expense->id) !!}" method="POST">
+                                @csrf
                                 <div class="field">
                                     <label>Expense Name</label>
                                     <input type="text" name="title" id="title" value="{{$expense->title}}">
@@ -36,6 +37,7 @@
                                     </textarea>
                                 </div>
                                 <input type="hidden" name="_method" value="PUT">
+                                <a class="ui button" href="{{route('expenses.index')}}"><i class="angle left icon"></i> Go back</a>
                                 <button class="ui blue right floated button" type="submit"><i class="edit icon"></i> Update</button><br><br>
                             </form>
                         </div>

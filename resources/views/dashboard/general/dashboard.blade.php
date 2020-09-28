@@ -35,13 +35,13 @@
           <div class="ui fluid card">
             <div class="content">
               <div class="ui right floated header green">
-                <i class="handshake icon"></i>
+                <i class="bullseye icon"></i>
               </div>
               <div class="header">
                 <div class="ui header green">57.6%</div>
               </div>
               <div class="meta">
-                Transactions
+                Expenses
               </div>
               <div class="description">
                 Elliot requested permission to view your contact details
@@ -58,7 +58,7 @@
           <div class="ui fluid card">
             <div class="content">
               <div class="ui right floated header teal">
-                <i class="icon briefcase"></i>
+                <i class="icon money alternate"></i>
               </div>
               <div class="header">
                 <div class="ui teal header">3112</div>

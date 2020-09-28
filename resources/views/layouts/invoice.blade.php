@@ -10,19 +10,11 @@
 
     <title>{{ config('app.name', 'Theo IMS') }}</title>
 
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
-
     <!-- Styles -->
     <link rel="preload" href="{{ asset('css/semantic.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/semantic.min.css')}}"></noscript>
-    <link href="{{ asset('css/dashboard.css')}}" rel="stylesheet">
-    <link href="{{ asset('css/datatables.min.css')}}" rel="stylesheet">
 
     <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/semantic.min.js') }}" defer></script>
     <script src="{{ asset('js/master-semantic.min.js') }}" defer></script>
     @stack('datatables')

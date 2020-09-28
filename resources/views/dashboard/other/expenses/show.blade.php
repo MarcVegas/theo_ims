@@ -35,7 +35,11 @@
                                         {{$expense->description}}
                                     </textarea>
                                 </div>
-                                <button class="ui blue right floated button" type="submit"><i class="plus icon"></i> Add Expense</button><br><br>
+                                <form action="{!! action('ExpensesController@destroy', $expense->id) !!}" method="POST">
+                                    <a class="ui button" href="{{route('expenses.index')}}"><i class="angle left icon"></i> Go back</a>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="ui inverted red right floated button" type="submit"><i class="trash alternate outline icon"></i> Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>

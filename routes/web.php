@@ -48,4 +48,7 @@ Route::get('/settings', 'SettingController@index')->name('settings.index');
 Route::resource('/category', 'CategoryController');
 Route::resource('/profile', 'ProfileController');
 
+//Invoice
+Route::get('/transactions/invoice', 'TransactionController@invoice');
+
 

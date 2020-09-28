@@ -56,29 +56,37 @@
                 </div>
             </div>
             <div class="ui basic padded segment">
-                <table class="ui tablet stackable selectable definition table">
-                    <thead class="full-width">
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Amount</th>
-                            <th>Expense Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Delivery Fee</td>
-                            <td>500</td>
-                            <td>Sep 22, 2020</td>
-                            <td class="collapsing">
-                                <a class="ui icon button" href=""><i class="eye icon"></i></a>
-                                <a class="ui icon button" href=""><i class="pencil alternate icon"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if ($expenses ?? '')
+                    <table class="ui tablet stackable selectable definition table">
+                        <thead class="full-width">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Amount</th>
+                                <th>Expense Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($expenses as $expense)
+                                <tr>
+                                    <td>{{$expense->id}}</td>
+                                    <td>{{$expense->title}}</td>
+                                    <td>{{$expense->amount}}</td>
+                                    <td>{{$expense->expense_date}}</td>
+                                    <td class="collapsing">
+                                        <a class="ui icon button" href="expenses/{{$expense->id}}"><i class="eye icon"></i></a>
+                                        <a class="ui icon button" href="expenses/{{$expense->id}}/edit"><i class="pencil alternate icon"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else 
+                    <div class="ui basic center aligned segment">
+                        <h3>No Expenses Added</h3>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

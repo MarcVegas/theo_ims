@@ -15,7 +15,9 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        return view('dashboard.other.expenses.index');
+        $expenses = Expense::all();
+
+        return view('dashboard.other.expenses.index')->with('expenses', $expenses);
     }
 
     /**

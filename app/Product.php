@@ -20,4 +20,8 @@ class Product extends Model
     public function cart(){
         return $this->hasMany('App\Cart', 'product_id');
     }
+
+    public function order(){
+        return $this->belongsTo('App\Order');
+    }
 }
