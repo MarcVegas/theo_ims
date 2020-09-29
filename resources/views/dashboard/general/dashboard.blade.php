@@ -107,7 +107,7 @@
             <thead>
               <tr>
                 <th colspan="3">
-                  Git Repository
+                  Best Selling Products
                 </th>
               </tr>
             </thead>

@@ -29,14 +29,11 @@
                                     <input type="text" name="address" id="address" required>
                                 </div>
                                 <div class="field">
-                                    <label>Customer type</label>
-                                    <select class="ui dropdown" name="type" id="type">
-                                        <option value="">Select Type</option>
-                                        <option value="reseller">Reseller</option>
-                                        <option value="owner">Owner (Me)</option>
-                                    </select>
+                                    <label>Contact Number</label>
+                                    <input type="tel" name="contact" id="contact" placeholder="+63 xxx xxx xxxx">
                                 </div>
                             </div>
+                            <input type="hidden" name="type" id="type" value="reseller">
                             <a class="ui button" href="{{route('customers.index')}}"><i class="chevron left icon"></i> Back</a>
                             <button type="submit" class="ui green right floated button"><i class="save icon"></i> Save</button>
                         </form>

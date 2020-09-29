@@ -29,8 +29,8 @@
                                     <input type="text" name="address" id="address" value="{{$customer->address}}" required>
                                 </div>
                                 <div class="field">
-                                    <label>Customer type</label>
-                                    <input type="text" name="type" id="type" value="{{$customer->type}}" required>
+                                    <label>Contact Number</label>
+                                    <input type="tel" name="contact" id="contact" value="{{$customer->contact}}" placeholder="+63 xxx xxx xxxx">
                                 </div>
                             </div>
                             <a class="ui button" href="{{route('customers.index')}}"><i class="chevron left icon"></i> Back</a>
