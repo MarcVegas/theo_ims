@@ -49,7 +49,7 @@
                           <i class="cart plus red icon"></i>
                         </div>
                         <strong>Add new items to your inventory from this supplier</strong><br>
-                        <div class="ui orange button">Order Now</div>
+                        <a class="ui orange button" href="/restock/{{$supplier->id}}">Order Now</a>
                       </div>
                 </div>
             </div>

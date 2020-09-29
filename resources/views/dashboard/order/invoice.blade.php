@@ -33,9 +33,9 @@
 <body>
     <div class="center-aligned">
         <h3>Theo's Overruns Order Invoice</h3>
-        <p>Address: Brgy. Banat-i, San Isidro, Leyte</p>
-        <p>Email: youremail@user.com</p>
-        <p>Contact: 09xx xxx xxxx</p>
+        <small>Address: Brgy. Banat-i, San Isidro, Leyte</small>
+        <small>Email: youremail@user.com</small>
+        <small>Contact: 09xx xxx xxxx</small>
     </div>
     <div class="container">
         <p><strong>Customer:</strong> {{$transaction->customer->firstname}} {{$transaction->customer->lastname}}</p>

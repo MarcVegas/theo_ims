@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Transaction;
+use App\User;
 use Illuminate\Support\Str;
 
 class CustomerController extends Controller
@@ -101,14 +102,14 @@ class CustomerController extends Controller
             'firstname' => 'required|string',
             'lastname' => 'required|string',
             'address' => 'required|string',
-            'type' => 'required|string',
+            'contact' => 'nullable|string',
         ]);
 
         $customer = Customer::find($id);
         $customer->firstname = $request->input('firstname');
         $customer->lastname = $request->input('lastname');
         $customer->address = $request->input('address');
-        $customer->type = $request->input('type');
+        $customer->contact = $request->input('contact');
         $customer->save();
 
         return redirect()->route('customers.index')->with('success', 'Customer successfuly updated');

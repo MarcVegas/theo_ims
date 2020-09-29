@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Customer;
 
 class ProfileController extends Controller
 {
@@ -16,8 +17,9 @@ class ProfileController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
+        $detail = Customer::where('type', 'owner')->first();
 
-        return view('dashboard.store.profile.profile')->with('user', $user);
+        return view('dashboard.store.profile.profile')->with('user', $user)->with('detail', $detail);
     }
 
     /**
@@ -61,8 +63,9 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $detail = Customer::where('type', 'owner')->first();
 
-        return view('dashboard.store.profile.edit')->with('user', $user);
+        return view('dashboard.store.profile.edit')->with('user', $user)->with('detail', $detail);
     }
 
     /**
