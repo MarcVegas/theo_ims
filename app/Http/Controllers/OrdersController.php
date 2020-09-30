@@ -9,6 +9,7 @@ use App\Customer;
 use App\Product;
 use App\Cart;
 use App\Order;
+use App\Stock;
 use App\Transaction;
 
 class OrdersController extends Controller
@@ -60,6 +61,7 @@ class OrdersController extends Controller
                 $change = $cash - $total;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,0,$change,'paid',$date,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->deduct($transaction_id);
                 $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else {
@@ -70,6 +72,7 @@ class OrdersController extends Controller
                 $balance = $total - $cash;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->deduct($transaction_id);
                 $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else{
@@ -161,6 +164,21 @@ class OrdersController extends Controller
             $order->subtotal = $subtotal;
             $order->transaction_id = $transaction_id;
             $order->save();
+        }
+    }
+
+    public function deduct($transaction_id){
+        $order = Order::select('product_id','order_quantity','transaction_id')->has('stock')->where('transaction_id', $transaction_id);
+
+        try {
+            foreach ($order as $item) {
+                $deductedQnty = $item->stock->quantity - $item->order_quantity;
+                $stock = Stock::where('product_id', $item->product_id)->first();
+                $stock->quantity = $deductedQnty;
+                $stock->save();
+            }
+        } catch (\Exception $e) {
+            $e->getMessage();
         }
     }
 

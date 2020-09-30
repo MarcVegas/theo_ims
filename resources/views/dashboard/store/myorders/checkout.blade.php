@@ -36,7 +36,7 @@
                                             <td>{{$item->cart_quantity}}</td>
                                             <td>{{$item->stock->supplier_price}}</td>
                                             <td>{{$item->stock->supplier_price * $item->cart_quantity}}</td>
-                                            <td><button class="ui inverted red icon small remove button"><i class="trash alternate icon"></i></button></td>
+                                            <td><button class="ui inverted red icon small remove button" id="{{$item->product_id}}"><i class="trash alternate icon"></i></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -87,12 +87,51 @@
         </div>
     </div>
 </div>
+<div class="ui mini remove modal">
+    <i class="close icon"></i>
+    <div class="header"><i class="exclamation triangle red icon"></i> Remove Item?</div>
+    <div class="content">
+        <strong>Are you sure you want to remove this item from your cart?</strong>
+    </div>
+    <div class="actions">
+        <div class="ui deny button">
+            No, I dont
+        </div>
+        <button class="ui inverted red delete button">
+            Yes, cancel
+        </button>
+    </div>
+</div>
 @endsection
 
 @push('ajax')
 <script>
     $(document).ready(function (){
-        
+        var product_id = '';
+        var customer_id = "{{$customer->id}}";
+
+        $('.remove.button').click(function () {
+            product_id = $(this).attr('id');
+            $('.remove.modal').modal('show');
+        });
+
+        $('.delete.button').click(function () {
+            var datastr = "product_id" + product_id + "&customer_id" + customer_id;
+
+            $.ajax({
+                    type: "DELETE",
+                    url: '/cart/remove',
+                    data: datastr,
+                    cache: false,
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        });
+
     })
 </script>
 @endpush

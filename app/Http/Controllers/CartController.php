@@ -64,7 +64,11 @@ class CartController extends Controller
     }
 
     public function removeItem(Request $request){
-        
+        $product_id = $request->get('product_id');
+        $customer_id = $request->get('customer_id');
+
+        $cart = Cart::where('product_id', $product_id)->where('customer_id', $customer_id)->first();
+        $cart->delete();
     }
 
     public function checkout($id){

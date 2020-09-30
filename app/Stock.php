@@ -13,4 +13,8 @@ class Stock extends Model
     public function cart(){
         return $this->hasOne('App\Cart');
     }
+
+    public function order(){
+        return $this->hasOne('App\Order');
+    }
 }

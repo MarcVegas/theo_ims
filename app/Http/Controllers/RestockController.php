@@ -10,6 +10,7 @@ use App\Customer;
 use App\Supplier;
 use App\Cart;
 use App\Order;
+use App\Stock;
 use App\Transaction;
 
 class RestockController extends Controller
@@ -63,6 +64,7 @@ class RestockController extends Controller
                 $change = $cash - $total;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,0,$change,'paid',$date,$supplier_id,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->restock($transaction_id);
                 $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else {
@@ -73,6 +75,7 @@ class RestockController extends Controller
                 $balance = $total - $cash;
                 $this->saveTransaction($transaction_id,$type,$total,$cash,$balance,0,'partial',$date,$supplier_id,$customer_id);
                 $this->saveOrder($customer_id,$transaction_id);
+                $this->restock($transaction_id);
                 $this->clearCart($customer_id);
                 return redirect('/orders/'.$transaction_id);
             }else{
@@ -170,24 +173,37 @@ class RestockController extends Controller
     }
 
     public function saveOrder($customer_id, $transaction_id){
-        $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
+        /* $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
         ->select('products.id','products.selling_price', 'carts.cart_quantity')
-        ->where('carts.customer_id','=', $customer_id)->get();
+        ->where('carts.customer_id','=', $customer_id)->get(); */
+
+        $carts = Cart::with('product', 'stock')->where('customer_id', $customer_id)->get();
 
         foreach ($carts as $item) {
-            $subtotal = $item->selling_price * $item->cart_quantity;
+            $subtotal = $item->stock->supplier_price * $item->cart_quantity;
             $order = new Order;
             $order->product_id = $item->product_id;
             $order->order_quantity = $item->cart_quantity;
-            $order->order_price = $item->selling_price;
+            $order->order_price = $item->stock->supplier_price;
             $order->subtotal = $subtotal;
             $order->transaction_id = $transaction_id;
             $order->save();
         }
     }
 
-    public function restock(){
+    public function restock($transaction_id){
+        $order = Order::select('product_id','order_quantity','transaction_id')->has('stock')->where('transaction_id', $transaction_id);
 
+        try {
+            foreach ($order as $item) {
+                $addedQnty = $item->stock->quantity + $item->order_quantity;
+                $stock = Stock::where('product_id', $item->product_id)->first();
+                $stock->quantity = $addedQnty;
+                $stock->save();
+            }
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
     }
 
     public function clearCart($customer_id){
