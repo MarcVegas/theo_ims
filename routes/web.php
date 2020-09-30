@@ -41,6 +41,9 @@ Route::get('/cart/count/{id}', 'CartController@getCartCount');
 Route::get('/checkout/{id}', 'CartController@checkout');
 Route::delete('/cart/{id}', 'CartController@destroy');
 
+//Restock
+Route::get('/restock/owner/checkout', 'RestockController@checkout');
+
 Route::get('/shop/{id}', 'OrdersController@shop')->name('orders.shop');
 Route::get('/product/{id}', 'ProductsController@getProduct');
 

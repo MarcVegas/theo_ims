@@ -13,12 +13,13 @@ class InvoiceController extends Controller
 {
     public function invoice($id){
         $orders = Order::with('product')->where('transaction_id', $id)->get();
-
         $transaction = Transaction::has('customer')->find($id);
+        $owner = Customer::where('type', 'owner')->first();
 
         $pdf = PDF::loadView('dashboard.order.invoice', [
             'orders' => $orders,
-            'transaction' => $transaction
+            'transaction' => $transaction,
+            'owner' => $owner,
         ]);
         $date = Carbon::now();
         $pdfName = 'OrderInvoice'.$date.'.pdf';

@@ -106,13 +106,18 @@ class CustomerController extends Controller
         ]);
 
         $customer = Customer::find($id);
+        $type = $customer->type;
         $customer->firstname = $request->input('firstname');
         $customer->lastname = $request->input('lastname');
         $customer->address = $request->input('address');
         $customer->contact = $request->input('contact');
         $customer->save();
 
-        return redirect()->route('customers.index')->with('success', 'Customer successfuly updated');
+        if ($type == 'owner') {
+            return redirect()->route('profile.index')->with('success', 'Business info successfuly updated');
+        }else{
+            return redirect()->route('customers.index')->with('success', 'Customer successfuly updated');
+        }
     }
 
     /**

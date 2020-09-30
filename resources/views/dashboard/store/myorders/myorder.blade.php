@@ -26,7 +26,7 @@
             </div>
             <div class="ui secondary menu">
                 <div class="item">
-                    <button class="ui inverted red cancel button">Cancel Order</button>
+                    <button class="ui inverted red disabled cancel button">Cancel Order</button>
                 </div>
                 <div class="right menu">
                     <div class="item">
@@ -153,7 +153,7 @@
         <div class="ui deny button">
             No, continue shopping
         </div>
-        <a class="ui inverted green button" href="/checkout/{{$customer->id}}">
+        <a class="ui inverted green button" href="/restock/owner/checkout?customer_id={{$customer->id}}&supplier_id={{$supplier->id}}">
             Yes, checkout
         </a>
     </div>
@@ -189,6 +189,10 @@
                         $('#total').val(subtotal);
                         setOrdered();
                         getCartCount();
+                        if (data != null) {
+                            $('.checkout.button').removeClass('disabled');
+                            $('.cancel.button').removeClass('disabled');
+                        }
                     },
                     error: function(data) {
                         console.log(data);
@@ -266,6 +270,7 @@
                         $('#'+product_id).addClass("disabled").text('ADDED TO CART');
                         getCart();
                         $('.checkout.button').removeClass('disabled');
+                        $('.cancel.button').removeClass('disabled');
                     },
                     error: function(data) {
                         console.log(data);

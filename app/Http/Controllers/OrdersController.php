@@ -48,8 +48,6 @@ class OrdersController extends Controller
             'cash' => 'required|numeric',
         ]);
 
-        $customer_id = $request->input('customer_id');
-
         $transaction_id = (string) Str::uuid();
         $type = $request->input('transaction_type');
         $total = $request->input('total');

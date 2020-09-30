@@ -9,4 +9,8 @@ class Stock extends Model
     public function product(){
         return $this->belongsTo('App\Product');
     }
+
+    public function cart(){
+        return $this->hasOne('App\Cart');
+    }
 }
