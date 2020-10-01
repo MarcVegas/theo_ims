@@ -33,7 +33,7 @@
 <body>
     <div class="center-aligned">
         <h3>{{$owner->firstname}} Order Invoice</h3>
-        <small>Address: {{$owner->address}}</small>
+        <small>Address: {{$owner->address}}</small><br>
         <small>Contact: {{$owner->contact}}</small>
     </div>
     <div class="container">

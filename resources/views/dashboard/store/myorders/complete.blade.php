@@ -13,9 +13,10 @@
                     <div class="ui segments">
                         <div class="ui inverted teal padded segment">
                             <h2 class="ui header">
-                                <i class="handshake icon"></i>
+                                <i class="check circle icon"></i>
                                 <div class="content">
-                                    Transaction Details
+                                    Order Complete!
+                                    <div class="sub header" style="color: white">Your order has been successfuly processed</div>
                                 </div>
                             </h2>
                         </div>
@@ -25,7 +26,7 @@
                                 <div class="ui form">
                                     <div class="field">
                                         <label>Customer Name</label>
-                                        <input type="text" name="customer" id="customer" value="{{$transaction->customer->firstname}} {{$transaction->customer->lastname}}" readonly>
+                                        <input type="text" name="customer" id="customer" value="{{$transaction->customer->firstname}}" readonly>
                                     </div>
                                     <div class="equal width fields">
                                         <div class="field">
@@ -50,9 +51,8 @@
                                             <input type="text" name="cash" id="cash" value="{{$transaction->change}}" readonly>
                                         @endif
                                     </div>
-                                    <a class="ui button" href="{{route('transactions.index')}}">Go back</a>
-                                    <a class="ui brown right floated button" href="/transaction/invoice/{{$transaction->id}}" target="_blank"><i class="file pdf outline icon"></i> Print Invoice</a>
-                                    <button class="ui inverted secondary right floated {{($transaction->type == 'full') ? 'disabled' : ''}} deposit button">Add Deposit</button>
+                                    <a class="ui button" href="{{route('transactions.index')}}">Go to transactions</a>
+                                    <a class="ui brown right floated button" href="/transaction/invoice/{{$transaction->id}}"><i class="file pdf outline icon"></i> Print Invoice</a>
                                 </div>
                             @else
                                 <div class="ui basic center aligned segment">
@@ -63,44 +63,17 @@
                     </div>
                 </div>
                 <div class="six wide column">
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="ui mini deposit modal">
-    <i class="close icon"></i>
-    <div class="header"><i class="monet alternate icon"></i> Add Deposit</div>
-    <form action="" method="POST">
-        <div class="content">
-            <div class="ui form">
-                <div class="field">
-                    <label>Remaining Balance</label>
-                    <input type="text" name="balance" id="balance" value="{{$transaction->balance}}" readonly>
-                </div>
-                <div class="field">
-                    <label>Deposit Amount</label>
-                    <input type="number" name="deposit" id="deposit" min="1" max="{{$transaction->balance}}" placeholder="Enter a valid amount">
-                </div>
-            </div>
-        </div>
-        <div class="actions">
-            <div class="ui deny button">
-                Cancel Deposit
-            </div>
-            <button class="ui inverted green button" type="submit">
-                Add Deposit
-            </button>
-        </div>
-    </form>
 </div>
 @endsection
 
 @push('ajax')
 <script>
     $(document).ready(function (){
-        $('.deposit.modal').modal('attach events','deposit.button','show');
+        
     })
 </script>
 @endpush

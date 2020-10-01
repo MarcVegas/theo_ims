@@ -25,7 +25,7 @@
             <a class="item" href="/settings">
                 <div><i class="cog icon"></i>Setting</div>
             </a>
-            <a class="item" href="">
+            <a class="item" href="{{route('restock.index')}}">
                 <div><i class="shopping cart icon"></i>My Orders</div>
             </a>
             <a class="item">

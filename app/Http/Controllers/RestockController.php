@@ -22,7 +22,9 @@ class RestockController extends Controller
      */
     public function index()
     {
-        
+        $transactions = Transaction::where('supplier_id','<>', '')->get();
+
+        return view('dashboard.store.myorders.index')->with('transactions', $transactions);
     }
 
     /**
@@ -66,9 +68,9 @@ class RestockController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->restock($transaction_id);
                 $this->clearCart($customer_id);
-                return redirect('/orders/'.$transaction_id);
+                return redirect('/restock/owner/complete'.$transaction_id);
             }else {
-                return redirect('/checkout/'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
+                return redirect('/restock/owner/checkout'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
             }
         }elseif ($type == 'credit') {
             if ($cash < $total) {
@@ -77,9 +79,9 @@ class RestockController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->restock($transaction_id);
                 $this->clearCart($customer_id);
-                return redirect('/orders/'.$transaction_id);
+                return redirect('/orders/owner/complete'.$transaction_id);
             }else{
-                return redirect('/checkout/'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
+                return redirect('/restock/owner/checkout'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
             }
         }
     }
@@ -155,6 +157,12 @@ class RestockController extends Controller
 
         return view('dashboard.store.myorders.checkout')->with('carts', $carts)
         ->with('customer', $customer)->with('supplier', $supplier)->with('total', $total);
+    }
+
+    public function complete($id){
+        $transaction = Transaction::has('customer')->find($id);
+
+        return view('dashboard.order.complete')->with('transaction', $transaction);
     }
 
     public function saveTransaction($id, $type, $total, $cash, $balance, $change, $status, $date, $supplier, $customer){
