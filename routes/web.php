@@ -31,6 +31,7 @@ Route::resource('/orders', 'OrdersController');
 Route::resource('/transactions', 'TransactionController');
 Route::resource('/expenses', 'ExpensesController');
 Route::resource('/restock', 'RestockController');
+Route::resource('/deposit', 'DepositController');
 
 //Cart
 Route::get('/cart/{id}', 'CartController@getCart');

@@ -151,16 +151,18 @@ class OrdersController extends Controller
     }
 
     public function saveOrder($customer_id, $transaction_id){
-        $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
+        /* $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
         ->select('products.id','products.selling_price', 'carts.cart_quantity')
-        ->where('carts.customer_id','=', $customer_id)->get();
+        ->where('carts.customer_id','=', $customer_id)->get(); */
+
+        $carts = Cart::with('product', 'stock')->where('customer_id', $customer_id)->get();
 
         foreach ($carts as $item) {
-            $subtotal = $item->selling_price * $item->cart_quantity;
+            $subtotal = $item->product->selling_price * $item->cart_quantity;
             $order = new Order;
             $order->product_id = $item->product_id;
             $order->order_quantity = $item->cart_quantity;
-            $order->order_price = $item->selling_price;
+            $order->order_price = $item->product->selling_price;
             $order->subtotal = $subtotal;
             $order->transaction_id = $transaction_id;
             $order->save();
@@ -168,7 +170,7 @@ class OrdersController extends Controller
     }
 
     public function deduct($transaction_id){
-        $order = Order::select('product_id','order_quantity','transaction_id')->has('stock')->where('transaction_id', $transaction_id);
+        $order = Order::select('product_id','order_quantity','transaction_id')->with('stock')->where('transaction_id', $transaction_id)->get();
 
         try {
             foreach ($order as $item) {
@@ -178,13 +180,12 @@ class OrdersController extends Controller
                 $stock->save();
             }
         } catch (\Exception $e) {
-            $e->getMessage();
+            return view('errors.db')->with('error', $e->getMessage());
         }
     }
 
     public function clearCart($customer_id){
-        $cart = Cart::find($customer_id);
-        $cart->delete();
+        $cart = Cart::where('customer_id', $customer_id)->delete();
     }
 
 }

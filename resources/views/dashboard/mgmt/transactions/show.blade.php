@@ -71,36 +71,34 @@
 </div>
 <div class="ui mini deposit modal">
     <i class="close icon"></i>
-    <div class="header"><i class="monet alternate icon"></i> Add Deposit</div>
-    <form action="" method="POST">
-        <div class="content">
-            <div class="ui form">
-                <div class="field">
-                    <label>Remaining Balance</label>
-                    <input type="text" name="balance" id="balance" value="{{$transaction->balance}}" readonly>
-                </div>
-                <div class="field">
-                    <label>Deposit Amount</label>
-                    <input type="number" name="deposit" id="deposit" min="1" max="{{$transaction->balance}}" placeholder="Enter a valid amount">
-                </div>
+    <div class="header"><i class="money alternate icon"></i> Add Deposit</div>
+    <div class="content">
+        <form class="ui form" action="" method="POST" id="deposit-form">
+            <div class="field">
+                <label>Remaining Balance</label>
+                <input type="text" name="balance" id="balance" value="{{$transaction->balance}}" readonly>
             </div>
-        </div>
-        <div class="actions">
-            <div class="ui deny button">
-                Cancel Deposit
+            <div class="field">
+                <label>Deposit Amount</label>
+                <input type="number" name="deposit" id="deposit" min="1" max="{{$transaction->balance}}" placeholder="Enter a valid amount">
             </div>
-            <button class="ui inverted green button" type="submit">
-                Add Deposit
-            </button>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui deny button">
+            Cancel Deposit
         </div>
-    </form>
+        <button class="ui inverted green button" form="deposit-form" type="submit">
+            Add Deposit
+        </button>
+    </div>
 </div>
 @endsection
 
 @push('ajax')
 <script>
     $(document).ready(function (){
-        $('.deposit.modal').modal('attach events','deposit.button','show');
+        $('.deposit.modal').modal('attach events','.deposit.button','show');
     })
 </script>
 @endpush

@@ -186,6 +186,10 @@
                         $('#total').val(subtotal);
                         setOrdered();
                         getCartCount();
+                        if (data != null) {
+                            $('.checkout.button').removeClass('disabled');
+                            $('.cancel.button').removeClass('disabled');
+                        }
                     },
                     error: function(data) {
                         console.log(data);

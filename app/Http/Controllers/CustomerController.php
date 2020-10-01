@@ -17,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::where('type','<>', 'owner')->get();
 
         return view('dashboard.mgmt.customers.customer')->with('customers', $customers);
     }
