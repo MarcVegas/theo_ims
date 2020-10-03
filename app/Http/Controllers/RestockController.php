@@ -215,7 +215,6 @@ class RestockController extends Controller
     }
 
     public function clearCart($customer_id){
-        $cart = Cart::find($customer_id);
-        $cart->delete();
+        $cart = Cart::where('customer_id', $customer_id)->delete();
     }
 }

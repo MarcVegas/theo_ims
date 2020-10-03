@@ -14,14 +14,14 @@
                 </div>
                 <div class="header">
                     <div class="ui red header">
-                    3958
+                    0
                     </div>
                 </div>
                 <div class="meta">
                     orders
                 </div>
                 <div class="description">
-                    Elliot requested permission to view your contact details
+                    Waiting for more data
                 </div>
                 </div>
                 <div class="extra content">
@@ -38,13 +38,13 @@
                 <i class="bullseye icon"></i>
               </div>
               <div class="header">
-                <div class="ui header green">57.6%</div>
+                <div class="ui header green">0</div>
               </div>
               <div class="meta">
                 Expenses
               </div>
               <div class="description">
-                Elliot requested permission to view your contact details
+                Waiting for more data
               </div>
             </div>
             <div class="extra content">
@@ -61,13 +61,13 @@
                 <i class="icon money alternate"></i>
               </div>
               <div class="header">
-                <div class="ui teal header">3112</div>
+                <div class="ui teal header">0</div>
               </div>
               <div class="meta">
                 Gross Income
               </div>
               <div class="description">
-                Elliot requested permission to view your contact details
+                Waiting for more data
               </div>
             </div>
             <div class="extra content">
@@ -84,13 +84,13 @@
                 <i class="dollar sign icon"></i>
               </div>
               <div class="header">
-                <div class="ui purple header">9805</div>
+                <div class="ui purple header">0</div>
               </div>
               <div class="meta">
                 Net Income
               </div>
               <div class="description">
-                Elliot requested permission to view your contact details
+                Waiting for more data
               </div>
             </div>
             <div class="extra content">
@@ -107,38 +107,20 @@
             <thead>
               <tr>
                 <th colspan="3">
-                  Best Selling Products
+                  Recently sold products
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="collapsing">
-                  <i class="folder icon"></i> node_modules
-                </td>
-                <td>Initial commit</td>
-                <td class="right aligned collapsing">10 hours ago</td>
-              </tr>
-              <tr>
-                <td><i class="folder icon"></i> test</td>
-                <td>Initial commit</td>
-                <td class="right aligned">10 hours ago</td>
-              </tr>
-              <tr>
-                <td><i class="folder icon"></i> build</td>
-                <td>Initial commit</td>
-                <td class="right aligned">10 hours ago</td>
-              </tr>
-              <tr>
-                <td><i class="file outline icon"></i> package.json</td>
-                <td>Initial commit</td>
-                <td class="right aligned">10 hours ago</td>
-              </tr>
-              <tr>
-                <td><i class="file outline icon"></i> Gruntfile.js</td>
-                <td>Initial commit</td>
-                <td class="right aligned">10 hours ago</td>
-              </tr>
+              @foreach ($orders as $item)
+                <tr>
+                  <td>
+                    {{$item->order_quantity}}
+                  </td>
+                  <td>{{$item->product->name}}</td>
+                  <td class="right aligned collapsing">{{$item->created_at}}</td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

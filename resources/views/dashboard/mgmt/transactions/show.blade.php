@@ -52,7 +52,7 @@
                                     </div>
                                     <a class="ui button" href="{{route('transactions.index')}}">Go back</a>
                                     <a class="ui brown right floated button" href="/transaction/invoice/{{$transaction->id}}" target="_blank"><i class="file pdf outline icon"></i> Print Invoice</a>
-                                    <button class="ui inverted secondary right floated {{($transaction->type == 'full') ? 'disabled' : ''}} deposit button">Add Deposit</button>
+                                    <button class="ui inverted secondary right floated {{($transaction->type == 'full' || $transaction->status == 'paid') ? 'disabled' : ''}} deposit button">Add Deposit</button>
                                 </div>
                             @else
                                 <div class="ui basic center aligned segment">
@@ -73,7 +73,8 @@
     <i class="close icon"></i>
     <div class="header"><i class="money alternate icon"></i> Add Deposit</div>
     <div class="content">
-        <form class="ui form" action="" method="POST" id="deposit-form">
+        <form class="ui form" action="{{route('deposit.store')}}" method="POST" id="deposit-form">
+            @csrf
             <div class="field">
                 <label>Remaining Balance</label>
                 <input type="text" name="balance" id="balance" value="{{$transaction->balance}}" readonly>
@@ -82,6 +83,7 @@
                 <label>Deposit Amount</label>
                 <input type="number" name="deposit" id="deposit" min="1" max="{{$transaction->balance}}" placeholder="Enter a valid amount">
             </div>
+            <input type="hidden" name="transaction_id" id="transaction_id" value="{{$transaction->id}}">
         </form>
     </div>
     <div class="actions">

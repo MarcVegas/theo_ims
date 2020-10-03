@@ -15,7 +15,7 @@
                         </div>
                         <div class="ui segment">
                             <h2 class="ui header">
-                            1000
+                            0
                                 <div class="sub header">Monthly Gross Income</div>
                             </h2>
                         </div>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="ui segment">
                             <h2 class="ui header">
-                            500
+                            0
                                 <div class="sub header">Monthly Net Amount</div>
                             </h2>
                         </div>

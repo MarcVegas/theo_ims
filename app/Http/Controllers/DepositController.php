@@ -3,82 +3,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Deposit;
+use App\Transaction;
 
 class DepositController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function store(Request $request){
+        $this->validate($request,[
+            'balance' => 'required|numeric',
+            'deposit' => 'required|numeric',
+            'transaction_id' => 'required|string',
+        ]);
+        
+        $initial_balance = $request->input('balance');
+        $deposit_amount = $request->input('deposit');
+        $transaction_id = $request->input('transaction_id');
+
+        if ($deposit_amount <= $initial_balance) {
+            $remaining_balance = $initial_balance - $deposit_amount;
+
+            $deposit = new Deposit;
+            $deposit->initial_balance = $initial_balance;
+            $deposit->deposit = $deposit_amount;
+            $deposit->remaining_balance = $remaining_balance;
+            $deposit->transaction_id = $transaction_id;
+            $deposit->save();
+
+            $this->updateBalance($transaction_id,$remaining_balance);
+
+            return redirect('/transactions/'.$transaction_id)->with('success', 'Deposit has been successfuly recorded');
+        }else {
+            return redirect('/transactions/'.$transaction_id)->with('error', 'Deposit amount cannot be greater than remaining balance');
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function updateBalance($transaction_id, $remaining_balance){
+        $transaction = Transaction::find($transaction_id);
+        $transaction->balance = $remaining_balance;
+        if ($remaining_balance == 0) {
+            $transaction->status = 'paid';
+        }
+        $transaction->save();
     }
 }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -31,7 +31,6 @@ Route::resource('/orders', 'OrdersController');
 Route::resource('/transactions', 'TransactionController');
 Route::resource('/expenses', 'ExpensesController');
 Route::resource('/restock', 'RestockController');
-Route::resource('/deposit', 'DepositController');
 
 //Cart
 Route::get('/cart/{id}', 'CartController@getCart');
@@ -53,6 +52,9 @@ Route::get('/product/{id}', 'ProductsController@getProduct');
 Route::get('/settings', 'SettingController@index')->name('settings.index');
 Route::resource('/category', 'CategoryController');
 Route::resource('/profile', 'ProfileController');
+
+//Deposit Routes
+route::post('/deposit', 'DepositController@store')->name('deposit.store');
 
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
