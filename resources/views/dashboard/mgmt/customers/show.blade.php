@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('datatables')
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+@endpush
 @section('content')
 @include('inc.sidebar')
 @include('inc.navbar')
@@ -10,15 +13,13 @@
             <div class="ui cards">
                 <div class="card">
                     <div class="content">
-                        <img class="ui left floated circular tiny image" src="/storage/uploads/{{$customer->avatar}}" alt="{{$customer->avatar}}">
-                        <div class="header">
-                            <div class="ui teal header">
-                            {{$customer->firstname}} {{$customer->lastname}}
-                            </div>
-                        </div>
-                        <div class="meta">
-                            {{$customer->address}}
-                        </div>
+                      <img class="right floated tiny rounded ui image" src="/storage/uploads/{{$customer->avatar}}" alt="{{$customer->avatar}}">
+                      <div class="header">
+                        {{$customer->firstname}} {{$customer->lastname}}
+                      </div>
+                      <div class="meta">
+                        {{$customer->address}}
+                      </div>
                     </div>
                 </div>
                 <div class="card">
@@ -76,7 +77,7 @@
                                     <td>{{$credit->balance}}</td>
                                     <td><label class="{{($credit->status == 'credit') ? 'ui basic teal label' : 'ui basic green label'}}">{{$credit->status}}</label></td>
                                     <td class="center aligned">
-                                        <a class="ui fluid button" href="{{$credit->id}}"><i class="eye icon"></i> View</a>
+                                        <a class="ui button" href="{{$credit->id}}"><i class="eye icon"></i> View</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -124,6 +125,15 @@
 <script>
     $(document).ready(function (){
         $('.mini.modal').modal('attach events', '.delete.button', 'show');
+
+        $('#transaction-table').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+            "order": [],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
+        });
     });
 </script>
 @endpush

@@ -95,7 +95,15 @@
                                     <td>{{$transaction->total}}</td>
                                     <td>{{$transaction->cash}}</td>
                                     <td>{{$transaction->balance}}</td>
-                                    <td><label class="ui teal label">{{$transaction->status}}</label></td>
+                                    <td>
+                                        @if ($transaction->status == 'partial')
+                                            <label class="ui basic teal label">{{$transaction->status}}</label>
+                                        @elseif($transaction->status == 'paid')
+                                            <label class="ui basic green label">{{$transaction->status}}</label>
+                                        @else 
+                                            <label class="ui basic red label">{{$transaction->status}}</label>
+                                        @endif
+                                    </td>
                                     <td class="center aligned">
                                         <a class="ui button" href="/transactions/{{$transaction->id}}"><i class="eye icon"></i> View</a>
                                     </td>

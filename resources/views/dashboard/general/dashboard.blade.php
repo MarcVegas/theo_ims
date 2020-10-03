@@ -14,14 +14,14 @@
                 </div>
                 <div class="header">
                     <div class="ui red header">
-                    0
+                    {{($orderCount ?? '') ? $orderCount : '0'}}
                     </div>
                 </div>
                 <div class="meta">
-                    orders
+                    Orders
                 </div>
                 <div class="description">
-                    Waiting for more data
+                    Total number of orders this month
                 </div>
                 </div>
                 <div class="extra content">
@@ -38,13 +38,15 @@
                 <i class="bullseye icon"></i>
               </div>
               <div class="header">
-                <div class="ui header green">0</div>
+                <div class="ui header green">
+                  {{($expense ?? '') ? $expense : '0'}}
+                </div>
               </div>
               <div class="meta">
                 Expenses
               </div>
               <div class="description">
-                Waiting for more data
+                Total expense amount this month
               </div>
             </div>
             <div class="extra content">
@@ -61,13 +63,15 @@
                 <i class="icon money alternate"></i>
               </div>
               <div class="header">
-                <div class="ui teal header">0</div>
+                <div class="ui teal header">
+                  {{($gross ?? '') ? $gross : '0'}}
+                </div>
               </div>
               <div class="meta">
                 Gross Income
               </div>
               <div class="description">
-                Waiting for more data
+                Total gross income this month
               </div>
             </div>
             <div class="extra content">
@@ -84,13 +88,15 @@
                 <i class="dollar sign icon"></i>
               </div>
               <div class="header">
-                <div class="ui purple header">0</div>
+                <div class="ui purple header">
+                  {{($net ?? '') ? $net : '0'}}
+                </div>
               </div>
               <div class="meta">
                 Net Income
               </div>
               <div class="description">
-                Waiting for more data
+                Income deducted with expenses
               </div>
             </div>
             <div class="extra content">
@@ -103,26 +109,28 @@
       </div>
       <div class="ui grid stackable padded">
         <div class="column">
-          <table class="ui celled striped table">
-            <thead>
-              <tr>
-                <th colspan="3">
-                  Recently sold products
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($orders as $item)
+          @if ($orders ?? '')
+            <table class="ui celled striped table">
+              <thead>
                 <tr>
-                  <td>
-                    {{$item->order_quantity}}
-                  </td>
-                  <td>{{$item->product->name}}</td>
-                  <td class="right aligned collapsing">{{$item->created_at}}</td>
+                  <th colspan="3">
+                    Recently sold products
+                  </th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach ($orders as $item)
+                  <tr>
+                    <td>
+                      {{$item->order_quantity}}
+                    </td>
+                    <td>{{$item->product->name}}</td>
+                    <td class="right aligned collapsing">{{$item->created_at}}</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          @endif
         </div>
       </div>
     </div>

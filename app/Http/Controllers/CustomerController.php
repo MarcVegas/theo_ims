@@ -80,8 +80,8 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::with('transaction')->find($id);
-        $credits = Transaction::where('status', 'credit')->find($id);
-        $receivable = Transaction::where('status', 'credit')->sum('balance');
+        $credits = Transaction::where('type', 'credit')->where('customer_id', $id)->latest()->get();
+        $receivable = Transaction::where('type', 'credit')->where('customer_id', $id)->sum('balance');
 
         return view('dashboard.mgmt.customers.show')->with('customer', $customer)
         ->with('credits', $credits)->with('receivable', $receivable);

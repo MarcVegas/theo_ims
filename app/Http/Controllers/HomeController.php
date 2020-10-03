@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Order;
+use App\Expense;
 
 class HomeController extends Controller
 {
@@ -24,8 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $orders = Order::has('product')->paginate(5);
+        $from = Carbon::now()->startOfMonth();
+        $to = Carbon::now()->endOfMonth();
 
-        return view('dashboard.general.dashboard')->with('orders', $orders);
+        $orderCount = Order::whereBetween('created_at',[$from, $to])->count();
+        $expense = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
+        $grossTotal = Order::whereBetween('created_at',[$from, $to])->sum('subtotal');
+        //$grossTotal = Order::where('created_at','>', $from)->where('created_at','<', $to)->sum('subtotal');
+        $netTotal = $grossTotal - $expense;
+
+        return view('dashboard.general.dashboard')->with('orderCount', $orderCount)
+        ->with('expense', $expense)->with('gross', $grossTotal)->with('net', $netTotal);
     }
 }

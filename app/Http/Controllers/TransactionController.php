@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::has('customer')->latest()->get();
+        $transactions = Transaction::has('customer')->where('supplier_id','=', null)->latest()->get();
 
         return view('dashboard.mgmt.transactions.transaction')->with('transactions', $transactions);
     }

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('datatables')
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+@endpush
 @section('content')
 @include('inc.sidebar')
 @include('inc.navbar')
@@ -9,11 +12,6 @@
             @include('inc.messages')
             <h2><i class="boxes icon"></i> My Products</h2>
             <div class="ui secondary menu">
-                <div class="item">
-                    <select class="ui search dropdown" name="category" id="category">
-                        <option value="">Filter category</option>
-                    </select>
-                </div>
                 <div class="right menu">
                     <div class="item">
                         <a class="ui teal button" href="{{route('products.create')}}"><i class="plus icon"></i> Add Product</a>
@@ -22,7 +20,7 @@
             </div>
             <div class="ui raised segment">
                 @if ($products ?? '')
-                    <table class="ui tablet stackable selectable definition table">
+                    <table class="ui tablet stackable selectable definition table" id="product-table">
                         <thead class="full-width">
                             <tr>
                                 <th>Name</th>
@@ -66,3 +64,18 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+<script>
+    $(document).ready(function (){
+        $('#product-table').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+            "order": [],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
+        });
+    });
+</script>
+@endpush
