@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\Customer;
+use App\Deposit;
 
 class TransactionController extends Controller
 {
@@ -15,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::has('customer')->get();
+        $transactions = Transaction::has('customer')->latest()->get();
 
         return view('dashboard.mgmt.transactions.transaction')->with('transactions', $transactions);
     }
@@ -50,8 +51,9 @@ class TransactionController extends Controller
     public function show($id)
     {
         $transaction = Transaction::has('customer')->find($id);
+        $deposits = Deposit::where('transaction_id', $id)->get();
 
-        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction);
+        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction)->with('deposits', $deposits);
     }
 
     /**

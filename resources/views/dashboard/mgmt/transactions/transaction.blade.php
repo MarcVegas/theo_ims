@@ -118,7 +118,12 @@
 <script>
     $(document).ready(function (){
         $('#transaction-table').DataTable({
-            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+            "order": [],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
         });
     });
 </script>

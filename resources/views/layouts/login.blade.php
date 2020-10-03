@@ -12,7 +12,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/semantic.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style type="text/css">
         body {
             background-color: #DADADA;

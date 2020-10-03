@@ -10,10 +10,6 @@
 
     <title>{{ config('app.name', 'Theo IMS') }}</title>
 
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
-
     <!-- Styles -->
     <link rel="preload" href="{{ asset('css/semantic.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/semantic.min.css')}}"></noscript>

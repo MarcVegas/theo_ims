@@ -10,9 +10,7 @@
             <div class="ui cards">
                 <div class="card">
                     <div class="content">
-                        <div class="ui blue right floated header">
-                            <i class="user circle icon"></i>
-                        </div>
+                        <img class="ui left floated circular tiny image" src="/storage/uploads/{{$customer->avatar}}" alt="{{$customer->avatar}}">
                         <div class="header">
                             <div class="ui teal header">
                             {{$customer->firstname}} {{$customer->lastname}}
@@ -20,10 +18,6 @@
                         </div>
                         <div class="meta">
                             {{$customer->address}}
-                        </div>
-                        <div class="description">
-                            <label class="ui blue label">{{$customer->type}}</label>
-                            <button class="ui icon right floated delete button"><i class="trash alternate outline icon"></i></button>
                         </div>
                     </div>
                 </div>

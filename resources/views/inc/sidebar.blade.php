@@ -19,6 +19,25 @@
             Store
         </div>
         <div class="menu">
+            <a class="item" href="{{route('products.index')}}">
+                <div><i class="boxes icon"></i>Products</div>
+            </a>
+            <a class="item" href="{{route('customers.index')}}">
+                <div><i class="users icon"></i>Customers</div>
+            </a>
+            <a class="item" href="{{route('suppliers.index')}}">
+                <div><i class="warehouse icon"></i>Supplier</div>
+            </a>
+            <a class="item" href="{{route('transactions.index')}}">
+                <div><i class="handshake icon"></i>Transactions</div>
+            </a>
+        </div>
+    </div>
+    <div class="item">
+        <div class="header">
+            Administration
+        </div>
+        <div class="menu">
             <a class="item" href="{{route('profile.index')}}">
                 <div><i class="user icon"></i>Profile</div>
             </a>
@@ -30,25 +49,6 @@
             </a>
             <a class="item">
                 <div><i class="bell icon"></i>Notifications</div>
-            </a>
-        </div>
-    </div>
-    <div class="item">
-        <div class="header">
-            Administration
-        </div>
-        <div class="menu">
-            <a class="item" href="{{route('products.index')}}">
-                <div><i class="boxes icon"></i>Products</div>
-            </a>
-            <a class="item" href="{{route('suppliers.index')}}">
-                <div><i class="warehouse icon"></i>Supplier</div>
-            </a>
-            <a class="item" href="{{route('customers.index')}}">
-                <div><i class="users icon"></i>Customers</div>
-            </a>
-            <a class="item" href="{{route('transactions.index')}}">
-                <div><i class="handshake icon"></i>Transactions</div>
             </a>
         </div>
     </div>

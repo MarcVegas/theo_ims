@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="field">
                                             <label>Transaction Date</label>
-                                            <input type="text" name="date" id="date" value="{{$transaction->transaction_date}}" readonly>
+                                            <input type="text" name="date" id="date" value="{{date('d M Y', strtotime($transaction->transaction_date))}}" readonly>
                                         </div>
                                     </div>
                                     <div class="field">
@@ -63,7 +63,35 @@
                     </div>
                 </div>
                 <div class="six wide column">
-
+                    <div style="background-color: #f5f6f6;border-radius:.5rem;padding:2rem">
+                        <div style="font-size: 1.5rem">Deposits</div>
+                        @if ($deposits ?? '')
+                            <table class="ui compact table">
+                                <thead>
+                                    <tr>
+                                        <th>Balance</th>
+                                        <th>Deposit</th>
+                                        <th>Remaining</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($deposits as $deposit)
+                                        <tr>
+                                            <td>{{$deposit->initial_balance}}</td>
+                                            <td>{{$deposit->deposit}}</td>
+                                            <td>{{$deposit->remaining_balance}}</td>
+                                            <td>{{date('d M Y', strtotime($deposit->created_at))}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <div class="ui basic center aligned segment">
+                                <h3>No Recent Deposits</h3>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

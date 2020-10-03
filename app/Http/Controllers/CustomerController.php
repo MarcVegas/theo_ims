@@ -49,10 +49,21 @@ class CustomerController extends Controller
 
         $customer_id = (string) Str::uuid();
 
+        if ($request->hasFile('photo')) {
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('photo')->storeAs('public/uploads', $fileNameToStore);
+        }
+
         $customer = new Customer;
         $customer->id = $customer_id;
         $customer->firstname = $request->input('firstname');
         $customer->lastname = $request->input('lastname');
+        if ($request->hasFile('photo')) {
+            $customer->avatar = $fileNameToStore;
+        }
         $customer->address = $request->input('address');
         $customer->type = $request->input('type');
         $customer->save();
@@ -105,10 +116,21 @@ class CustomerController extends Controller
             'contact' => 'nullable|string',
         ]);
 
+        if ($request->hasFile('photo')) {
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('photo')->storeAs('public/uploads', $fileNameToStore);
+        }
+
         $customer = Customer::find($id);
         $type = $customer->type;
         $customer->firstname = $request->input('firstname');
         $customer->lastname = $request->input('lastname');
+        if ($request->hasFile('photo')) {
+            $customer->avatar = $fileNameToStore;
+        }
         $customer->address = $request->input('address');
         $customer->contact = $request->input('contact');
         $customer->save();

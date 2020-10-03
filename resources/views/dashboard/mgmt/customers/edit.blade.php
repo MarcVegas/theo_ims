@@ -11,7 +11,7 @@
                     <div class="ui raised segment">
                         @include('inc.messages')
                         <h2><i class="user icon"></i> Update Customer</h2>
-                        <form class="ui equal width form" id="customer-form" action="{!! action('CustomerController@update', $customer->id) !!}" method="POST">
+                        <form class="ui equal width form" id="customer-form" action="{!! action('CustomerController@update', $customer->id) !!}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="fields">
                                 <div class="field">
@@ -33,12 +33,21 @@
                                     <input type="tel" name="contact" id="contact" value="{{$customer->contact}}" placeholder="+63 xxx xxx xxxx">
                                 </div>
                             </div>
+                            <input type="hidden" name="_method" value="PUT">
                             <a class="ui button" href="{{route('customers.index')}}"><i class="chevron left icon"></i> Back</a>
                             <button type="submit" class="ui green right floated button"><i class="save icon"></i> Save</button>
                         </form>
                     </div>
                 </div>
                 <div class="six wide column">
+                    <div class="ui raised padded center aligned segment">
+                        <img class="ui centered small circular image" src="/storage/uploads/avatar.png" alt=""><br>
+                        <input type="file" (change)="fileEvent($event)" form="customer-form" class="inputfile" name="photo" id="photo"/>
+                        <label for="photo" class="ui blue button">
+                            <i class="camera icon"></i>
+                            Upload Photo
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
