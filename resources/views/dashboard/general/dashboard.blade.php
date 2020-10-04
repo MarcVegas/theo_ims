@@ -110,7 +110,7 @@
       <div class="ui stackable two column padded grid">
         <div class="column">
           <div class="ui segments">
-            <div class="ui inverted teal segment">
+            <div class="ui inverted teal clearing segment">
               <h3><i class="certificate icon"></i> Best Products</h3>
             </div>
             <div class="ui raised segment">
@@ -142,7 +142,7 @@
         </div>
         <div class="column">
           <div class="ui segments">
-            <div class="ui inverted blue segment">
+            <div class="ui inverted blue clearing segment">
               <h3><i class="trophy icon"></i> Top Customers</h3>
             </div>
             <div class="ui raised segment">

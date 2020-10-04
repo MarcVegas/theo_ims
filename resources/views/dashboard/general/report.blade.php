@@ -21,7 +21,7 @@
                     </select>
                 </div>
                 <div class="item">
-                    <label>Customer: </label>
+                    <label id="filter-label">Customer: </label>
                     <select class="ui search customer dropdown" name="customer" id="">
                         <option value="">All</option>
                         @if ($customers ?? '')
@@ -33,35 +33,18 @@
                 </div>
                 <div class="right menu">
                     <div class="item">
+                        <a class="ui blue button" href="/reports"><i class="redo alternate icon"></i> Reset</a>
+                    </div>
+                    <div class="item">
                         <a class="ui brown button" href="{{route('suppliers.create')}}"><i class="file pdf outline icon"></i> Export</a>
                     </div>
                 </div>
             </div>
-            <div class="ui raised segment">
-                @if ($columns ?? '' && $orders ?? '')
-                    <table class="ui tablet stackable selectable definition table" id="reports-table">
-                        <thead class="full-width">
-                            <tr>
-                                @foreach ($columns as $column)
-                                    <th>{{$column}}</th>
-                                @endforeach
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $order)
-                                <tr>
-                                    <td>{{$order->product->name}}</td>
-                                    <td>{{$order->product->category}}</td>
-                                    <td>{{$order->order_quantity}}</td>
-                                    <td>{{$order->order_price}}</td>
-                                    <td>{{$order->subtotal}}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @else
-                    
-                @endif
+            <div class="ui raised segment" id="reports_table">
+                <div class="ui basic center aligned segment">
+                    <i class="notched circle loading big icon"></i>
+                    <h3>Fetching data...</h3>
+                </div>
             </div>
         </div>
     </div>
@@ -71,24 +54,126 @@
 @push('ajax')
 <script>
     $(document).ready(function (){
-        $('#reports-table').DataTable({
-            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-            "order": [],
-            "columnDefs": [ {
-                "targets"  : 'no-sort',
-                "orderable": false,
-            }]
+        var customer_id;
+        var type = 'Order';
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
         });
+
+        function table(table) {
+            $('#'+table).DataTable({
+                "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+                "order": [],
+                "columnDefs": [ {
+                    "targets"  : 'no-sort',
+                    "orderable": false,
+                }]
+            });
+        }
+
+        function getOrders() {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/orders',
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'order-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        getOrders();
+
+        function getCustomerOrders(id) {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/order/'+ id,
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'order-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function getTransactions() {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/transactions',
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'transaction-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function getCustomerTransactions(id) {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/transaction/'+ id,
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'transaction-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
 
         $('.type.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
-                console.log('You selected '+ text + 'with the value ' + value);
+                type = value;
+                if (value == 'Product') {
+                    $('.customer.dropdown').toggle();
+                    $('#filter-label').text('');
+                }else if(value == 'Order' || value == 'Transaction') {
+                    var isShown = $('.customer.dropdown').is(':visible');
+                    $('.customer.dropdown').dropdown('restore defaults');
+                    if (value == 'Transaction') {
+                        getTransactions();
+                    }else if(value == 'Order'){
+                        getOrders();
+                    }
+                    if (isShown == false) {
+                        $('.customer.dropdown').toggle();
+                        $('#filter-label').text('Customer:');
+                    }
+                }
             }
         });
 
         $('.customer.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
-                console.log('You selected '+ text + 'with the value ' + value);
+                customer_id = value;
+                if (type == 'Order' && customer_id != '') {
+                    getCustomerOrders(customer_id);
+                } else if(type == 'Transaction' && customer_id != '') {
+                    getCustomerTransactions(customer_id);
+                }
             }
         });
     });

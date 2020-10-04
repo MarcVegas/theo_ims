@@ -57,7 +57,12 @@ Route::resource('/profile', 'ProfileController');
 route::post('/deposit', 'DepositController@store')->name('deposit.store');
 
 //Reports Route
-Route::get('/reports/all', 'ReportsController@orders');
+Route::get('/reports', 'ReportsController@index');
+Route::get('/reports/orders', 'ReportsController@orders');
+Route::get('/reports/order/{id}', 'ReportsController@customerOrders');
+Route::get('/reports/transactions', 'ReportsController@transactions');
+Route::get('/reports/transaction/{id}', 'ReportsController@customerTransactions');
+
 
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');

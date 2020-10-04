@@ -1,5 +1,5 @@
 @if ($columns ?? '' && $orders ?? '')
-    <table class="ui tablet stackable selectable definition table" id="reports-table">
+    <table class="ui tablet stackable selectable definition table" id="order-table">
         <thead class="full-width">
             <tr>
                 @foreach ($columns as $column)

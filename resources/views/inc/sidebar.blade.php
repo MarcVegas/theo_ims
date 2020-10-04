@@ -7,7 +7,7 @@
                     Dashboard
                 </div>
             </a>
-            <a class="item" href="/reports/all">
+            <a class="item" href="/reports">
                 <div><i class="icon chart bar"></i>
                     Reports
                 </div>
