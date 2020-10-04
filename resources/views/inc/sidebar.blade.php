@@ -7,7 +7,7 @@
                     Dashboard
                 </div>
             </a>
-            <a class="item">
+            <a class="item" href="/reports/all">
                 <div><i class="icon chart bar"></i>
                     Reports
                 </div>
@@ -72,4 +72,7 @@
         User Guide
         </div>
     </a>
+    <div class="item">
+        <a class="ui blue fluid button" href="">Quick Order</a>
+    </div>
 </div>

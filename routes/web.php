@@ -56,6 +56,9 @@ Route::resource('/profile', 'ProfileController');
 //Deposit Routes
 route::post('/deposit', 'DepositController@store')->name('deposit.store');
 
+//Reports Route
+Route::get('/reports/all', 'ReportsController@orders');
+
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
 

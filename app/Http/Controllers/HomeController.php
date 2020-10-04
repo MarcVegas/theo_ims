@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Order;
 use App\Expense;
+use App\Transaction;
 
 class HomeController extends Controller
 {
@@ -31,11 +32,23 @@ class HomeController extends Controller
 
         $orderCount = Order::whereBetween('created_at',[$from, $to])->count();
         $expense = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
-        $grossTotal = Order::whereBetween('created_at',[$from, $to])->sum('subtotal');
-        //$grossTotal = Order::where('created_at','>', $from)->where('created_at','<', $to)->sum('subtotal');
+        //$grossTotal = Order::whereBetween('created_at',[$from, $to])->sum('subtotal');
+        $grossTotal = Order::whereHas('transaction', function($q){
+            $q->where('supplier_id', null)->where('type','<>', 'credit');
+        })->whereBetween('created_at',[$from, $to])->sum('subtotal');
         $netTotal = $grossTotal - $expense;
 
-        return view('dashboard.general.dashboard')->with('orderCount', $orderCount)
-        ->with('expense', $expense)->with('gross', $grossTotal)->with('net', $netTotal);
+        $bestProducts = Order::has('product')->whereHas('transaction', function($q){
+            $q->where('supplier_id', null);
+        })->whereBetween('created_at',[$from, $to])->selectRaw('sum(order_quantity) as sum,product_id')
+        ->groupBy('product_id')->take(5)->get();
+
+        $bestCustomers = Transaction::has('customer')->where('supplier_id', null)->whereBetween('created_at',[$from, $to])
+        ->selectRaw('sum(cash) as sum,customer_id')->groupBy('customer_id')->take(5)->get();
+
+        return view('dashboard.general.dashboard')->with('bestProducts', $bestProducts)
+        ->with('bestCustomers', $bestCustomers)->with('orderCount', $orderCount)
+        ->with('expense', $expense)->with('gross', $grossTotal)
+        ->with('net', $netTotal);
     }
 }

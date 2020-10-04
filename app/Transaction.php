@@ -14,7 +14,7 @@ class Transaction extends Model
     }
 
     public function order(){
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Order', 'transaction_id');
     }
 
     public function deposit(){
