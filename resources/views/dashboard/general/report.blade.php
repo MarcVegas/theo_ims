@@ -21,7 +21,7 @@
                     </select>
                 </div>
                 <div class="item">
-                    <label id="filter-label">Customer: </label>
+                    <label class="filter-label">Customer: </label>
                     <select class="ui search customer dropdown" name="customer" id="">
                         <option value="">All</option>
                         @if ($customers ?? '')
@@ -36,7 +36,25 @@
                         <a class="ui blue button" href="/reports"><i class="redo alternate icon"></i> Reset</a>
                     </div>
                     <div class="item">
-                        <a class="ui brown button" href="{{route('suppliers.create')}}"><i class="file pdf outline icon"></i> Export</a>
+                        <a class="ui brown button" href="" target="_blank"><i class="file pdf outline icon"></i> Export</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui secondary menu">
+                <div class="item">
+                    <div class="ui form">
+                        <div class="inline field">
+                            <label class="filter-label">Filter from:</label>
+                            <input type="date" name="from" id="from">
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui form">
+                        <div class="inline field">
+                            <label class="filter-label">to:</label>
+                            <input type="date" name="to" id="to">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,6 +74,9 @@
     $(document).ready(function (){
         var customer_id;
         var type = 'Order';
+        var from = "";
+        var to = "";
+        var datastr = "";
 
         $.ajaxSetup({
         headers: {
@@ -74,11 +95,11 @@
             });
         }
 
-        function getOrders() {
+        function getOrders(datastr) {
             $.ajax({
                     type: "GET",
                     url: '/reports/orders',
-                    data: "",
+                    data: datastr,
                     cache: false,
                     success: function (data) {
                         $('#reports_table').html(data);
@@ -93,11 +114,11 @@
 
         getOrders();
 
-        function getCustomerOrders(id) {
+        function getCustomerOrders(id,datastr) {
             $.ajax({
                     type: "GET",
                     url: '/reports/order/'+ id,
-                    data: "",
+                    data: datastr,
                     cache: false,
                     success: function (data) {
                         $('#reports_table').html(data);
@@ -110,11 +131,11 @@
                 });
         }
 
-        function getTransactions() {
+        function getTransactions(datastr) {
             $.ajax({
                     type: "GET",
                     url: '/reports/transactions',
-                    data: "",
+                    data: datastr,
                     cache: false,
                     success: function (data) {
                         $('#reports_table').html(data);
@@ -127,15 +148,32 @@
                 });
         }
 
-        function getCustomerTransactions(id) {
+        function getCustomerTransactions(id,datastr) {
             $.ajax({
                     type: "GET",
                     url: '/reports/transaction/'+ id,
-                    data: "",
+                    data: datastr,
                     cache: false,
                     success: function (data) {
                         $('#reports_table').html(data);
                         var tablename = 'transaction-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function getProducts() {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/products',
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'product-table';
                         table(tablename);
                     },
                     error: function(data) {
@@ -149,9 +187,13 @@
                 type = value;
                 if (value == 'Product') {
                     $('.customer.dropdown').toggle();
-                    $('#filter-label').text('');
+                    $('.filter-label').text('');
+                    $('#from').toggle();
+                    $('#to').toggle();
+                    getProducts();
                 }else if(value == 'Order' || value == 'Transaction') {
                     var isShown = $('.customer.dropdown').is(':visible');
+                    var dateShown = $('#from').is(':visible');
                     $('.customer.dropdown').dropdown('restore defaults');
                     if (value == 'Transaction') {
                         getTransactions();
@@ -160,7 +202,11 @@
                     }
                     if (isShown == false) {
                         $('.customer.dropdown').toggle();
-                        $('#filter-label').text('Customer:');
+                        $('.filter-label').text('Customer:');
+                    }
+                    if (dateShown == false) {
+                        $('#from').toggle();
+                        $('#to').toggle();
                     }
                 }
             }
@@ -170,10 +216,44 @@
             onChange: function(value, text, $selectedItem) {
                 customer_id = value;
                 if (type == 'Order' && customer_id != '') {
-                    getCustomerOrders(customer_id);
+                    getCustomerOrders(customer_id,datastr);
                 } else if(type == 'Transaction' && customer_id != '') {
-                    getCustomerTransactions(customer_id);
+                    getCustomerTransactions(customer_id,datastr);
                 }
+            }
+        });
+
+        $('#from').on('change', function () {
+            from = $('#from').val();
+            if (to != '' && customer_id == null && type == 'Order') {
+                datastr = 'from=' + from + '&to=' + to;
+                getOrders(datastr);
+            }else if(to != '' && customer_id != null && type == 'Order'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerOrders(customer_id,datastr);
+            }else if (to != '' && customer_id == null && type == 'Transaction') {
+                datastr = 'from=' + from + '&to=' + to;
+                getTransactions(datastr);
+            }else if(to != '' && customer_id != null && type == 'Transaction'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerTransactions(customer_id,datastr);
+            }
+        });
+
+        $('#to').on('change', function () {
+            to = $('#to').val();
+            if (from != '' && customer_id == null && type == 'Order') {
+                datastr = 'from=' + from + '&to=' + to;
+                getOrders(datastr);
+            }else if(to != '' && customer_id != null && type == 'Order'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerOrders(customer_id,datastr);
+            }else if (to != '' && customer_id == null && type == 'Transaction') {
+                datastr = 'from=' + from + '&to=' + to;
+                getTransactions(datastr);
+            }else if(to != '' && customer_id != null && type == 'Transaction'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerTransactions(customer_id,datastr);
             }
         });
     });

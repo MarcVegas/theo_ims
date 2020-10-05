@@ -15,6 +15,7 @@
                     <td>{{$order->order_quantity}}</td>
                     <td>{{$order->order_price}}</td>
                     <td>{{$order->subtotal}}</td>
+                    <td>{{date('d M Y, h:i A', strtotime($order->created_at))}}</td>
                 </tr>
             @endforeach
         </tbody>
