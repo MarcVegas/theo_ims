@@ -25,6 +25,5 @@ class InvoiceController extends Controller
         $pdfName = 'OrderInvoice'.$date.'.pdf';
 
         return $pdf->download($pdfName);
-        //return view('dashboard.order.invoice')->with('orders', $orders)->with('transaction', $transaction);
     }
 }

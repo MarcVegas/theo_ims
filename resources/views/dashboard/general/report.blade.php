@@ -15,9 +15,9 @@
                 <div class="item">
                     <label>Type: </label>
                     <select class="ui type dropdown" name="type" id="">
-                        <option value="Order">Orders</option>
-                        <option value="Product">Products</option>
-                        <option value="Transaction">Transactions</option>
+                        <option value="order">Orders</option>
+                        <option value="product">Products</option>
+                        <option value="transaction">Transactions</option>
                     </select>
                 </div>
                 <div class="item">
@@ -36,7 +36,7 @@
                         <a class="ui blue button" href="/reports"><i class="redo alternate icon"></i> Reset</a>
                     </div>
                     <div class="item">
-                        <a class="ui brown button" href="" target="_blank"><i class="file pdf outline icon"></i> Export</a>
+                        <a class="ui brown button" id="export-button" href="/reports/export/order" target="_blank"><i class="file pdf outline icon"></i> Export</a>
                     </div>
                 </div>
             </div>
@@ -73,10 +73,12 @@
 <script>
     $(document).ready(function (){
         var customer_id;
-        var type = 'Order';
+        var type = 'order';
         var from = "";
         var to = "";
         var datastr = "";
+        var exportUrl = '/reports/export/';
+        var hasRoute = false;
 
         $.ajaxSetup({
         headers: {
@@ -185,19 +187,19 @@
         $('.type.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
                 type = value;
-                if (value == 'Product') {
+                if (value == 'product') {
                     $('.customer.dropdown').toggle();
                     $('.filter-label').text('');
                     $('#from').toggle();
                     $('#to').toggle();
                     getProducts();
-                }else if(value == 'Order' || value == 'Transaction') {
+                }else if(value == 'order' || value == 'transaction') {
                     var isShown = $('.customer.dropdown').is(':visible');
                     var dateShown = $('#from').is(':visible');
                     $('.customer.dropdown').dropdown('restore defaults');
-                    if (value == 'Transaction') {
+                    if (value == 'transaction') {
                         getTransactions();
-                    }else if(value == 'Order'){
+                    }else if(value == 'order'){
                         getOrders();
                     }
                     if (isShown == false) {
@@ -209,51 +211,78 @@
                         $('#to').toggle();
                     }
                 }
+                $("input[type=date]").val("");
+
+                exportUrl = '/reports/export/' + type + '?';
+                hasRoute = true;
+                $("#export-button").attr("href", exportUrl);
             }
         });
 
         $('.customer.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
                 customer_id = value;
-                if (type == 'Order' && customer_id != '') {
+                if (type == 'order' && customer_id != '') {
                     getCustomerOrders(customer_id,datastr);
-                } else if(type == 'Transaction' && customer_id != '') {
+                } else if(type == 'transaction' && customer_id != '') {
                     getCustomerTransactions(customer_id,datastr);
                 }
+                if (hasRoute == false) {
+                    exportUrl = exportUrl + type + '?';
+                }
+                exportUrl = exportUrl + 'customer_id=' + customer_id + '&';
+                hasRoute = true;
+                $("#export-button").attr("href", exportUrl);
             }
         });
 
         $('#from').on('change', function () {
             from = $('#from').val();
-            if (to != '' && customer_id == null && type == 'Order') {
+            if (to != '' && customer_id == null && type == 'order') {
                 datastr = 'from=' + from + '&to=' + to;
                 getOrders(datastr);
-            }else if(to != '' && customer_id != null && type == 'Order'){
+            }else if(to != '' && customer_id != null && type == 'order'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerOrders(customer_id,datastr);
-            }else if (to != '' && customer_id == null && type == 'Transaction') {
+            }else if (to != '' && customer_id == null && type == 'transaction') {
                 datastr = 'from=' + from + '&to=' + to;
                 getTransactions(datastr);
-            }else if(to != '' && customer_id != null && type == 'Transaction'){
+            }else if(to != '' && customer_id != null && type == 'transaction'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerTransactions(customer_id,datastr);
+            }
+
+            if (to != '') {
+                if (hasRoute == false) {
+                    exportUrl = exportUrl + type + '?';
+                }
+                exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
+                $("#export-button").attr("href", exportUrl);
             }
         });
 
         $('#to').on('change', function () {
             to = $('#to').val();
-            if (from != '' && customer_id == null && type == 'Order') {
+            if (from != '' && customer_id == null && type == 'order') {
                 datastr = 'from=' + from + '&to=' + to;
                 getOrders(datastr);
-            }else if(to != '' && customer_id != null && type == 'Order'){
+            }else if(to != '' && customer_id != null && type == 'order'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerOrders(customer_id,datastr);
-            }else if (to != '' && customer_id == null && type == 'Transaction') {
+            }else if (to != '' && customer_id == null && type == 'transaction') {
                 datastr = 'from=' + from + '&to=' + to;
                 getTransactions(datastr);
-            }else if(to != '' && customer_id != null && type == 'Transaction'){
+            }else if(to != '' && customer_id != null && type == 'transaction'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerTransactions(customer_id,datastr);
+            }
+
+            if (from != '') {
+                if (hasRoute == false) {
+                    exportUrl = exportUrl + type + '?';
+                }
+                exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
+                $("#export-button").attr("href", exportUrl);
             }
         });
     });

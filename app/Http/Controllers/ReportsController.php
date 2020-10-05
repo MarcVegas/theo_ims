@@ -108,4 +108,93 @@ class ReportsController extends Controller
         
         return view('dashboard.general.producttable')->with('products', $products)->with('columns', $columns);
     }
+
+    public function exportOrders(Request $request){
+        $from = '';
+        $to = '';
+        $hasDates = false;
+        $customer_id = '';
+        $customer = '';
+        $owner = Customer::where('type', 'owner')->first();
+
+        if ($request->has('from') && $request->has('to')) {
+            $from = Carbon::parse($request->get('from'))->startOfDay();
+            $to = Carbon::parse($request->get('to'))->endOfDay();
+            $hasDates = true;
+        }
+
+        if ($request->has('customer_id')) {
+            $customer_id = $request->get('customer_id');
+            $customer = Customer::find($customer_id);
+        }
+
+        if ($hasDates == true && $customer_id == '') {
+            $orders = Order::has('product')->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == true && $customer_id != ''){
+            $orders = Order::has('product')->whereHas('transaction', function($q) use ($customer_id){
+                $q->where('customer_id', $customer_id);
+            })->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == false && $customer_id != ''){
+            $orders = Order::has('product')->whereHas('transaction', function($q) use ($customer_id){
+                $q->where('customer_id', $customer_id);
+            })->latest()->get();
+
+        }else {
+            $orders = Order::has('product')->latest()->get();
+        }
+        
+        $columns = array("Name","Category","Qnty","Price","Subtotal","Purchased On");
+
+        return view('dashboard.general.export.orders')->with('orders', $orders)->with('customer', $customer)
+        ->with('owner', $owner)->with('columns', $columns)->with('from', $from)->with('to', $to);
+    }
+
+    public function exportTransactions(Request $request){
+        $from = '';
+        $to = '';
+        $hasDates = false;
+        $customer_id = '';
+        $customer = '';
+        $owner = Customer::where('type', 'owner')->first();
+
+        if ($request->has('from') && $request->has('to')) {
+            $from = Carbon::parse($request->get('from'))->startOfDay();
+            $to = Carbon::parse($request->get('to'))->endOfDay();
+            $hasDates = true;
+        }
+
+        if ($request->has('customer_id')) {
+            $customer_id = $request->get('customer_id');
+            $customer = Customer::find($customer_id);
+        }
+
+        if ($hasDates == true && $customer_id == '') {
+            $transactions = Transaction::where('supplier_id','=', null)->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == true && $customer_id != ''){
+            $transactions = Transaction::where('customer_id', $customer_id)->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == false && $customer_id != ''){
+            $transactions = Transaction::where('customer_id', $customer_id)->latest()->get();
+
+        }else {
+            $transactions = Transaction::where('supplier_id','=', null)->latest()->get();
+        }
+        
+        $columns = array("Date","Type","Total","Cash","Balance","Change","Status");
+
+        return view('dashboard.general.export.transactions')->with('transactions', $transactions)->with('customer', $customer)
+        ->with('owner', $owner)->with('columns', $columns)->with('from', $from)->with('to', $to);
+    }
+
+    public function exportProducts(Request $request){
+        $products = Product::has('stock')->get();
+        $owner = Customer::where('type', 'owner')->first();
+        $columns = array("Name","Category","Supplier Price","Selling Price","Difference","Quantity");
+
+        return view('dashboard.general.export.products')->with('products', $products)
+        ->with('columns', $columns)->with('owner', $owner);
+    }
 }

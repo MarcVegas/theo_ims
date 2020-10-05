@@ -64,6 +64,11 @@ Route::get('/reports/transactions', 'ReportsController@transactions');
 Route::get('/reports/transaction/{id}', 'ReportsController@customerTransactions');
 Route::get('/reports/products', 'ReportsController@products');
 
+//Report Export Routes
+Route::get('/reports/export/order', 'ReportsController@exportOrders');
+Route::get('/reports/export/product', 'ReportsController@exportProducts');
+Route::get('/reports/export/transaction', 'ReportsController@exportTransactions');
+
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
 
