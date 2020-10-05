@@ -147,8 +147,18 @@ class ReportsController extends Controller
         
         $columns = array("Name","Category","Qnty","Price","Subtotal","Purchased On");
 
-        return view('dashboard.general.export.orders')->with('orders', $orders)->with('customer', $customer)
-        ->with('owner', $owner)->with('columns', $columns)->with('from', $from)->with('to', $to);
+        $pdf = PDF::loadView('dashboard.general.export.orders', [
+            'orders' => $orders,
+            'customer' => $customer,
+            'owner' => $owner,
+            'columns' => $columns,
+            'from' => $from,
+            'to' => $to,
+        ]);
+        $date = Carbon::now();
+        $pdfName = 'OrderReport'.$date.'.pdf';
+
+        return $pdf->download($pdfName);
     }
 
     public function exportTransactions(Request $request){
@@ -185,16 +195,35 @@ class ReportsController extends Controller
         
         $columns = array("Date","Type","Total","Cash","Balance","Change","Status");
 
-        return view('dashboard.general.export.transactions')->with('transactions', $transactions)->with('customer', $customer)
-        ->with('owner', $owner)->with('columns', $columns)->with('from', $from)->with('to', $to);
+        $pdf = PDF::loadView('dashboard.general.export.transactions', [
+            'transactions' => $transactions,
+            'customer' => $customer,
+            'owner' => $owner,
+            'columns' => $columns,
+            'from' => $from,
+            'to' => $to,
+        ]);
+        $date = Carbon::now();
+        $pdfName = 'TransactionReport'.$date.'.pdf';
+
+        return $pdf->download($pdfName);
     }
 
     public function exportProducts(Request $request){
         $products = Product::has('stock')->get();
         $owner = Customer::where('type', 'owner')->first();
         $columns = array("Name","Category","Supplier Price","Selling Price","Difference","Quantity");
+        $date = Carbon::now()->toDateString();
 
-        return view('dashboard.general.export.products')->with('products', $products)
-        ->with('columns', $columns)->with('owner', $owner);
+        $pdf = PDF::loadView('dashboard.general.export.products', [
+            'products' => $products,
+            'owner' => $owner,
+            'columns' => $columns,
+            'date' => $date,
+        ]);
+        $date = Carbon::now();
+        $pdfName = 'ProductList'.$date.'.pdf';
+
+        return $pdf->download($pdfName);
     }
 }

@@ -28,6 +28,13 @@
             padding: .5rem;
             font-weight: bold;
         }
+        .table, th, td {
+            border: 1px solid rgb(36, 35, 35);
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +42,7 @@
         <h3>{{$owner->firstname}} Product List</h3>
         <small>Address: {{$owner->address}}</small><br>
         <small>Contact: {{$owner->contact}}</small>
+        <small>As of: {{$date}}</small>
     </div>
     <div class="container">
         <br>

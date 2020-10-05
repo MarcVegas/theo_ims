@@ -28,11 +28,18 @@
             padding: .5rem;
             font-weight: bold;
         }
+        .table, th, td {
+            border: 1px solid rgb(36, 35, 35);
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="center-aligned">
-        <h3>{{$owner->firstname}} Order List</h3>
+        <h3>{{$owner->firstname}} Order Report</h3>
         <small>Address: {{$owner->address}}</small><br>
         <small>Contact: {{$owner->contact}}</small>
     </div>
