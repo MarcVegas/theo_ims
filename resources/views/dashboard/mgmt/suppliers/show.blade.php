@@ -63,20 +63,26 @@
         <strong>Are you sure you want to permanently remove this supplier? This action cannot be reversed.</strong>
         <br><br>
         @if (count($supplier->product) > 0)
-            <div class="ui secondary inverted red segment">This supplier has several products associated with it. Update those product's supplier detail first if you want
-                to keep them. If not, ALL products associated with this supplier will be DELETED.
+            <div class="ui secondary inverted red segment">This supplier has several products associated with it.
+                Please change the product's supplier or delete the product before removing this supplier.
             </div>
         @endif
     </div>
     <div class="actions">
         <form action="{!! action('SupplierController@destroy', $supplier->id) !!}" method="POST">
+            @if (count($supplier->product) == 0)
+                <div class="ui deny button">
+                    No, I dont
+                </div>
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="ui inverted red button">
+                    Yes, proceed
+                </button>
+            @else 
             <div class="ui deny button">
-                No, I dont
+                Ok, got it
             </div>
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" class="ui inverted red button">
-                Yes, proceed
-            </button>
+            @endif
         </form>
     </div>
 </div>

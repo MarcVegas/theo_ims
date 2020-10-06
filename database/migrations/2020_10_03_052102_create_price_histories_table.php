@@ -15,6 +15,10 @@ class CreatePriceHistoriesTable extends Migration
     {
         Schema::create('price_histories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('supplier');
+            $table->double('old_price');
+            $table->double('new_price');
             $table->timestamps();
         });
     }

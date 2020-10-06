@@ -72,6 +72,9 @@ Route::get('/reports/export/transaction', 'ReportsController@exportTransactions'
 //Quick Order Routes
 Route::get('/quickorder', 'QuickOrderController@quickOrder');
 
+//Notification Routes
+Route::resource('/notifications', 'NotificationController');
+
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
 

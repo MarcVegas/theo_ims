@@ -47,7 +47,7 @@
             <a class="item" href="{{route('restock.index')}}">
                 <div><i class="shopping cart icon"></i>My Orders</div>
             </a>
-            <a class="item">
+            <a class="item" href="{{route('notifications.index')}}">
                 <div><i class="bell icon"></i>Notifications</div>
             </a>
         </div>
