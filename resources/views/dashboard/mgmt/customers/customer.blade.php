@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('datatables')
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+@endpush
 @section('content')
 @include('inc.sidebar')
 @include('inc.navbar')
@@ -9,13 +12,6 @@
             @include('inc.messages')
             <h2><i class="users icon"></i> Customers</h2>
             <div class="ui secondary menu">
-                <div class="item">
-                    <div class="ui form">
-                        <div class="field">
-                            <input type="text" name="search" placeholder="Search customer">
-                        </div>
-                    </div>
-                </div>
                 <div class="right menu">
                     <div class="item">
                         <a class="ui teal button" href="{{route('customers.create')}}"><i class="plus icon"></i> Add Customer</a>
@@ -24,7 +20,7 @@
             </div>
             <div class="ui raised segment">
                 @if ($customers ?? '')
-                    <table class="ui tablet stackable selectable definition table">
+                    <table class="ui tablet stackable selectable definition table" id="customer-table">
                         <thead class="full-width">
                             <tr>
                                 <th>Firstname</th>
@@ -44,7 +40,6 @@
                                     <td class="collapsing">
                                         <a class="ui icon button" href="customers/{{$customer->id}}"><i class="eye icon"></i></a>
                                         <a class="ui icon button" href="customers/{{$customer->id}}/edit"><i class="pencil alternate icon"></i></a>
-                                        <a class="ui icon button" href=""><i class="trash icon"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -60,3 +55,18 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+<script>
+    $(document).ready(function (){
+        $('#customer-table').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+            "order": [],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
+        });
+    });
+</script>
+@endpush

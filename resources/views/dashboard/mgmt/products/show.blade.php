@@ -106,7 +106,10 @@
     <i class="close icon"></i>
     <div class="header"><i class="exclamation triangle red icon"></i> Remove product?</div>
     <div class="content">
-        <strong>Are you sure you want to permanently remove this product? This action cannot be reversed.</strong>
+        <strong>Are you sure you want to permanently remove this product? This action cannot be reversed.</strong><br><br>
+        @if ($product->stock->quantity > 0)
+            <strong>This product still has <label class="ui label">{{$product->stock->quantity}} items</label> in its inventory</strong>
+        @endif
     </div>
     <div class="actions">
         <form action="{!! action('ProductsController@destroy', $product->id) !!}" method="POST">

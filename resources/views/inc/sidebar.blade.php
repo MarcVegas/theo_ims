@@ -73,6 +73,6 @@
         </div>
     </a>
     <div class="item">
-        <a class="ui blue fluid button" href="">Quick Order</a>
+        <a class="ui blue fluid button" href="/quickorder">Quick Order</a>
     </div>
 </div>

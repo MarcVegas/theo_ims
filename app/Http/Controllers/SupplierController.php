@@ -74,7 +74,7 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        $supplier = Supplier::find($id);
+        $supplier = Supplier::with('product')->find($id);
 
         return view('dashboard.mgmt.suppliers.show')->with('supplier', $supplier);
         

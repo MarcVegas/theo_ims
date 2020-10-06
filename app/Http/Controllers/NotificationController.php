@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Transaction;
-use App\Customer;
-use App\Deposit;
 
-class TransactionController extends Controller
+class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +13,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::has('customer')->where('supplier_id','=', null)->latest()->get();
-        $creditCount = Transaction::where('type', 'credit')->count();
-        $sum = Transaction::where('type', 'credit')->sum('balance');
-
-        return view('dashboard.mgmt.transactions.transaction')->with('transactions', $transactions)
-        ->with('count', $creditCount)->with('sum', $sum);
+        return view('dashboard.store.notification.index');
     }
 
     /**
@@ -53,10 +45,7 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $transaction = Transaction::has('customer')->find($id);
-        $deposits = Deposit::where('transaction_id', $id)->get();
-
-        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction)->with('deposits', $deposits);
+        //
     }
 
     /**
@@ -91,11 +80,5 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function invoice($id){
-        $transaction = Transaction::find($id);
-
-        return view('dashboard.order.invoice')->with('transaction', $transaction);
     }
 }

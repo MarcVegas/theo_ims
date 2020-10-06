@@ -20,14 +20,14 @@
                             </div>
                             <div class="header">
                                 <div class="ui teal header">
-                                25
+                                {{$count}}
                                 </div>
                             </div>
                             <div class="meta">
                                 Credit
                             </div>
                             <div class="description">
-                                Number of transactions with unpaid credit
+                                Number of transactions with credit type
                             </div>
                         </div>
                     </div>
@@ -35,32 +35,12 @@
                 <div class="four wide computer eight wide tablet sixteen wide mobile column">
                     <div class="ui fluid card">
                         <div class="content">
-                            <div class="ui right floated header green">
-                                <i class="icon handshake"></i>
-                            </div>
-                            <div class="header">
-                                <div class="ui teal header">
-                                150
-                                </div>
-                            </div>
-                            <div class="meta">
-                                Transactions
-                            </div>
-                            <div class="description">
-                                Total number of transactions listed in the system
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="four wide computer eight wide tablet sixteen wide mobile column">
-                    <div class="ui fluid card">
-                        <div class="content">
-                            <div class="ui right floated header teal">
+                            <div class="ui right floated header orange">
                                 <i class="icon money bill alternate"></i>
                             </div>
                             <div class="header">
-                                <div class="ui teal header">
-                                1500
+                                <div class="ui orange header">
+                                {{$sum}}
                                 </div>
                             </div>
                             <div class="meta">

@@ -29,7 +29,7 @@ class DepositController extends Controller
             $deposit->transaction_id = $transaction_id;
             $deposit->save();
 
-            $this->updateBalance($transaction_id,$remaining_balance);
+            $this->updateBalance($transaction_id,$remaining_balance, $deposit_amount);
 
             return redirect('/transactions/'.$transaction_id)->with('success', 'Deposit has been successfuly recorded');
         }else {
@@ -37,8 +37,12 @@ class DepositController extends Controller
         }
     }
 
-    public function updateBalance($transaction_id, $remaining_balance){
+    public function updateBalance($transaction_id, $remaining_balance, $deposit_amount){
         $transaction = Transaction::find($transaction_id);
+        $cash = $transaction->cash;
+        $addedCash = $cash + $deposit_amount;
+
+        $transaction->cash = $addedCash;
         $transaction->balance = $remaining_balance;
         if ($remaining_balance == 0) {
             $transaction->status = 'paid';

@@ -48,7 +48,6 @@
                                     <td class="collapsing">
                                         <a class="ui icon button" href="products/{{$product->id}}"><i class="eye icon"></i></a>
                                         <a class="ui icon button" href="products/{{$product->id}}/edit"><i class="pencil alternate icon"></i></a>
-                                        <button class="ui icon delete button"><i class="trash icon"></i></button>
                                     </td>
                                 </tr>
                             @endforeach

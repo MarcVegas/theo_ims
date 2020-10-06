@@ -61,6 +61,12 @@
     <div class="header"><i class="exclamation triangle red icon"></i> Remove supplier?</div>
     <div class="content">
         <strong>Are you sure you want to permanently remove this supplier? This action cannot be reversed.</strong>
+        <br><br>
+        @if (count($supplier->product) > 0)
+            <div class="ui secondary inverted red segment">This supplier has several products associated with it. Update those product's supplier detail first if you want
+                to keep them. If not, ALL products associated with this supplier will be DELETED.
+            </div>
+        @endif
     </div>
     <div class="actions">
         <form action="{!! action('SupplierController@destroy', $supplier->id) !!}" method="POST">

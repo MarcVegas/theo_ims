@@ -77,7 +77,7 @@
                                     <td>{{$credit->balance}}</td>
                                     <td><label class="{{($credit->status == 'credit') ? 'ui basic teal label' : 'ui basic green label'}}">{{$credit->status}}</label></td>
                                     <td class="center aligned">
-                                        <a class="ui button" href="{{$credit->id}}"><i class="eye icon"></i> View</a>
+                                        <a class="ui button" href="/transactions/{{$credit->id}}"><i class="eye icon"></i> View</a>
                                     </td>
                                 </tr>
                             @endforeach
