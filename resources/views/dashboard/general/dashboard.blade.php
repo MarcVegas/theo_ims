@@ -183,8 +183,6 @@
         <p style="font-weight: bolder">This counts the total number of orders made during the current month. Please take note that these include 
           orders from the supplier.</p>
       </div>
-      {{-- <b>This counts the total number of orders made during the current month. Please take note that these include 
-        orders from the supplier.</b> --}}
     </div>
     <div class="actions">
       <div class="ui deny button">Ok, got it!</div>

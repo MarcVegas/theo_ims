@@ -143,7 +143,7 @@ class SupplierController extends Controller
     }
 
     public function getProducts($id){
-        $products = Product::has('stock')->where('supplier_id', $id)->get();
+        $products = Product::has('stock')->where('supplier_id', $id)->where('removed', false)->get();
 
         return view('dashboard.mgmt.suppliers.productlist')->with('products', $products);
     }

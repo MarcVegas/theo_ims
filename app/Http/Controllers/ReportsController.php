@@ -103,7 +103,7 @@ class ReportsController extends Controller
     }
 
     public function products(){
-        $products = Product::has('stock')->get();
+        $products = Product::has('stock')->where('removed', false)->get();
         $columns = array("Name","Category","Supplier Price","Selling Price","Difference","Quantity");
         
         return view('dashboard.general.producttable')->with('products', $products)->with('columns', $columns);
@@ -210,7 +210,7 @@ class ReportsController extends Controller
     }
 
     public function exportProducts(Request $request){
-        $products = Product::has('stock')->get();
+        $products = Product::has('stock')->where('removed', false)->get();
         $owner = Customer::where('type', 'owner')->first();
         $columns = array("Name","Category","Supplier Price","Selling Price","Difference","Quantity");
         $date = Carbon::now()->toDateString();

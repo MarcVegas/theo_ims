@@ -131,7 +131,7 @@ class OrdersController extends Controller
     public function shop($id)
     {
         $customer = Customer::find($id);
-        $products = Product::has('stock')->get();
+        $products = Product::has('stock')->where('removed', false)->get();
 
         return view('dashboard.order.index')->with('customer', $customer)->with('products', $products);
     }

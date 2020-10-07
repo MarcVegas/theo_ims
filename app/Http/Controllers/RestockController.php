@@ -98,7 +98,7 @@ class RestockController extends Controller
     public function show($id)
     {
         $customer = Customer::where('type', 'owner')->first();
-        $products = Product::has('stock')->where('supplier_id', $id)->get();
+        $products = Product::has('stock')->where('supplier_id', $id)->where('removed', false)->get();
         $supplier = Supplier::select('id','business_name')->find($id);
 
         return view('dashboard.store.myorders.myorder')->with('products', $products)

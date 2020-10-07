@@ -18,7 +18,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::has('stock')->get();
+        $products = Product::has('stock')->where('removed', false)->get();
 
         return view('dashboard.mgmt.products.product')->with('products', $products);
     }
@@ -210,11 +210,14 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
+        /* $product = Product::find($id);
         $product->delete();
 
         $stock = Stock::where('product_id','=', $id)->get();
-        $stock->delete();
+        $stock->delete(); */
+        $product = Product::find($id);
+        $product->removed = true;
+        $product->save();
 
         return redirect()->route('products.index')->with('success', 'Product removed successfully');
     }
