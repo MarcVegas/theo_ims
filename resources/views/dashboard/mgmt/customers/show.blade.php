@@ -109,6 +109,7 @@
         </div>
         <div class="actions">
             <form action="{!! action('CustomerController@destroy', $customer->id) !!}" method="POST">
+                @csrf
                 <div class="ui deny button">
                     No, I dont
                 </div>

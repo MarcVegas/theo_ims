@@ -17,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where('type','<>', 'owner')->get();
+        $customers = Customer::where('type','<>', 'owner')->where('removed', false)->get();
 
         return view('dashboard.mgmt.customers.customer')->with('customers', $customers);
     }
@@ -80,7 +80,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::with('transaction')->find($id);
-        $credits = Transaction::where('type', 'credit')->where('customer_id', $id)->latest()->get();
+        $credits = Transaction::where('type', 'credit')->where('status','<>', 'paid')->where('customer_id', $id)->latest()->get();
         $receivable = Transaction::where('type', 'credit')->where('customer_id', $id)->sum('balance');
 
         return view('dashboard.mgmt.customers.show')->with('customer', $customer)
@@ -151,8 +151,9 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = Customer::find($id);
-        $customer->delete();
+        $customer->removed = true;
+        $customer->save();
 
-        return redirect()->route('customer.index')->with('success', 'Customer successfuly removed');
+        return redirect()->route('customers.index')->with('success', 'Customer successfuly removed');
     }
 }
