@@ -16,7 +16,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::where('removed', false)->get();
 
         return view('dashboard.mgmt.suppliers.supplier')->with('suppliers', $suppliers);
     }
@@ -137,7 +137,9 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         $supplier = Supplier::find($id);
-        $supplier->delete();
+        //$supplier->delete();
+        $supplier->removed = true;
+        $supplier->save();
 
         return redirect()->route('suppliers.index')->with('success', 'Supplier has been removed');
     }

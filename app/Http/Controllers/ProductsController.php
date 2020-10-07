@@ -30,7 +30,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::where('removed', false)->get();
         $categories = Category::select('title')->get();
 
         return view('dashboard.mgmt.products.create')->with('suppliers', $suppliers)->with('categories', $categories);
@@ -59,7 +59,7 @@ class ProductsController extends Controller
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('photo')->getClientOriginalExtension();
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            $path = $request->file('photo')->storeAs('public/images', $fileNameToStore);
+            $path = $request->file('photo')->storeAs('public/uploads', $fileNameToStore);
         }
 
         //Compute price differece
@@ -162,7 +162,7 @@ class ProductsController extends Controller
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('photo')->getClientOriginalExtension();
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            $path = $request->file('photo')->storeAs('public/images', $fileNameToStore);
+            $path = $request->file('photo')->storeAs('public/uploads', $fileNameToStore);
         }
 
         //Compute price differece

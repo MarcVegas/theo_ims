@@ -94,7 +94,7 @@
                 <div class="six wide column">
                     <div class="ui raised center aligned segment">
                         <br>
-                        <img class="ui small rounded centered image" src="/storage/images/product.png" alt=""><br>
+                        <img class="ui small rounded centered image" src="/storage/uploads/{{$product->image}}" alt=""><br>
                         <input type="file" (change)="fileEvent($event)" form="product-form" class="inputfile" name="photo" id="photo"/>
                     </div>
                 </div>

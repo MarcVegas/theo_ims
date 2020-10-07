@@ -86,6 +86,7 @@
     </div>
     <div class="actions">
         <form action="{!! action('SupplierController@destroy', $supplier->id) !!}" method="POST">
+            @csrf
             @if (count($supplier->product) == 0)
                 <div class="ui deny button">
                     No, I dont
@@ -95,9 +96,9 @@
                     Yes, proceed
                 </button>
             @else 
-            <div class="ui deny button">
-                Ok, got it
-            </div>
+                <div class="ui deny button">
+                    Ok, got it
+                </div>
             @endif
         </form>
     </div>
