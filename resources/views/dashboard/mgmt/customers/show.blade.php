@@ -46,8 +46,8 @@
                 </div>
             </div>
             <div class="ui secondary menu">
-                <div class="header item">
-                    Recent Credit Transaction
+                <div class="item">
+                    <button class="ui inverted red delete button"><i class="trash alternate outline icon"></i> Remove Customer</button>
                 </div>
                 <div class="right menu">
                     <div class="item">
@@ -55,6 +55,7 @@
                     </div>
                 </div>
             </div>
+            <h3>Recent Credit Transaction</h3>
             <div class="ui segment">
                 @if ($credits ?? '')
                     <table class="ui tablet stackable selectable definition table" id="transaction-table">
@@ -95,7 +96,7 @@
 <div class="ui mini modal">
     <i class="close icon"></i>
     <div class="header"><i class="exclamation triangle red icon"></i>Remove customer?</div>
-    @if ($credits ?? '')
+    @if (count($credits) > 0)
         <div class="content">
             <strong>Cannot delete customer with one or more unpaid or partialy paid credit transactions. Please resolve these transactions first</strong>
         </div>

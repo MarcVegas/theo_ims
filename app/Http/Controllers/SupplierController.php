@@ -141,4 +141,10 @@ class SupplierController extends Controller
 
         return redirect()->route('suppliers.index')->with('success', 'Supplier has been removed');
     }
+
+    public function getProducts($id){
+        $products = Product::has('stock')->where('supplier_id', $id)->get();
+
+        return view('dashboard.mgmt.suppliers.productlist')->with('products', $products);
+    }
 }

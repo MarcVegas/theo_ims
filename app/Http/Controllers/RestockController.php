@@ -23,8 +23,10 @@ class RestockController extends Controller
     public function index()
     {
         $transactions = Transaction::where('supplier_id','<>', '')->get();
+        $sum = Transaction::where('supplier_id','<>', '')->sum('balance');
 
-        return view('dashboard.store.myorders.index')->with('transactions', $transactions);
+        return view('dashboard.store.myorders.index')->with('transactions', $transactions)
+        ->with('sum', $sum);
     }
 
     /**
@@ -68,9 +70,9 @@ class RestockController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->restock($transaction_id);
                 $this->clearCart($customer_id);
-                return redirect('/restock/owner/complete'.$transaction_id);
+                return redirect('/restock/owner/complete/'.$transaction_id);
             }else {
-                return redirect('/restock/owner/checkout'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
+                return redirect('/restock/owner/checkout/'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
             }
         }elseif ($type == 'credit') {
             if ($cash < $total) {
@@ -79,9 +81,9 @@ class RestockController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->restock($transaction_id);
                 $this->clearCart($customer_id);
-                return redirect('/orders/owner/complete'.$transaction_id);
+                return redirect('/orders/owner/complete/'.$transaction_id);
             }else{
-                return redirect('/restock/owner/checkout'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
+                return redirect('/restock/owner/checkout/'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');
             }
         }
     }
@@ -181,10 +183,6 @@ class RestockController extends Controller
     }
 
     public function saveOrder($customer_id, $transaction_id){
-        /* $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
-        ->select('products.id','products.selling_price', 'carts.cart_quantity')
-        ->where('carts.customer_id','=', $customer_id)->get(); */
-
         $carts = Cart::with('product', 'stock')->where('customer_id', $customer_id)->get();
 
         foreach ($carts as $item) {
@@ -200,7 +198,7 @@ class RestockController extends Controller
     }
 
     public function restock($transaction_id){
-        $order = Order::select('product_id','order_quantity','transaction_id')->has('stock')->where('transaction_id', $transaction_id);
+        $order = Order::with('stock')->where('transaction_id', $transaction_id)->get();
 
         try {
             foreach ($order as $item) {

@@ -6,40 +6,56 @@
 <div class="pusher">
     <div class="main-content">
         <div class="ui basic segment padded">
+            @include('inc.messages')
+            <div class="ui tabular menu">
+                <a class="item active" data-tab="first">
+                    Details
+                </a>
+                <a class="product item" data-tab="second">
+                    Products
+                </a>
+            </div>
             <div class="ui stackable padded grid">
                 <div class="ten wide column">
-                    <div class="ui raised segment">
-                        @include('inc.messages')
-                        <h2><i class="warehouse icon"></i> Supplier Details</h2>
-                        <div class="ui equal width form">
-                            <div class="field">
-                                <label>Business Name</label>
-                                <input type="text" name="name" id="name" value="{{$supplier->business_name}}" readonly>
-                            </div>
-                            <div class="field">
-                                <label>Address</label>
-                                <input type="text" name="address" id="address" value="{{$supplier->address}}" readonly>
-                            </div>
-                            <br>
-                            <h4>Optional Details</h4>
-                            <div class="fields">
+                    <div class="ui basic active tab segment" data-tab="first">
+                        <div class="ui raised segment">
+                            <h2><i class="warehouse icon"></i> Supplier Details</h2>
+                            <div class="ui equal width form">
                                 <div class="field">
-                                    <label>Order Cutoff</label>
-                                    <input type="date" name="order_cutoff" id="order_cutoff" value="{{$supplier->order_cutoff}}" readonly>
+                                    <label>Business Name</label>
+                                    <input type="text" name="name" id="name" value="{{$supplier->business_name}}" readonly>
                                 </div>
                                 <div class="field">
-                                    <label>Payment Cutoff</label>
-                                    <input type="date" name="payment_cutoff" id="payment_cutoff" value="{{$supplier->payment_cutoff}}" readonly>
+                                    <label>Address</label>
+                                    <input type="text" name="address" id="address" value="{{$supplier->address}}" readonly>
                                 </div>
-                                <div class="field">
-                                    <label>Shipment Date</label>
-                                    <input type="date" name="shipment_date" id="shipment_date" value="{{$supplier->shipment_date}}" readonly>
+                                <br>
+                                <h4>Optional Details</h4>
+                                <div class="fields">
+                                    <div class="field">
+                                        <label>Order Cutoff</label>
+                                        <input type="date" name="order_cutoff" id="order_cutoff" value="{{$supplier->order_cutoff}}" readonly>
+                                    </div>
+                                    <div class="field">
+                                        <label>Payment Cutoff</label>
+                                        <input type="date" name="payment_cutoff" id="payment_cutoff" value="{{$supplier->payment_cutoff}}" readonly>
+                                    </div>
+                                    <div class="field">
+                                        <label>Shipment Date</label>
+                                        <input type="date" name="shipment_date" id="shipment_date" value="{{$supplier->shipment_date}}" readonly>
+                                    </div>
                                 </div>
+                                <input type="hidden" name="_method" value="PUT">
+                                <a class="ui button" href="{{route('suppliers.index')}}"><i class="chevron left icon"></i> Back</a>
+                                <a class="ui blue right floated button" href="{{$supplier->id}}/edit"><i class="edit icon"></i> Edit</a>
+                                <button class="ui inverted red icon right floated delete button"><i class="trash icon"></i> Delete</button>
                             </div>
-                            <input type="hidden" name="_method" value="PUT">
-                            <a class="ui button" href="{{route('suppliers.index')}}"><i class="chevron left icon"></i> Back</a>
-                            <a class="ui blue right floated button" href="{{$supplier->id}}/edit"><i class="edit icon"></i> Edit</a>
-                            <button class="ui inverted red icon right floated delete button"><i class="trash icon"></i> Delete</button>
+                        </div>
+                    </div>
+                    <div class="ui basic tab segment" id="product-tab" data-tab="second">
+                        <div class="ui basic center aligned segment">
+                            <i class="notched circle loading big icon"></i>
+                            <h3>Fetching data...</h3>
                         </div>
                     </div>
                 </div>
@@ -91,7 +107,28 @@
 @push('ajax')
 <script>
     $(document).ready(function (){
+        var supplier_id = "{{$supplier->id}}";
+
         $('.mini.modal').modal('attach events', '.delete.button', 'show');
+
+        function getProducts() {
+            $.ajax({
+                    type: "GET",
+                    url: '/supplier/product/' + supplier_id,
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#product-tab').html(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        $('.product.item').click(function () {
+            getProducts();
+        });
     });
 </script>
 @endpush

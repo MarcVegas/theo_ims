@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Transaction;
 use App\Customer;
 use App\Deposit;
+use App\Order;
 
 class TransactionController extends Controller
 {
@@ -97,5 +98,11 @@ class TransactionController extends Controller
         $transaction = Transaction::find($id);
 
         return view('dashboard.order.invoice')->with('transaction', $transaction);
+    }
+
+    public function getOrders($id){
+        $orders = Order::has('product')->where('transaction_id', $id)->get();
+
+        return view('dashboard.mgmt.transactions.orderlist')->with('orders', $orders);
     }
 }

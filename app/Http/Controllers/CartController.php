@@ -25,6 +25,18 @@ class CartController extends Controller
         return view('dashboard.order.cart')->with('carts', $carts)->with('subtotal', $total);
     }
 
+    public function getRestockCart($id){
+        $carts = Cart::with('product', 'stock')->where('customer_id', $id)->get();
+
+        $total = 0;
+        foreach ($carts as $item) {
+            $subtotal = $item->stock->supplier_price * $item->cart_quantity;
+            $total += $subtotal;
+        }
+
+        return view('dashboard.store.myorders.cart')->with('carts', $carts)->with('subtotal', $total);
+    }
+
     public function setOrdered($id){
         $carts = Cart::select('product_id','customer_id')->where('customer_id', $id)->get()->toJson();
 

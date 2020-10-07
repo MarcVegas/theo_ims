@@ -180,7 +180,7 @@
         function getCart() {
             $.ajax({
                     type: "GET",
-                    url: '/cart/' + customer_id,
+                    url: '/cart/restock/' + customer_id,
                     data: "",
                     cache: false,
                     success: function (data) {

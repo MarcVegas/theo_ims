@@ -34,6 +34,7 @@ Route::resource('/restock', 'RestockController');
 
 //Cart
 Route::get('/cart/{id}', 'CartController@getCart');
+Route::get('/cart/restock/{id}', 'CartController@getRestockCart');
 Route::get('/cart/ordered/{id}', 'CartController@setOrdered');
 Route::post('/cart', 'CartController@store');
 Route::delete('/cart/remove', 'CartController@removeItem');
@@ -74,6 +75,12 @@ Route::get('/quickorder', 'QuickOrderController@quickOrder');
 
 //Notification Routes
 Route::resource('/notifications', 'NotificationController');
+
+//Transaction Orders Route
+Route::get('/transaction/order/{id}', 'TransactionController@getOrders');
+
+//Supplier Product Route
+Route::get('/supplier/product/{id}', 'SupplierController@getProducts');
 
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');

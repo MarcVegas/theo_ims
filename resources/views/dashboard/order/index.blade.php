@@ -189,6 +189,7 @@
                         if (data != null) {
                             $('.checkout.button').removeClass('disabled');
                             $('.cancel.button').removeClass('disabled');
+                            console.log(data);
                         }
                     },
                     error: function(data) {
