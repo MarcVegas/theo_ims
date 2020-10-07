@@ -20,4 +20,8 @@ class Transaction extends Model
     public function deposit(){
         return $this->hasMany('App\Deposit', 'transaction_id');
     }
+
+    public function supplier(){
+        return $this->belongsTo('App\Supplier');
+    }
 }

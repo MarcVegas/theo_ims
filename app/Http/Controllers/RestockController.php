@@ -23,10 +23,11 @@ class RestockController extends Controller
     public function index()
     {
         $transactions = Transaction::where('supplier_id','<>', '')->get();
+        $credit = Transaction::where('supplier_id','<>', '')->where('type', 'credit')->count();
         $sum = Transaction::where('supplier_id','<>', '')->sum('balance');
 
         return view('dashboard.store.myorders.index')->with('transactions', $transactions)
-        ->with('sum', $sum);
+        ->with('credit', $credit)->with('sum', $sum);
     }
 
     /**

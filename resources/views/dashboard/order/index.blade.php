@@ -27,7 +27,7 @@
             </div>
             <div class="ui secondary menu">
                 <div class="item">
-                    <button class="ui inverted red cancel button">Cancel Order</button>
+                    <button class="ui inverted red cancel disabled button">Cancel Order</button>
                 </div>
                 <div class="right menu">
                     <div class="item">
@@ -186,10 +186,9 @@
                         $('#total').val(subtotal);
                         setOrdered();
                         getCartCount();
-                        if (data != null) {
+                        if (data != '') {
                             $('.checkout.button').removeClass('disabled');
                             $('.cancel.button').removeClass('disabled');
-                            console.log(data);
                         }
                     },
                     error: function(data) {

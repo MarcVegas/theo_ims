@@ -5,7 +5,9 @@
             {{$item->name}}
         </div>
     @endforeach
-    <input type="hidden" name="subtotal" id="subtotal" value="{{$subtotal}}">
+    @if (count($carts) > 0)
+        <input type="hidden" name="subtotal" id="subtotal" value="{{$subtotal}}">
+    @endif
 @else
     <div class="header item">No items added</div>
 @endif

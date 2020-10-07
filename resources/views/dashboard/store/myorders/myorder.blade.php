@@ -189,7 +189,7 @@
                         $('#total').val(subtotal);
                         setOrdered();
                         getCartCount();
-                        if (data != null) {
+                        if (data != '') {
                             $('.checkout.button').removeClass('disabled');
                             $('.cancel.button').removeClass('disabled');
                         }

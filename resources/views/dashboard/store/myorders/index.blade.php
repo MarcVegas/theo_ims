@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('datatables')
-  {{-- <script src="{{ asset('js/datatables.min.js') }}" defer></script> --}}
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
 @endpush
 @section('content')
 @include('inc.sidebar')
@@ -20,7 +20,7 @@
                             </div>
                             <div class="header">
                                 <div class="ui teal header">
-                                25
+                                    {{$credit ?? 'No Credit'}}
                                 </div>
                             </div>
                             <div class="meta">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="header">
                                 <div class="ui orange header">
-                                {{$sum ?? 'Zero Balance'}}
+                                    {{$sum ?? 'Zero Balance'}}
                                 </div>
                             </div>
                             <div class="meta">
@@ -58,7 +58,7 @@
                     <table class="ui tablet stackable selectable definition table" id="transaction-table">
                         <thead class="full-width">
                             <tr>
-                                <th>Name</th>
+                                <th>Ordered from</th>
                                 <th>Type</th>
                                 <th>Total</th>
                                 <th>Cash</th>
@@ -70,12 +70,12 @@
                         <tbody>
                             @foreach ($transactions as $transaction)
                                 <tr>
-                                    <td>{{$transaction->customer->firstname}} {{$transaction->customer->lastname}}</td>
+                                    <td>{{$transaction->supplier->business_name}}</td>
                                     <td><label class="{{($transaction->type == 'credit') ? 'ui teal label' : 'ui green label'}}">{{$transaction->type}}</label></td>
                                     <td>{{$transaction->total}}</td>
                                     <td>{{$transaction->cash}}</td>
                                     <td>{{$transaction->balance}}</td>
-                                    <td><label class="ui teal label">{{$transaction->status}}</label></td>
+                                    <td><label class="{{($transaction->status == 'paid') ? 'ui basic green label' : 'ui basic blue label'}}">{{$transaction->status}}</label></td>
                                     <td class="center aligned">
                                         <a class="ui button" href="/transactions/{{$transaction->id}}"><i class="eye icon"></i> View</a>
                                     </td>
@@ -97,9 +97,9 @@
 @push('ajax')
 <script>
     $(document).ready(function (){
-        /* $('#transaction-table').DataTable({
+        $('#transaction-table').DataTable({
             "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]
-        }); */
+        });
     });
 </script>
 @endpush
