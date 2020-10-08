@@ -17,7 +17,10 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::has('customer')->where('supplier_id','=', null)->latest()->get();
+        $transactions = cache()->remember('transactions-all', 60*60*24, function (){
+            return Transaction::has('customer')->where('supplier_id','=', null)->latest()->get();
+        });
+        
         $creditCount = Transaction::where('type', 'credit')->count();
         $sum = Transaction::where('type', 'credit')->sum('balance');
 

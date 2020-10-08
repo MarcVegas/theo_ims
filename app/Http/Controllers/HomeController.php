@@ -29,6 +29,7 @@ class HomeController extends Controller
     {
         $from = Carbon::now()->startOfMonth();
         $to = Carbon::now()->endOfMonth();
+        $expires = Carbon::now()->addHours(24);
 
         $orderCount = Order::whereBetween('created_at',[$from, $to])->count();
         $miscellaneous = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
@@ -40,13 +41,17 @@ class HomeController extends Controller
         $grossTotal = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('cash');
         $netTotal = $grossTotal - $expense;
 
-        $bestProducts = Order::has('product')->whereHas('transaction', function($q){
-            $q->where('supplier_id', null);
-        })->whereBetween('created_at',[$from, $to])->selectRaw('sum(order_quantity) as sum,product_id')
-        ->groupBy('product_id')->orderBy('sum', 'desc')->take(5)->get();
+        $bestProducts = cache()->remember('best-products', $expires, function () use ($from, $to){
+            return Order::has('product')->whereHas('transaction', function($q){
+                $q->where('supplier_id', null);
+            })->whereBetween('created_at',[$from, $to])->selectRaw('sum(order_quantity) as sum,product_id')
+            ->groupBy('product_id')->orderBy('sum', 'desc')->take(5)->get();
+        });
 
-        $bestCustomers = Transaction::has('customer')->where('supplier_id', null)->whereBetween('created_at',[$from, $to])
-        ->selectRaw('sum(cash) as sum,customer_id')->groupBy('customer_id')->orderBy('sum', 'desc')->take(5)->get();
+        $bestCustomers = cache()->remember('best-customers', $expires, function () use ($from,$to){
+            return Transaction::has('customer')->where('supplier_id', null)->whereBetween('created_at',[$from, $to])
+            ->selectRaw('sum(cash) as sum,customer_id')->groupBy('customer_id')->orderBy('sum', 'desc')->take(5)->get();
+        });
 
         return view('dashboard.general.dashboard')->with('bestProducts', $bestProducts)
         ->with('bestCustomers', $bestCustomers)->with('orderCount', $orderCount)

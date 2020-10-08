@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Customer;
 use App\Transaction;
 use App\User;
@@ -17,7 +18,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where('type','<>', 'owner')->where('removed', false)->get();
+        $expires = Carbon::now()->addHours(24);
+        $customers = cache()->remember('customers-all', $expires, function (){
+            return Customer::where('type','<>', 'owner')->where('removed', false)->get();
+        });
 
         return view('dashboard.mgmt.customers.customer')->with('customers', $customers);
     }
@@ -67,6 +71,8 @@ class CustomerController extends Controller
         $customer->address = $request->input('address');
         $customer->type = $request->input('type');
         $customer->save();
+
+        cache()->forget('customers-all');
 
         return redirect()->route('customers.index')->with('success', 'Customer successfuly added');
     }
@@ -134,6 +140,8 @@ class CustomerController extends Controller
         $customer->address = $request->input('address');
         $customer->contact = $request->input('contact');
         $customer->save();
+
+        cache()->forget('customers-all');
 
         if ($type == 'owner') {
             return redirect()->route('profile.index')->with('success', 'Business info successfuly updated');

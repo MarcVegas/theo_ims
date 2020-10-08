@@ -90,6 +90,7 @@ class OrdersController extends Controller
     public function show($id)
     {
         $transaction = Transaction::has('customer')->find($id);
+        cache()->forget('transactions-all');
 
         return view('dashboard.order.complete')->with('transaction', $transaction);
     }

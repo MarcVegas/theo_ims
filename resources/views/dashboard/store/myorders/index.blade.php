@@ -47,7 +47,7 @@
                                 Accounts Payable
                             </div>
                             <div class="description">
-                                Total collectible sum from credit type transactions
+                                Total payable sum from credit type transactions
                             </div>
                         </div>
                     </div>
