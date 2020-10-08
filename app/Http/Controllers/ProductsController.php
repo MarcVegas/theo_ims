@@ -19,8 +19,10 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::has('stock')->where('removed', false)->get();
-
+        $products = cache()->remember('products-all', 60*60*24, function (){
+            return Product::has('stock')->where('removed', false)->get();
+        });
+        
         return view('dashboard.mgmt.products.product')->with('products', $products);
     }
 
@@ -102,6 +104,8 @@ class ProductsController extends Controller
         $stock->net_amount = $net_amount;
         $stock->product_id = $product_id;
         $stock->save();
+
+        cache()->forget('products-all');
 
         return redirect()->route('products.index')->with('success', 'Product added successfully');
     }
@@ -200,6 +204,8 @@ class ProductsController extends Controller
         $stock->net_amount = $net_amount;
         $stock->save();
 
+        cache()->forget('products-all');
+
         return redirect()->route('products.index')->with('success', 'Product updated successfuly');
     }
 
@@ -222,5 +228,13 @@ class ProductsController extends Controller
         $product = Product::with('stock')->find($id)->toJson();
 
         return $product;
+    }
+
+    public function getNoStock(){
+        $nostocks = Product::whereHas('stock', function ($q) {
+            $q->where('quantity', 0);
+        })->where('removed', false)->get();
+
+        return view('dashboard.mgmt.products.nostock')->with('nostocks', $nostocks);
     }
 }

@@ -8,17 +8,23 @@
 @include('inc.navbar')
 <div class="pusher">
     <div class="main-content">
-        <div class="ui basic segment padded">
+        <div class="ui basic segment">
             @include('inc.messages')
             <h2><i class="boxes icon"></i> My Products</h2>
             <div class="ui secondary menu">
+                <div class="item active" data-tab="first">
+                    Products
+                </div>
+                <div class="nostock item" data-tab="second">
+                    Out of Stock <label class="ui orange label" id="nostock-count">0</label>
+                </div>
                 <div class="right menu">
                     <div class="item">
                         <a class="ui teal button" href="{{route('products.create')}}"><i class="plus icon"></i> Add Product</a>
                     </div>
                 </div>
             </div>
-            <div class="ui raised segment">
+            <div class="ui raised active tab segment" data-tab="first">
                 @if ($products ?? '')
                     <table class="ui tablet stackable selectable definition table" id="product-table">
                         <thead class="full-width">
@@ -59,6 +65,9 @@
                     </div>
                 @endif
             </div>
+            <div class="ui raised tab segment" id="nostock-tab" data-tab="second">
+
+            </div>
         </div>
     </div>
 </div>
@@ -67,6 +76,8 @@
 @push('ajax')
 <script>
     $(document).ready(function (){
+        var count;
+
         $('#product-table').DataTable({
             "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
             "order": [],
@@ -75,6 +86,25 @@
                 "orderable": false,
             }]
         });
+
+        function getNoStocks() {
+            $.ajax({
+                    type: "GET",
+                    url: '/product/nostock/all',
+                    data: "",
+                    cache: false,
+                    success: function (data) {
+                        $('#nostock-tab').html(data);
+                        count = $('#stockcount').val();
+                        $('#nostock-count').text(count);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+       getNoStocks();
     });
 </script>
 @endpush

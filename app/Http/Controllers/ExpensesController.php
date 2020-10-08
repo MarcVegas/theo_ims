@@ -15,9 +15,16 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::all();
+        $from = Carbon::now()->startOfMonth();
+        $to = Carbon::now()->endOfMonth();
 
-        return view('dashboard.other.expenses.index')->with('expenses', $expenses);
+        $expenses = cache()->remember('expenses-all', 60*60*24, function (){
+            return Expense::all();
+        });
+
+        $total = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
+
+        return view('dashboard.other.expenses.index')->with('expenses', $expenses)->with('total',$total);
     }
 
     /**
@@ -54,6 +61,8 @@ class ExpensesController extends Controller
         }
         $expense->expense_date = $date;
         $expense->save();
+
+        cache()->forget('expenses-all');
 
         return redirect()->route('expenses.index')->with('success', 'Expense successfuly added');
     }
@@ -106,6 +115,8 @@ class ExpensesController extends Controller
             $expense->description = $request->input('description');
         }
         $expense->save();
+
+        cache()->forget('expenses-all');
 
         return redirect()->route('expenses.index')->with('success', 'Expense successfuly updated');
     }

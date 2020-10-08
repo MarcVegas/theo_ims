@@ -78,11 +78,7 @@
                                         @endif
                                     </td>
                                     <td class="center aligned">
-                                        @if ($product->stock->quantity > 0)
-                                            <div class="ui orange fluid order button" id="{{$product->id}}">ORDER</div>
-                                        @else
-                                            <button class="ui orange fluid disabled button">ORDER</button>
-                                        @endif
+                                        <div class="ui orange fluid order button" id="{{$product->id}}">ORDER</div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -246,7 +242,6 @@
                     cache: false,
                     success: function (data) {
                         $('#product_name').val(data.name);
-                        $('#cart_quantity').attr("max", data.stock.quantity);
                         $('#product_image').attr("src","/storage/uploads/"+data.image);
                         $('.order.modal').modal('show');
                     },

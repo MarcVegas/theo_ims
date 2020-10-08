@@ -10,39 +10,13 @@
             <div class="ui stackable three column padded grid">
                 <div class="column">
                     <div class="ui horizontal segments">
-                        <div class="ui inverted blue center aligned padded segment">
-                            <i class="money bill alternate outline huge icon"></i>
-                        </div>
-                        <div class="ui segment">
-                            <h2 class="ui header">
-                            0
-                                <div class="sub header">Monthly Gross Income</div>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui horizontal segments">
                         <div class="ui inverted teal center aligned padded segment">
                             <i class="dollar sign huge icon"></i>
                         </div>
                         <div class="ui segment">
                             <h2 class="ui header">
-                            500
-                                <div class="sub header">Monthly Total Expenses</div>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui horizontal segments">
-                        <div class="ui inverted orange center aligned padded segment">
-                            <i class="bullseye huge icon"></i>
-                        </div>
-                        <div class="ui segment">
-                            <h2 class="ui header">
-                            0
-                                <div class="sub header">Monthly Net Amount</div>
+                            {{$total}}
+                                <div class="sub header">Total Expenses for the current month</div>
                             </h2>
                         </div>
                     </div>
