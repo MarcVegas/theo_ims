@@ -31,10 +31,13 @@ class HomeController extends Controller
         $to = Carbon::now()->endOfMonth();
 
         $orderCount = Order::whereBetween('created_at',[$from, $to])->count();
-        $expense = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
-        $grossTotal = Order::whereHas('transaction', function($q){
+        $miscellaneous = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
+        $restockExpense = Transaction::where('supplier_id','<>', null)->whereBetween('created_at',[$from, $to])->sum('cash');
+        $expense = $miscellaneous + $restockExpense;
+        /* $grossTotal = Order::whereHas('transaction', function($q){
             $q->where('supplier_id', null)->where('type','<>', 'credit');
-        })->whereBetween('created_at',[$from, $to])->sum('subtotal');
+        })->whereBetween('created_at',[$from, $to])->sum('subtotal'); */
+        $grossTotal = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('cash');
         $netTotal = $grossTotal - $expense;
 
         $bestProducts = Order::has('product')->whereHas('transaction', function($q){

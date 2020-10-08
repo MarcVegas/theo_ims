@@ -193,8 +193,8 @@
     <div class="header"><i class="info blue icon"></i> More Info</div>
     <div class="content">
       <div class="ui large message">
-        <p style="font-weight: bolder">This sums the total expenses made during the current month. Please take note that this does not
-          include orders from supplier as an expense.<br><br> For a more detailed summation please visit the report tab.</p>
+        <p style="font-weight: bolder">This sums the total expenses made during the current month. Please take note that this automatically
+          includes orders from supplier as a business expense.<br><br> For a more detailed summation please visit the report tab.</p>
       </div>
     </div>
     <div class="actions">
@@ -219,7 +219,7 @@
     <div class="header"><i class="info blue icon"></i> More Info</div>
     <div class="content">
       <div class="ui large message">
-        <p style="font-weight: bolder">This is the result of deducting the gross total amount from the total expenses. 
+        <p style="font-weight: bolder">This is the result of deducting expenses from gross income. 
           <br><br> For a more detailed summation please visit the report tab.</p>
       </div>
     </div>
