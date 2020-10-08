@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notification;
 
 class NotificationController extends Controller
 {
@@ -13,7 +14,9 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return view('dashboard.store.notification.index');
+        $notifications = Notification::all();
+
+        return view('dashboard.store.notification.index')->with('notifications', $notifications);
     }
 
     /**

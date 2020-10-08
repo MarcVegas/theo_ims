@@ -24,4 +24,8 @@ class Product extends Model
     public function order(){
         return $this->hasOne('App\Order', 'product_id');
     }
+
+    public function notification(){
+        return $this->hasOne('App\Notification', 'product_id');
+    }
 }

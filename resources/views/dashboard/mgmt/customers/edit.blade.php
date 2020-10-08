@@ -41,7 +41,7 @@
                 </div>
                 <div class="six wide column">
                     <div class="ui raised padded center aligned segment">
-                        <img class="ui centered small circular image" src="/storage/uploads/avatar.png" alt=""><br>
+                        <img class="ui centered small circular image" src="/storage/uploads/{{$customer->avatar}}" alt=""><br>
                         <input type="file" (change)="fileEvent($event)" form="customer-form" class="inputfile" name="photo" id="photo"/>
                         <label for="photo" class="ui blue button">
                             <i class="camera icon"></i>

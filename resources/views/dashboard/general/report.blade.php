@@ -17,6 +17,7 @@
                     <select class="ui type dropdown" name="type" id="">
                         <option value="order">Orders</option>
                         <option value="product">Products</option>
+                        <option value="deposit">Deposits</option>
                         <option value="transaction">Transactions</option>
                     </select>
                 </div>
@@ -79,6 +80,8 @@
         var datastr = "";
         var exportUrl = '/reports/export/';
         var hasRoute = false;
+        var hasDates = false;
+        var hasCustomer = false;
 
         $.ajaxSetup({
         headers: {
@@ -184,6 +187,47 @@
                 });
         }
 
+        function getDeposits(datastr) {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/deposits',
+                    data: datastr,
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'deposit-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function getCustomerDeposits(id,datastr) {
+            $.ajax({
+                    type: "GET",
+                    url: '/reports/deposit/'+ id,
+                    data: datastr,
+                    cache: false,
+                    success: function (data) {
+                        $('#reports_table').html(data);
+                        var tablename = 'deposit-table';
+                        table(tablename);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        }
+
+        function clearDates() {
+            $("input[type=date]").val("");
+            from = "";
+            to = "";
+            hasDates = false;
+        }
+
         $('.type.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
                 type = value;
@@ -193,7 +237,7 @@
                     $('#from').toggle();
                     $('#to').toggle();
                     getProducts();
-                }else if(value == 'order' || value == 'transaction') {
+                }else if(value == 'order' || value == 'transaction' || value == 'deposit') {
                     var isShown = $('.customer.dropdown').is(':visible');
                     var dateShown = $('#from').is(':visible');
                     $('.customer.dropdown').dropdown('restore defaults');
@@ -201,7 +245,10 @@
                         getTransactions();
                     }else if(value == 'order'){
                         getOrders();
+                    }else if(value == 'deposit'){
+                        getDeposits();
                     }
+
                     if (isShown == false) {
                         $('.customer.dropdown').toggle();
                         $('.filter-label').text('Customer:');
@@ -211,8 +258,9 @@
                         $('#to').toggle();
                     }
                 }
-                $("input[type=date]").val("");
-
+                
+                clearDates();
+                customer_id = null;
                 exportUrl = '/reports/export/' + type + '?';
                 hasRoute = true;
                 $("#export-button").attr("href", exportUrl);
@@ -221,18 +269,25 @@
 
         $('.customer.dropdown').dropdown({
             onChange: function(value, text, $selectedItem) {
+                if (customer_id != '') {
+                    exportUrl = '/reports/export/' + type + '?';
+                }
+                if (hasRoute == false && hasDates == false && customer_id == '') {
+                    exportUrl = exportUrl + type + '?';
+                }
                 customer_id = value;
                 if (type == 'order' && customer_id != '') {
                     getCustomerOrders(customer_id,datastr);
-                } else if(type == 'transaction' && customer_id != '') {
+                }else if(type == 'transaction' && customer_id != '') {
                     getCustomerTransactions(customer_id,datastr);
+                }else if(type == 'deposit' && customer_id != ''){
+                    getCustomerDeposits(customer_id,datastr);
                 }
-                if (hasRoute == false) {
-                    exportUrl = exportUrl + type + '?';
-                }
+                
                 exportUrl = exportUrl + 'customer_id=' + customer_id + '&';
                 hasRoute = true;
                 $("#export-button").attr("href", exportUrl);
+                clearDates();
             }
         });
 
@@ -250,14 +305,23 @@
             }else if(to != '' && customer_id != null && type == 'transaction'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerTransactions(customer_id,datastr);
+            }else if (to != '' && customer_id == null && type == 'deposit') {
+                datastr = 'from=' + from + '&to=' + to;
+                getDeposits(datastr);
+            }else if(to != '' && customer_id != null && type == 'deposit'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerDeposits(customer_id,datastr);
             }
 
             if (to != '') {
                 if (hasRoute == false) {
                     exportUrl = exportUrl + type + '?';
                 }
-                exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
-                $("#export-button").attr("href", exportUrl);
+                if (hasDates == false) {
+                    exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
+                    $("#export-button").attr("href", exportUrl);
+                }
+                hasDates = true;
             }
         });
 
@@ -266,23 +330,32 @@
             if (from != '' && customer_id == null && type == 'order') {
                 datastr = 'from=' + from + '&to=' + to;
                 getOrders(datastr);
-            }else if(to != '' && customer_id != null && type == 'order'){
+            }else if(from != '' && customer_id != null && type == 'order'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerOrders(customer_id,datastr);
-            }else if (to != '' && customer_id == null && type == 'transaction') {
+            }else if (from != '' && customer_id == null && type == 'transaction') {
                 datastr = 'from=' + from + '&to=' + to;
                 getTransactions(datastr);
-            }else if(to != '' && customer_id != null && type == 'transaction'){
+            }else if(from != '' && customer_id != null && type == 'transaction'){
                 datastr = 'from=' + from + '&to=' + to;
                 getCustomerTransactions(customer_id,datastr);
+            }else if (from != '' && customer_id == null && type == 'deposit') {
+                datastr = 'from=' + from + '&to=' + to;
+                getDeposits(datastr);
+            }else if(from != '' && customer_id != null && type == 'deposit'){
+                datastr = 'from=' + from + '&to=' + to;
+                getCustomerDeposits(customer_id,datastr);
             }
 
             if (from != '') {
                 if (hasRoute == false) {
                     exportUrl = exportUrl + type + '?';
                 }
-                exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
-                $("#export-button").attr("href", exportUrl);
+                if (hasDates == false) {
+                    exportUrl = exportUrl + 'from=' + from + '&to=' + to + '&';
+                    $("#export-button").attr("href", exportUrl);
+                }
+                hasDates = true;
             }
         });
     });

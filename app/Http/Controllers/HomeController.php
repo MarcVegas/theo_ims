@@ -50,4 +50,5 @@ class HomeController extends Controller
         ->with('expense', $expense)->with('gross', $grossTotal)
         ->with('net', $netTotal);
     }
+
 }

@@ -9,11 +9,12 @@ use App\Transaction;
 use App\Order;
 use App\Product;
 use App\Customer;
+use App\Deposit;
 
 class ReportsController extends Controller
 {
     public function index(){
-        $customers = Customer::where('type', 'reseller')->get();
+        $customers = Customer::where('type', 'reseller')->where('removed', false)->get();
 
         return view('dashboard.general.report')->with('customers', $customers);
     }
@@ -107,6 +108,52 @@ class ReportsController extends Controller
         $columns = array("Name","Category","Supplier Price","Selling Price","Difference","Quantity");
         
         return view('dashboard.general.producttable')->with('products', $products)->with('columns', $columns);
+    }
+
+    public function deposits(Request $request){
+        $from = '';
+        $to = '';
+        if ($request->has('from') && $request->has('to')) {
+            $from = Carbon::parse($request->get('from'))->startOfDay();
+            $to = Carbon::parse($request->get('to'))->endOfDay();
+        }
+
+        if ($from != '' && $to != '') {
+            $deposits = Deposit::whereHas('transaction', function ($q){
+                $q->where('supplier_id', null);
+            })->whereBetween('created_at',[$from, $to])->latest()->get();
+        }else {
+            $deposits = Deposit::whereHas('transaction', function ($q){
+                $q->where('supplier_id', null);
+            })->latest()->get();
+        }
+
+        $columns = array("ID","Initital Balance","Deposit","Remaining","Customer","Deposited on");
+
+        return view('dashboard.general.deposittable')->with('deposits', $deposits)->with('columns', $columns);
+    }
+
+    public function customerDeposits(Request $request, $id){
+        $from = '';
+        $to = '';
+        if ($request->has('from') && $request->has('to')) {
+            $from = Carbon::parse($request->get('from'))->startOfDay();
+            $to = Carbon::parse($request->get('to'))->endOfDay();
+        }
+
+        if ($from != '' && $to != '') {
+            $deposits = Deposit::whereHas('transaction', function ($q) use ($id){
+                $q->where('supplier_id', null)->where('customer_id', $id);
+            })->whereBetween('created_at',[$from, $to])->latest()->get();
+        }else {
+            $deposits = Deposit::whereHas('transaction', function ($q) use ($id){
+                $q->where('supplier_id', null)->where('customer_id', $id);
+            })->latest()->get();
+        }
+
+        $columns = array("ID","Initital Balance","Deposit","Remaining","Customer","Deposited on");
+
+        return view('dashboard.general.deposittable')->with('deposits', $deposits)->with('columns', $columns);
     }
 
     public function exportOrders(Request $request){

@@ -13,29 +13,23 @@
                     <div class="ui padded segment">
                         <div class="ui blue ribbon label">Just Now</div>
                         <br>
-                        <div class="ui middle aligned animated relaxed list">
-                            <div class="item">
-                                <i class="box brown icon"></i>
-                                <div class="content">
-                                    <div class="header"><a href="">Jogging Pants</a> from J and T is out of stock</div>
-                                    <div class="description">On 02 Oct 2020</div>
-                                </div>
+                        @if ($notifications ?? '')
+                            <div class="ui middle aligned animated relaxed list">
+                                @foreach ($notifications as $notification)
+                                    <div class="item">
+                                        <i class="box brown icon"></i>
+                                        <div class="content">
+                                            <div class="header"><a href="/products/{{$notification->product_id}}">{{$notification->product->name}}</a> {{$notification->description}}</div>
+                                            <div class="description">{{date('d M Y', strtotime($notification->created_at))}}</div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="item">
-                                <i class="box brown icon"></i>
-                                <div class="content">
-                                    <div class="header">Christian</div>
-                                    <div class="description">On 02 Oct 2020</div>
-                                </div>
+                        @else
+                            <div class="ui basic center aliged segment">
+                                <h3>No new notifications</h3>
                             </div>
-                            <div class="item">
-                                <i class="box brown icon"></i>
-                                <div class="content">
-                                    <div class="header">Daniel</div>
-                                    <div class="description">On 02 Oct 2020</div>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="six wide column">

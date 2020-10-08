@@ -63,6 +63,8 @@ Route::get('/reports/orders', 'ReportsController@orders');
 Route::get('/reports/order/{id}', 'ReportsController@customerOrders');
 Route::get('/reports/transactions', 'ReportsController@transactions');
 Route::get('/reports/transaction/{id}', 'ReportsController@customerTransactions');
+Route::get('/reports/deposits', 'ReportsController@deposits');
+Route::get('/reports/deposit/{id}', 'ReportsController@customerDeposits');
 Route::get('/reports/products', 'ReportsController@products');
 
 //Report Export Routes

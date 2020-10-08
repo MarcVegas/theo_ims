@@ -8,6 +8,7 @@ use App\Product;
 use App\Stock;
 use App\Supplier;
 use App\Category;
+use App\Notification;
 
 class ProductsController extends Controller
 {
@@ -210,11 +211,6 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        /* $product = Product::find($id);
-        $product->delete();
-
-        $stock = Stock::where('product_id','=', $id)->get();
-        $stock->delete(); */
         $product = Product::find($id);
         $product->removed = true;
         $product->save();
