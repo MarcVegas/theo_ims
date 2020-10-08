@@ -60,11 +60,6 @@
                     Expense Tracker
                 </div>
             </a>
-            <a href="#" class="item">
-                <div><i class="icon history"></i>
-                    Price History
-                </div>
-            </a>
         </div>
     </div>
     <a class="item">
