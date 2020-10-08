@@ -256,6 +256,62 @@ class ReportsController extends Controller
         return $pdf->download($pdfName);
     }
 
+    public function exportDeposits(Request $request){
+        $from = '';
+        $to = '';
+        $hasDates = false;
+        $customer_id = '';
+        $customer = '';
+        $owner = Customer::where('type', 'owner')->first();
+
+        if ($request->has('from') && $request->has('to')) {
+            $from = Carbon::parse($request->get('from'))->startOfDay();
+            $to = Carbon::parse($request->get('to'))->endOfDay();
+            $hasDates = true;
+        }
+
+        if ($request->has('customer_id')) {
+            $customer_id = $request->get('customer_id');
+            $customer = Customer::find($customer_id);
+        }
+
+        if ($hasDates == true && $customer_id == '') {
+            $deposits = Deposit::whereHas('transaction', function ($q){
+                $q->where('supplier_id', null);
+            })->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == true && $customer_id != ''){
+            $deposits = Deposit::whereHas('transaction', function ($q) use ($customer_id){
+                $q->where('supplier_id', null)->where('customer_id', $customer_id);
+            })->whereBetween('created_at',[$from, $to])->latest()->get();
+
+        }else if($hasDates == false && $customer_id != ''){
+            $deposits = Deposit::whereHas('transaction', function ($q) use ($customer_id){
+                $q->where('supplier_id', null)->where('customer_id', $customer_id);
+            })->latest()->get();
+
+        }else {
+            $deposits = Deposit::whereHas('transaction', function ($q){
+                $q->where('supplier_id', null);
+            })->latest()->get();
+        }
+
+        $columns = array("ID","Initital Balance","Deposit","Remaining","Customer","Deposited on");
+
+        $pdf = PDF::loadView('dashboard.general.export.deposits', [
+            'deposits' => $deposits,
+            'customer' => $customer,
+            'owner' => $owner,
+            'columns' => $columns,
+            'from' => $from,
+            'to' => $to,
+        ]);
+        $date = Carbon::now();
+        $pdfName = 'DepositReport'.$date.'.pdf';
+
+        return $pdf->download($pdfName);
+    }
+
     public function exportProducts(Request $request){
         $products = Product::has('stock')->where('removed', false)->get();
         $owner = Customer::where('type', 'owner')->first();

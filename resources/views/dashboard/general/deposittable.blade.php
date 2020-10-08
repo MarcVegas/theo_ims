@@ -14,7 +14,7 @@
                     <td>{{$deposit->initial_balance}}</td>
                     <td>{{$deposit->deposit}}</td>
                     <td>{{$deposit->remaining_balance}}</td>
-                    <td>{{$deposit->transaction->customer->firstname}}</td>
+                    <td>{{$deposit->transaction->customer->firstname}} {{$deposit->transaction->customer->lastname}}</td>
                     <td>{{date('d M Y, h:i A', strtotime($deposit->created_at))}}</td>
                 </tr>
             @endforeach

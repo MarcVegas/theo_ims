@@ -71,6 +71,7 @@ Route::get('/reports/products', 'ReportsController@products');
 Route::get('/reports/export/order', 'ReportsController@exportOrders');
 Route::get('/reports/export/product', 'ReportsController@exportProducts');
 Route::get('/reports/export/transaction', 'ReportsController@exportTransactions');
+Route::get('/reports/export/deposit', 'ReportsController@exportDeposits');
 
 //Quick Order Routes
 Route::get('/quickorder', 'QuickOrderController@quickOrder');
