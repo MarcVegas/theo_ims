@@ -54,16 +54,24 @@ class CartController extends Controller
             'product_id' => 'required|string',
             'cart_quantity' => 'required|integer',
             'customer_id' => 'required|string',
+            'order_type' => 'nullable|string',
         ]);
         
         $product_id = $request->product_id;
         $cart_quantity = $request->cart_quantity;
         $customer_id = $request->customer_id;
+        $order_type = $request->order_type;
 
         $stock = Stock::where('product_id','=', $product_id)->first();
         $maxQuantity = $stock->quantity;
 
-        if ($cart_quantity <= $maxQuantity) {
+        if ($cart_quantity <= $maxQuantity && $order_type == 'buy') {
+            $cart = new Cart;
+            $cart->product_id = $product_id;
+            $cart->cart_quantity = $cart_quantity;
+            $cart->customer_id = $customer_id;
+            $cart->save();
+        }else if($cart_quantity > $maxQuantity && $order_type == 'restock'){
             $cart = new Cart;
             $cart->product_id = $product_id;
             $cart->cart_quantity = $cart_quantity;

@@ -20,7 +20,7 @@ class CustomerController extends Controller
     {
         $expires = Carbon::now()->addHours(24);
         $customers = cache()->remember('customers-all', $expires, function (){
-            return Customer::where('type','<>', 'owner')->where('removed', false)->get();
+            return Customer::where('type','=', 'reseller')->where('removed', false)->get();
         });
 
         return view('dashboard.mgmt.customers.customer')->with('customers', $customers);

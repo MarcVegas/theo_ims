@@ -63,6 +63,8 @@ class OrdersController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->deduct($transaction_id);
                 $this->clearCart($customer_id);
+                cache()->forget('best-products');
+                cache()->forget('best-customers');
                 return redirect('/orders/'.$transaction_id);
             }else {
                 return redirect('/checkout/'.$customer_id)->with('error', 'Cash amount must be greater than order total for full payment transactions');
@@ -74,6 +76,8 @@ class OrdersController extends Controller
                 $this->saveOrder($customer_id,$transaction_id);
                 $this->deduct($transaction_id);
                 $this->clearCart($customer_id);
+                cache()->forget('best-products');
+                cache()->forget('best-customers');
                 return redirect('/orders/'.$transaction_id);
             }else{
                 return redirect('/checkout/'.$customer_id)->with('error', 'Invalid cash amount. Payment amount must be less than total for credit transactions. Select Full Payment for fully paid transactions');

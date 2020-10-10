@@ -62,7 +62,7 @@
             </a>
         </div>
     </div>
-    <a class="item">
+    <a class="item" href="/userguide">
         <div><i class="icon lightbulb"></i>
         User Guide
         </div>

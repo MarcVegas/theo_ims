@@ -3,7 +3,7 @@
         <a href="#" class="sidebar-menu-toggler item" data-target="#sidebar">
         <i class="sidebar icon"></i>
         </a>
-        <a href="#" class="header item">
+        <a href="/home" class="header item">
         THEO IMS
         </a>
     </div>

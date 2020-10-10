@@ -88,6 +88,9 @@ Route::get('/supplier/product/{id}', 'SupplierController@getProducts');
 //No stock Route
 Route::get('/product/nostock/all', 'ProductsController@getNoStock');
 
+//User Guide Route
+Route::get('/userguide', 'GuideController@guide');
+
 //Invoice
 Route::get('/transaction/invoice/{id}', 'InvoiceController@invoice');
 

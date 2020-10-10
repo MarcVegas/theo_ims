@@ -23,7 +23,7 @@ class RestockController extends Controller
     public function index()
     {
         $transactions = cache()->remember('myorders-all', 60*60*24, function (){
-            return Transaction::where('supplier_id','<>', '')->get();
+            return Transaction::where('supplier_id','<>', '')->latest()->get();
         });
         $credit = Transaction::where('supplier_id','<>', '')->where('type', 'credit')->count();
         $sum = Transaction::where('supplier_id','<>', '')->sum('balance');

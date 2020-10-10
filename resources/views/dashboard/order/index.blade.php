@@ -164,6 +164,7 @@
         var cart_quantity = 0;
         var customer_id = "{{$customer->id}}";
         var subtotal;
+        var order_type = "buy";
 
         $('.cancel.modal').modal('attach events', '.cancel.button', 'show');
         $('.checkout.modal').modal('attach events', '.checkout.button', 'show');
@@ -255,7 +256,7 @@
 
         $('.purchase.button').click(function () {
             cart_quantity = $('#cart_quantity').val();
-            var datastr = "product_id=" + product_id + "&cart_quantity=" + cart_quantity + "&customer_id=" + customer_id;
+            var datastr = "product_id=" + product_id + "&cart_quantity=" + cart_quantity + "&customer_id=" + customer_id + "&order_type=" + order_type;
 
             $.ajax({
                     type: "POST",

@@ -49,6 +49,22 @@
                 <div class="row">
                     <div class="six wide column">
                         <div class="six wide column">
+                            <h3>Clear Cache</h3>
+                            <p>The cache stores results in memory for a day to improve performance. Clearing the 
+                                cache will destroy the results in memory and fetches new results from the 
+                                database.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ten wide column">
+                        <div class="ui raised padded right aligned segment">
+                            <a class="ui black button" href="">Clear Cache</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six wide column">
+                        <div class="six wide column">
                             <h3>Password Reset</h3>
                             <p>Use a strong password with 8 characters or more</p>
                         </div>
