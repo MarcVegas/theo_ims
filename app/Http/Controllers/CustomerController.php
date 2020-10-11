@@ -162,6 +162,8 @@ class CustomerController extends Controller
         $customer->removed = true;
         $customer->save();
 
+        cache()->forget('customers-all');
+
         return redirect()->route('customers.index')->with('success', 'Customer successfuly removed');
     }
 }

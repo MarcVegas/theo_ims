@@ -16,7 +16,9 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::where('removed', false)->get();
+        $suppliers = cache()->remember('suppliers-all', 60*60*24, function (){
+            return Supplier::where('removed', false)->get();
+        });
 
         return view('dashboard.mgmt.suppliers.supplier')->with('suppliers', $suppliers);
     }
@@ -63,6 +65,8 @@ class SupplierController extends Controller
             $supplier->shipment_date = $request->input('shipment_date');
         }
         $supplier->save();
+
+        cache()->forget('suppliers-all');
 
         return redirect()->route('suppliers.index')->with('success', 'Supplier added successfully');
     }
@@ -125,6 +129,8 @@ class SupplierController extends Controller
         }
         $supplier->save();
 
+        cache()->forget('suppliers-all');
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully');
     }
 
@@ -140,6 +146,8 @@ class SupplierController extends Controller
         //$supplier->delete();
         $supplier->removed = true;
         $supplier->save();
+
+        cache()->forget('suppliers-all');
 
         return redirect()->route('suppliers.index')->with('success', 'Supplier has been removed');
     }

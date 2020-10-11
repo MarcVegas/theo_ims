@@ -58,7 +58,7 @@
                     </div>
                     <div class="ten wide column">
                         <div class="ui raised padded right aligned segment">
-                            <a class="ui black button" href="">Clear Cache</a>
+                            <a class="ui black button" href="/settings/clearcache">Clear Cache</a>
                         </div>
                     </div>
                 </div>

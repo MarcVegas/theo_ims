@@ -221,6 +221,8 @@ class ProductsController extends Controller
         $product->removed = true;
         $product->save();
 
+        cache()->forget('products-all');
+
         return redirect()->route('products.index')->with('success', 'Product removed successfully');
     }
 

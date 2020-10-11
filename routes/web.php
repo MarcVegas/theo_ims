@@ -51,6 +51,7 @@ Route::get('/product/{id}', 'ProductsController@getProduct');
 
 //Store Routes
 Route::get('/settings', 'SettingController@index')->name('settings.index');
+Route::get('/settings/clearcache', 'CacheMgmtController@clearCache');
 Route::resource('/category', 'CategoryController');
 Route::resource('/profile', 'ProfileController');
 
