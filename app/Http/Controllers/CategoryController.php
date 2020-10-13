@@ -65,7 +65,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+
+        return view('dashboard.store.setting.edit')->with('category', $category);
     }
 
     /**
@@ -77,7 +79,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'category' => 'required|string',
+        ]);
+
+        $category = Category::find($id);
+        $category->title = $request->input('category');
+        $category->save();
+
+        return redirect('/settings')->with('success', 'Category updated');
     }
 
     /**
@@ -88,6 +98,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->removed = true;
+        $category->save();
+
+        return redirect('/settings')->with('success', 'Category removed');
     }
 }

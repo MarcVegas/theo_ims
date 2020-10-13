@@ -153,6 +153,14 @@
                 You can just create a new product/customer/supplier instead and since a new ID is generated every time you create one, you can 
                 name the product/custome/supplier with the same name as the deleted record and face no issues.
             </b>
+        <h3 class="ui brown header" id=""># How to backup database?</h3>
+            <b>
+                A backup of the database can be made by going to <a href="http://localhost/phpmyadmin/">this link</a>. In the left side 
+                of the screen you will see a list of databases. Select the database named <b>theo_ims</b>, a nav menu will appear at the top most of the 
+                browser screen, now select the menu item that says <b>Export</b>. Press the <b>Go</b> button at the button and wait for the database to be 
+                downloaded. Do not touch or press any other button except the ones stated above. After the download is finished you can now 
+                upload the file with the extension .sql to a flashdrive or cloud storage like Google Drive
+            </b>
         <br>
         <h2 id="dev">DEVELOPER CONTACT</h2>
         <div class="ui raised very padded segment">

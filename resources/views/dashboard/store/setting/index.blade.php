@@ -32,7 +32,7 @@
                                     <div class="ui doubling ten column padded grid">
                                         @foreach ($categories as $category)
                                             <div class="column">
-                                                <div class="ui grey label" href="">{{$category->title}}</div>
+                                                <a class="ui grey label" href="/category/{{$category->id}}/edit">{{$category->title}}</a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -62,6 +62,20 @@
                         </div>
                     </div>
                 </div>
+                {{-- <div class="row">
+                    <div class="six wide column">
+                        <div class="six wide column">
+                            <h3>Backup Database</h3>
+                            <p>An file of the database will be downloaded. You can upload this to any backup storage.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ten wide column">
+                        <div class="ui raised padded right aligned segment">
+                            <a class="ui black button" href="/backup">Backup</a>
+                        </div>
+                    </div>
+                </div> --}}
                 <div class="row">
                     <div class="six wide column">
                         <div class="six wide column">
