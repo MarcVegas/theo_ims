@@ -14,6 +14,9 @@
                 <a class="order item" data-tab="second">
                     Order List
                 </a>
+                <a class="order item" data-tab="third">
+                    Return List
+                </a>
             </div>
             <div class="ui stackable grid">
                 <div class="ten wide column">
@@ -76,6 +79,36 @@
                             <h3>Fetching data...</h3>
                         </div>
                     </div>
+                    <div class="ui basic tab segment" data-tab="third">
+                        @if ($returns ?? '')
+                            <table class="ui tablet stackable selectable definition table">
+                                <thead class="full-width">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Initial Qnty</th>
+                                        <th>Returned</th>
+                                        <th>Remaining Qnty</th>
+                                        <th>Returned On</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($returns as $item)
+                                        <tr>
+                                            <td>{{$item->product->name}}</td>
+                                            <td>{{$item->initial_quantity}}</td>
+                                            <td>{{$item->returned}}</td>
+                                            <td>{{$item->remaining_quantity}}</td>
+                                            <td>{{date('d M Y, h:i s', strtotime($item->created_at))}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <div class="ui basic center aligned segment">
+                                <h3>No Returns Made</h3>
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <div class="six wide column">
                     <div style="background-color: #f5f6f6;border-radius:.5rem;padding:2rem">
@@ -107,6 +140,15 @@
                             </div>
                         @endif
                     </div>
+                    @if ($returns ?? '')
+                        @if (count($returns) > 0)
+                            <div class="ui tertiary segment">
+                                <b>Take note:</b> This transaction seems to have returned some products. The order total 
+                                has been updated to reflect this change but data from deposit records created before product(s) was
+                                returned will remain unchanged. This does not affect future deposits and transaction records remain accurate.
+                            </div>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

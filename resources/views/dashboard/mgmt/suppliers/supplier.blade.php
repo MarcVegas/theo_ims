@@ -40,6 +40,7 @@
                                     <td>{{$supplier->payment_cutoff}}</td>
                                     <td>{{$supplier->shipment_date}}</td>
                                     <td class="collapsing">
+                                        <a class="ui icon button" href="/restock/{{$supplier->id}}"><i class="cart plus icon"></i></a>
                                         <a class="ui icon button" href="suppliers/{{$supplier->id}}"><i class="eye icon"></i></a>
                                         <a class="ui icon button" href="suppliers/{{$supplier->id}}/edit"><i class="pencil alternate icon"></i></a>
                                     </td>

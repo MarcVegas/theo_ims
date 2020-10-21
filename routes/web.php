@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', 'HomeController@home');
 
 Auth::routes();
 
@@ -73,6 +71,10 @@ Route::get('/reports/export/order', 'ReportsController@exportOrders');
 Route::get('/reports/export/product', 'ReportsController@exportProducts');
 Route::get('/reports/export/transaction', 'ReportsController@exportTransactions');
 Route::get('/reports/export/deposit', 'ReportsController@exportDeposits');
+
+//Product Return Routes
+Route::get('/transaction/returnproduct', 'ReturnsController@show')->name('returns.product');
+Route::put('/transaction/returnproduct/confirm/{id}', 'ReturnsController@update');
 
 //Quick Order Routes
 Route::get('/quickorder', 'QuickOrderController@quickOrder');

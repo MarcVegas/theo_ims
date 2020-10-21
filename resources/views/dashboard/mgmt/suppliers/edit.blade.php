@@ -50,3 +50,13 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+    <script>
+        $(document).ready(function () {
+            $('.green.button').click(function () {
+                $('.green.button').addClass('loading disabled');
+            });
+        });
+    </script>
+@endpush

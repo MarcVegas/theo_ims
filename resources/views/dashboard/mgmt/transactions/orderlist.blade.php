@@ -7,7 +7,7 @@
                 <th>Qnty</th>
                 <th>Price</th>
                 <th>Subtotal</th>
-                <th>Purchased on</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +18,18 @@
                     <td>{{$order->order_quantity}}</td>
                     <td>{{$order->order_price}}</td>
                     <td>{{$order->subtotal}}</td>
-                    <td>{{date('d M Y, h:i A', strtotime($order->created_at))}}</td>
+                    <td>
+                        @if ($order->order_quantity > 0)
+                            <form action="{{route('returns.product')}}" method="GET">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{$order->transaction_id}}">
+                                <input type="hidden" name="product_id" value="{{$order->product_id}}">
+                                <button class="ui button" type="submit">Return</button>
+                            </form>
+                        @else
+                            <button class="ui disabled button" type="submit">Return</button>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>

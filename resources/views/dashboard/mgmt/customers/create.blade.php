@@ -29,7 +29,7 @@
                                     <input type="text" name="address" id="address" required>
                                 </div>
                                 <div class="field">
-                                    <label>Contact Number</label>
+                                    <label>Contact Number (optional)</label>
                                     <input type="tel" name="contact" id="contact" placeholder="+63 xxx xxx xxxx">
                                 </div>
                             </div>
@@ -47,6 +47,9 @@
                             <i class="camera icon"></i>
                             Upload Photo
                         </label>
+                        <div class="ui tertiary segment">
+                            <b>IMPORTANT:</b> Image size limit is 5mb. Images with larger sizes will take longer to upload.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,3 +57,13 @@
     </div>
 </div>
 @endsection
+
+@push('ajax')
+    <script>
+        $(document).ready(function () {
+            $('.green.button').click(function () {
+                $('.green.button').addClass('loading disabled');
+            });
+        });
+    </script>
+@endpush

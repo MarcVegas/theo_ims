@@ -118,7 +118,7 @@
         <br>
         <h1>FAQ</h1>
         <h3 class="ui brown header" id="cache"># What is a cache?</h3>
-            <b> n computing, a cache is a hardware or software component that stores data so that future requests for that data can be served faster;
+            <b> In computing, a cache is a hardware or software component that stores data so that future requests for that data can be served faster;
                  the data stored in a cache might be the result of an earlier computation or a copy of data stored elsewhere. The system uses it 
                 to quickly fetch query results from the database which improves the app's speed and performance. However, since the data doesn't come 
                 directly from the database some values are not up to date. The system however only stores cache for 24 hours and destroy the cache and 
@@ -133,7 +133,7 @@
             </b>
         <h3 class="ui brown header" id=""># Why is saving a product or customer with an image slow? </h3>
             <b>
-                This may be caused by an image with large file size and so the system is taking time to process the image.
+                This may be caused by an image with a large file size and so the system is taking time to process the image.
             </b>
         <h3 class="ui brown header" id=""># I found a bug in the system or an unexpected fatal error. What do I do? </h3>
             <b>
@@ -155,9 +155,7 @@
             </b>
         <h3 class="ui brown header" id=""># How to backup database?</h3>
             <b>
-                A backup of the database can be made by going to <a href="http://localhost/phpmyadmin/">this link</a>. In the left side 
-                of the screen you will see a list of databases. Select the database named <b>theo_ims</b>, a nav menu will appear at the top most of the 
-                browser screen, now select the menu item that says <b>Export</b>. Press the <b>Go</b> button at the button and wait for the database to be 
+                A backup of the database can be made by going to <a href="http://localhost/phpmyadmin/db_export.php?db=theo_ims">this link</a>. Press the <b>Go</b> button at the bottom and wait for the database to be 
                 downloaded. Do not touch or press any other button except the ones stated above. After the download is finished you can now 
                 upload the file with the extension .sql to a flashdrive or cloud storage like Google Drive
             </b>
@@ -172,7 +170,7 @@
                     <h1>Hi, I'm Omar</h1>
                     <b>I'm a freelance web developer that's passionate about making well designed 
                         applications for my clients. I also dabble in graphic art and UI/UX Design. If you 
-                        have business need or idea that needs my skills. Contact me and get a price qoute.
+                        have a business need or idea that requires my skills. Contact me and get a price qoute.
                     </b>
                     <br><br>
                     <div class="ui horizontal list">

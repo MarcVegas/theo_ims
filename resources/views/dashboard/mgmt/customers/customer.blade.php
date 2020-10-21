@@ -38,6 +38,7 @@
                                     <td>{{$customer->address}}</td>
                                     <td>{{$customer->type}}</td>
                                     <td class="collapsing">
+                                        <a class="ui icon button" href="/shop/{{$customer->id}}"><i class="cart plus icon"></i></a>
                                         <a class="ui icon button" href="customers/{{$customer->id}}"><i class="eye icon"></i></a>
                                         <a class="ui icon button" href="customers/{{$customer->id}}/edit"><i class="pencil alternate icon"></i></a>
                                     </td>

@@ -7,6 +7,7 @@ use App\Transaction;
 use App\Customer;
 use App\Deposit;
 use App\Order;
+use App\Returned;
 
 class TransactionController extends Controller
 {
@@ -59,8 +60,10 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::has('customer')->find($id);
         $deposits = Deposit::where('transaction_id', $id)->get();
+        $returns = Returned::where('transaction_id', $id)->get();
 
-        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction)->with('deposits', $deposits);
+        return view('dashboard.mgmt.transactions.show')->with('transaction', $transaction)
+        ->with('deposits', $deposits)->with('returns', $returns);
     }
 
     /**

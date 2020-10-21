@@ -59,4 +59,8 @@ class HomeController extends Controller
         ->with('net', $netTotal);
     }
 
+    public function home(){
+        return redirect('/login');
+    }
+
 }

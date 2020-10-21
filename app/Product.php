@@ -28,4 +28,8 @@ class Product extends Model
     public function notification(){
         return $this->hasOne('App\Notification', 'product_id');
     }
+
+    public function returned(){
+        return $this->hasOne('App\Returned', 'product_id');
+    }
 }
