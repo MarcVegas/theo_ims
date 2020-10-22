@@ -35,7 +35,13 @@
                                             <td>{{$item->cart_quantity}}</td>
                                             <td>{{$item->selling_price}}</td>
                                             <td>{{$item->selling_price * $item->cart_quantity}}</td>
-                                            <td><button class="ui inverted red icon remove button"><i class="trash alternate icon"></i></button></td>
+                                            <td>
+                                                <form action="/cart/remove" action="POST">
+                                                    <input type="hidden" name="product_id" value="{{$item->product_id}}">
+                                                    <input type="hidden" name="customer_id" value="{{$customer->id}}">
+                                                    <button class="ui inverted red icon remove button"><i class="trash alternate icon"></i></button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

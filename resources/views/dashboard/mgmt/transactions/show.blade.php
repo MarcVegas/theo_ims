@@ -52,13 +52,21 @@
                                             <label>Cash or Deposit</label>
                                             <input type="text" name="cash" id="cash" value="{{$transaction->cash}}" readonly>
                                         </div>
-                                        <div class="field">
-                                            @if ($transaction->type == 'credit')
-                                                <label>Balance</label>
-                                                <input type="text" name="cash" value="{{$transaction->balance}}" readonly>
-                                            @else
-                                                <label>Change</label>
-                                                <input type="text" name="cash" value="{{$transaction->change}}" readonly>
+                                        <div class="fields">
+                                            <div class="field">
+                                                @if ($transaction->type == 'credit')
+                                                    <label>Balance</label>
+                                                    <input type="text" name="cash" value="{{$transaction->balance}}" readonly>
+                                                @else
+                                                    <label>Change</label>
+                                                    <input type="text" name="cash" value="{{$transaction->change}}" readonly>
+                                                @endif
+                                            </div>
+                                            @if ($transaction->refund != null)
+                                                <div class="field">
+                                                    <label>Refund</label>
+                                                    <input type="text" name="refund" value="{{$transaction->refund}}" readonly>
+                                                </div>
                                             @endif
                                         </div>
                                         <a class="ui button" href="{{route('transactions.index')}}">Go back</a>

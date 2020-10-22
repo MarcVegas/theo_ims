@@ -72,7 +72,14 @@ class ReturnsController extends Controller
         $transaction->total = $new_total;
         if ($type == 'credit') {
             $new_balance = $new_total - $cash;
-            $transaction->balance = $new_balance;
+            if ($new_balance < 0) {
+                $refund = abs($new_balance);
+                $new_balance = 0;
+                $transaction->balance = $new_balance;
+                $transaction->refund = $refund;
+            } else {
+                $transaction->balance = $new_balance;
+            }
             if ($new_balance == 0) {
                 $transaction->status = 'paid';
             }

@@ -158,7 +158,7 @@
                   <tbody>
                     @foreach ($bestCustomers as $item2)
                       <tr>
-                        <td>{{$item2->customer->firstname}}</td>
+                        <td>{{$item2->customer->firstname}} {{$item2->customer->lastname}}</td>
                         <td>{{$item2->sum}}</td>
                       </tr>
                     @endforeach

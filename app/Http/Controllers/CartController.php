@@ -89,6 +89,8 @@ class CartController extends Controller
 
         $cart = Cart::where('product_id', $product_id)->where('customer_id', $customer_id)->first();
         $cart->delete();
+
+        return redirect('/checkout/'.$customer_id)->with('success', 'Item removed from cart');
     }
 
     public function checkout($id){

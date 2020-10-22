@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('datatables')
+  <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+@endpush
 @section('content')
 @include('inc.sidebar')
 @include('inc.navbar')
@@ -53,7 +56,7 @@
             </div>
             <div class="ui segment">
                 @if ($products ?? '')
-                    <table class="ui tablet stackable selectable definition table">
+                    <table class="ui tablet stackable selectable definition table" id="shop-table">
                         <thead class="full-width">
                             <tr>
                                 <th>Name</th>
@@ -80,9 +83,9 @@
                                     </td>
                                     <td class="center aligned">
                                         @if ($product->stock->quantity > 0)
-                                            <div class="ui orange fluid order button" id="{{$product->id}}">ORDER</div>
+                                            <div class="ui orange order button" id="{{$product->id}}">ORDER</div>
                                         @else
-                                            <button class="ui orange fluid disabled button">ORDER</button>
+                                            <button class="ui orange disabled button">ORDER</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -150,7 +153,7 @@
         <div class="ui deny button">
             No, continue shopping
         </div>
-        <a class="ui inverted green button" href="/checkout/{{$customer->id}}">
+        <a class="ui inverted right floated green button" href="/checkout/{{$customer->id}}">
             Yes, checkout
         </a>
     </div>
@@ -168,6 +171,15 @@
 
         $('.cancel.modal').modal('attach events', '.cancel.button', 'show');
         $('.checkout.modal').modal('attach events', '.checkout.button', 'show');
+
+        $('#shop-table').DataTable({
+            "lengthMenu": [[10, 20, 30, -1], [10, 20, 30, "All"]],
+            "order": [],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false,
+            }]
+        });
 
         $.ajaxSetup({
         headers: {

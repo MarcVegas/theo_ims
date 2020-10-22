@@ -3,7 +3,7 @@
 @section('content')
 <div class="ui middle aligned center aligned grid">
     <div class="column">
-        <img src="/storage/images/theo_overruns.png" class="ui small centered image">
+        <img src="/storage/images/theo_overruns2.png" class="ui small centered image">
         <h2 class="ui teal header">
         <div class="content">
             Log-in to your account
@@ -44,6 +44,8 @@
                 {{ __('Forgot Your Password?') }} <a href="{{ route('password.request') }}">Click here</a>
             </div>
         @endif
+
+        <small>Developed by Marc Vegas</small>
     </div>
 </div>
 @endsection

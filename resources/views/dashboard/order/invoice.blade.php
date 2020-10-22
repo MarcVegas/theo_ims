@@ -68,6 +68,33 @@
                 <h3>No Products Ordered</h3>
             </div>
         @endif
+        <br>
+        <hr>
+        <h3 style="color: gray">Returned Items</h3>
+        @if ($returneds ?? '')
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Initial Qty</th>
+                        <th>Returned</th>
+                        <th>Remaining Qty</th>
+                        <th>Returned On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($returneds as $item)
+                        <tr>
+                            <td>{{$item->product->name}}</td>
+                            <td>{{$item->initial_quantity}}</td>
+                            <td>{{$item->returned}}</td>
+                            <td>{{$item->remaining_quantity}}</td>
+                            <td>{{date('d M Y, h:i s', strtotime($item->created_at))}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
         <div class="right-aligned">
             <p><strong>Order Total:</strong> {{$transaction->total}}</p>
             <p><strong>Payment Received:</strong> {{$transaction->cash}}</p>
@@ -75,6 +102,9 @@
                 <p><strong>Change:</strong> {{$transaction->change}}</p>
             @else
                 <p><strong>Balance:</strong> {{$transaction->balance}}</p>
+            @endif
+            @if ($transaction->refund != null)
+                <p><strong>Refund Amount:</strong> {{$transaction->refund}}</p>
             @endif
         </div>
         <div style="text-align:center">

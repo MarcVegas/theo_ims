@@ -141,8 +141,8 @@
             </b>
         <h3 class="ui brown header" id=""># Are records I delete gone forever?</h3>
             <b>
-                Yes and no, some records are "soft deleted" so that orders and transactions records can still reference then and 
-                avoid errors when fetching info. For example, if a reseller account were to be deleted, the records is removed from the 
+                Yes and no, some records are "soft deleted" so that order and transaction records can still reference then and 
+                avoid errors when fetching info. For example, if a reseller account were to be deleted, the record is removed from the 
                 customer management tab and will no longer be able to perform orders but some of the resellers data is kept around so that 
                 past transaction records can still reference his/her name.
             </b>
@@ -151,11 +151,11 @@
                 Technically yes, but you will have to perform an sql query through a terminal or use the database administrator GUI but 
                 this is not recommended if you don't have knowledge in performing sql commands or have experience in managing an SQL database. 
                 You can just create a new product/customer/supplier instead and since a new ID is generated every time you create one, you can 
-                name the product/custome/supplier with the same name as the deleted record and face no issues.
+                name the product/customer/supplier with the same name as the deleted record and face no issues.
             </b>
         <h3 class="ui brown header" id=""># How to backup database?</h3>
             <b>
-                A backup of the database can be made by going to <a href="http://localhost/phpmyadmin/db_export.php?db=theo_ims">this link</a>. Press the <b>Go</b> button at the bottom and wait for the database to be 
+                A backup of the database can be made by going to <a href="http://localhost/phpmyadmin/db_export.php?db=theo_ims" target="_blank">this link</a>. Press the <b>Go</b> button at the bottom and wait for the database to be 
                 downloaded. Do not touch or press any other button except the ones stated above. After the download is finished you can now 
                 upload the file with the extension .sql to a flashdrive or cloud storage like Google Drive
             </b>
