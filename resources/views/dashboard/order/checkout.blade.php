@@ -36,11 +36,7 @@
                                             <td>{{$item->selling_price}}</td>
                                             <td>{{$item->selling_price * $item->cart_quantity}}</td>
                                             <td>
-                                                <form action="/cart/remove" action="POST">
-                                                    <input type="hidden" name="product_id" value="{{$item->product_id}}">
-                                                    <input type="hidden" name="customer_id" value="{{$customer->id}}">
-                                                    <button class="ui inverted red icon remove button"><i class="trash alternate icon"></i></button>
-                                                </form>
+                                                <button class="ui inverted red icon remove button" id="{{$item->product_id}}"><i class="trash alternate icon"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -86,12 +82,57 @@
         </div>
     </div>
 </div>
+<div class="ui mini remove modal">
+    <i class="close icon"></i>
+    <div class="header"><i class="exclamation triangle red icon"></i> Remove Item?</div>
+    <div class="content">
+        <strong>Are you sure you want to remove this item from your cart?</strong>
+    </div>
+    <div class="actions">
+        <div class="ui deny button">
+            No, I dont
+        </div>
+        <button class="ui inverted red delete button">
+            Yes, cancel
+        </button>
+    </div>
+</div>
 @endsection
 
 @push('ajax')
 <script>
     $(document).ready(function (){
-        
+        var product_id;
+        var customer_id = "{{$customer->id}}";
+
+        $('.remove.button').click(function () {
+            product_id = $(this).attr('id');
+            $('.remove.modal').modal('show');
+        });
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+
+        $('.delete.button').click(function () {
+            var datastr = "product_id=" + product_id + "&customer_id=" + customer_id;
+
+            $.ajax({
+                    type: "DELETE",
+                    url: '/cart/item/remove',
+                    data: datastr,
+                    cache: false,
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+        });
+
     })
 </script>
 @endpush

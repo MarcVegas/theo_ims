@@ -143,7 +143,7 @@
         </form>
     </div>
 </div>
-<div class="ui mini checkout modal">
+<div class="ui tiny checkout modal">
     <i class="close icon"></i>
     <div class="header"><i class="shopping cart icon"></i> Confirm Checkout</div>
     <div class="content">
@@ -153,7 +153,7 @@
         <div class="ui deny button">
             No, continue shopping
         </div>
-        <a class="ui inverted right floated green button" href="/checkout/{{$customer->id}}">
+        <a class="ui inverted green button" href="/checkout/{{$customer->id}}">
             Yes, checkout
         </a>
     </div>

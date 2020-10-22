@@ -71,7 +71,7 @@ class CartController extends Controller
             $cart->cart_quantity = $cart_quantity;
             $cart->customer_id = $customer_id;
             $cart->save();
-        }else if($cart_quantity > $maxQuantity && $order_type == 'restock'){
+        }elseif ($order_type == 'restock'){
             $cart = new Cart;
             $cart->product_id = $product_id;
             $cart->cart_quantity = $cart_quantity;
@@ -89,13 +89,11 @@ class CartController extends Controller
 
         $cart = Cart::where('product_id', $product_id)->where('customer_id', $customer_id)->first();
         $cart->delete();
-
-        return redirect('/checkout/'.$customer_id)->with('success', 'Item removed from cart');
     }
 
     public function checkout($id){
         $carts = Cart::leftJoin('products', 'carts.product_id','=','products.id')
-        ->select('products.name','products.selling_price', 'carts.cart_quantity')
+        ->select('products.name','products.selling_price', 'carts.cart_quantity', 'carts.product_id')
         ->where('carts.customer_id','=', $id)->get();
 
         $total = 0;

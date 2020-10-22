@@ -115,12 +115,18 @@
             $('.remove.modal').modal('show');
         });
 
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+
         $('.delete.button').click(function () {
-            var datastr = "product_id" + product_id + "&customer_id" + customer_id;
+            var datastr = "product_id=" + product_id + "&customer_id=" + customer_id;
 
             $.ajax({
                     type: "DELETE",
-                    url: '/cart/remove',
+                    url: '/cart/item/remove',
                     data: datastr,
                     cache: false,
                     success: function (data) {

@@ -139,7 +139,7 @@
         </form>
     </div>
 </div>
-<div class="ui mini checkout modal">
+<div class="ui tiny checkout modal">
     <i class="close icon"></i>
     <div class="header"><i class="shopping cart icon"></i> Confirm Checkout</div>
     <div class="content">
