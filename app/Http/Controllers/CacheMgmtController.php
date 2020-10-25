@@ -13,6 +13,7 @@ class CacheMgmtController extends Controller
         cache()->forget('suppliers-all');
         cache()->forget('best-products');
         cache()->forget('best-customers');
+        cache()->forget('myorders-all');
 
         return redirect('/settings')->with('success', 'Cache cleared');
     }

@@ -46,6 +46,7 @@
                                             <input type="number" name="returned" id="returned" min="1" max="{{$order->order_quantity}}" required>
                                         </div>
                                         <input type="hidden" name="product_id" value="{{$order->product_id}}">
+                                        <input type="hidden" name="type" value="{{($order->transaction->supplier_id != null) ? 'restock' : 'buyer'}}">
                                         <input type="hidden" name="_method" value="PUT">
                                         <a class="ui button" href="{{route('transactions.index')}}">Go back</a>
                                         

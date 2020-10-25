@@ -24,11 +24,13 @@ class ReturnsController extends Controller
     public function update(Request $request, $id){
         $this->validate($request, [
             'product_id' => 'string|required',
-            'returned' => 'integer|required'
+            'returned' => 'integer|required',
+            'type' => 'string|required'
         ]);
 
         $product_id = $request->input('product_id');
         $returned = $request->input('returned');
+        $type = $request->input('type');
 
         $order = Order::where('product_id', $product_id)->where('transaction_id', $id)->first();
         $init_quantity = $order->order_quantity;
@@ -44,8 +46,13 @@ class ReturnsController extends Controller
             $this->saveReturned($product_id,$init_quantity,$returned, $id);
             $order->save();
             $this->recalculateTransaction($id);
-            $this->addToStock($product_id, $returned);
+            if ($type == 'restock') {
+                $this->deductFromStock($product_id, $returned);
+            } elseif ($type == 'buyer') {
+                $this->addToStock($product_id, $returned);
+            }
             cache()->forget('transactions-all');
+            cache()->forget('myorders-all');
             return redirect('/transactions/'.$id)->with('success', 'Items have been returned successfuly');
         }else {
             return redirect('/transactions/'.$id)->with('error', 'Returned quantity cannot be greater than ordered quantity');
@@ -97,6 +104,14 @@ class ReturnsController extends Controller
         $stock = Stock::where('product_id', $product_id)->first();
         $quantity = $stock->quantity;
         $new_quantity = $quantity + $returned_items;
+        $stock->quantity = $new_quantity;
+        $stock->save();
+    }
+
+    public function deductFromStock($product_id, $returned_items){
+        $stock = Stock::where('product_id', $product_id)->first();
+        $quantity = $stock->quantity;
+        $new_quantity = $quantity - $returned_items;
         $stock->quantity = $new_quantity;
         $stock->save();
     }

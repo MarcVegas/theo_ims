@@ -31,14 +31,18 @@ class HomeController extends Controller
         $to = Carbon::now()->endOfMonth();
         $expires = Carbon::now()->addHours(24);
 
+        //Monthly Statistics
         $orderCount = Order::whereBetween('created_at',[$from, $to])->count();
         $miscellaneous = Expense::whereBetween('created_at',[$from, $to])->sum('amount');
+        $refund = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('refund');
+        $change = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('change');
         $restockExpense = Transaction::where('supplier_id','<>', null)->whereBetween('created_at',[$from, $to])->sum('cash');
-        $expense = $miscellaneous + $restockExpense;
-        /* $grossTotal = Order::whereHas('transaction', function($q){
-            $q->where('supplier_id', null)->where('type','<>', 'credit');
-        })->whereBetween('created_at',[$from, $to])->sum('subtotal'); */
-        $grossTotal = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('cash');
+        $restockChange = Transaction::where('supplier_id','<>', null)->whereBetween('created_at',[$from, $to])->sum('change');
+        $restock = $restockExpense - $restockChange;
+        $expense = $miscellaneous + $restock;
+        $total = Transaction::where('supplier_id', null)->whereBetween('created_at',[$from, $to])->sum('cash');
+        $deductables = $refund + $change;
+        $grossTotal = $total - $deductables;
         $netTotal = $grossTotal - $expense;
 
         $bestProducts = cache()->remember('best-products', $expires, function () use ($from, $to){

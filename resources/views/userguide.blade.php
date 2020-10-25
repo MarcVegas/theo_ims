@@ -141,7 +141,7 @@
             </b>
         <h3 class="ui brown header" id=""># Are records I delete gone forever?</h3>
             <b>
-                Yes and no, some records are "soft deleted" so that order and transaction records can still reference then and 
+                Yes and no, some records are "soft deleted" so that order and transaction records can still reference them and 
                 avoid errors when fetching info. For example, if a reseller account were to be deleted, the record is removed from the 
                 customer management tab and will no longer be able to perform orders but some of the resellers data is kept around so that 
                 past transaction records can still reference his/her name.

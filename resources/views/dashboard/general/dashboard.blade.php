@@ -194,7 +194,7 @@
     <div class="content">
       <div class="ui large message">
         <p style="font-weight: bolder">This sums the total expenses made during the current month. Please take note that this automatically
-          includes orders from supplier as a business expense.<br><br> For a more detailed summation please visit the report tab.</p>
+          includes orders from supplier as a business expense. <br><br> For a more detailed summation please visit the report tab.</p>
       </div>
     </div>
     <div class="actions">
@@ -206,8 +206,7 @@
     <div class="header"><i class="info blue icon"></i> More Info</div>
     <div class="content">
       <div class="ui large message">
-        <p style="font-weight: bolder">This sums total amount from orders made this month. Please take note that this does not include orders with 
-          credit type transactions.<br><br> For a more detailed summation please visit the report tab.</p>
+        <p style="font-weight: bolder">This sums total amount from orders made this month. Please take note that refunds are deducted from sales.<br><br> For a more detailed summation please visit the report tab.</p>
       </div>
     </div>
     <div class="actions">

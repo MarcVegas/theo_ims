@@ -14,8 +14,8 @@
                         <h2 class="ui teal header">
                             <i class="cart arrow down icon"></i>
                             <div class="content">
-                                Your Order
-                                <div class="sub header">List of your selected items</div>
+                                Your Orders
+                                <div class="sub header">Please review your selected items</div>
                             </div>
                         </h2>
                         @if ($carts ?? '')
