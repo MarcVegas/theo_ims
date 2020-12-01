@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Order;
 use App\Expense;
 use App\Transaction;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,10 @@ class HomeController extends Controller
     {
         $from = Carbon::now()->startOfMonth();
         $to = Carbon::now()->endOfMonth();
+
+        $fromDaily = Carbon::now()->startOfDay();
+        $toDaily = Carbon::now()->endOfDay();
+
         $expires = Carbon::now()->addHours(24);
 
         //Monthly Statistics
@@ -45,6 +50,20 @@ class HomeController extends Controller
         $grossTotal = $total - $deductables;
         $netTotal = $grossTotal - $expense;
 
+        //Daily Statistics
+        $orderCountDaily = Order::whereBetween('created_at',[$fromDaily, $toDaily])->count();
+        $miscellaneousDaily = Expense::whereBetween('created_at',[$fromDaily, $toDaily])->sum('amount');
+        $refundDaily = Transaction::where('supplier_id', null)->whereBetween('created_at',[$fromDaily, $toDaily])->sum('refund');
+        $changeDaily = Transaction::where('supplier_id', null)->whereBetween('created_at',[$fromDaily, $toDaily])->sum('change');
+        $restockExpenseDaily = Transaction::where('supplier_id','<>', null)->whereBetween('created_at',[$fromDaily, $toDaily])->sum('cash');
+        $restockChangeDaily = Transaction::where('supplier_id','<>', null)->whereBetween('created_at',[$fromDaily, $toDaily])->sum('change');
+        $restockDaily = $restockExpenseDaily - $restockChangeDaily;
+        $expenseDaily = $miscellaneousDaily + $restockDaily;
+        $totalDaily = Transaction::where('supplier_id', null)->whereBetween('created_at',[$fromDaily, $toDaily])->sum('cash');
+        $deductablesDaily = $refundDaily + $changeDaily;
+        $grossTotalDaily = $totalDaily - $deductablesDaily;
+        $netTotalDaily = $grossTotalDaily - $expenseDaily;
+
         $bestProducts = cache()->remember('best-products', $expires, function () use ($from, $to){
             return Order::has('product')->whereHas('transaction', function($q){
                 $q->where('supplier_id', null);
@@ -60,11 +79,18 @@ class HomeController extends Controller
         return view('dashboard.general.dashboard')->with('bestProducts', $bestProducts)
         ->with('bestCustomers', $bestCustomers)->with('orderCount', $orderCount)
         ->with('expense', $expense)->with('gross', $grossTotal)
-        ->with('net', $netTotal);
+        ->with('net', $netTotal)->with('orderCountDaily', $orderCountDaily)
+        ->with('expenseDaily', $expenseDaily)->with('grossDaily', $grossTotalDaily)
+        ->with('netDaily', $netTotalDaily);
     }
 
     public function home(){
         return redirect('/login');
+    }
+
+    public function createLink(){
+        Artisan::call('storage:link',[]);
+        return 'success';
     }
 
 }

@@ -36,7 +36,7 @@ class ReturnsController extends Controller
         $init_quantity = $order->order_quantity;
         $price = $order->order_price;
         
-        if ($returned <= $init_quantity) {
+        if ($returned <= $init_quantity && $returned >= 0) {
             $new_quantity = $init_quantity - $returned;
             $new_subtotal = $new_quantity * $price;
 
@@ -54,7 +54,10 @@ class ReturnsController extends Controller
             cache()->forget('transactions-all');
             cache()->forget('myorders-all');
             return redirect('/transactions/'.$id)->with('success', 'Items have been returned successfuly');
-        }else {
+        }elseif ($returned < 0){
+            return redirect('/transactions/'.$id)->with('error', 'Returned quantity cannot be less than zero');
+        }
+        else {
             return redirect('/transactions/'.$id)->with('error', 'Returned quantity cannot be greater than ordered quantity');
         }
     }
