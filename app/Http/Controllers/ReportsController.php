@@ -237,10 +237,10 @@ class ReportsController extends Controller
             $transactions = Transaction::where('customer_id', $customer_id)->latest()->get();
 
         }else {
-            $transactions = Transaction::where('supplier_id','=', null)->latest()->get();
+            $transactions = Transaction::with('customer')->where('supplier_id','=', null)->latest()->get();
         }
         
-        $columns = array("Date","Type","Total","Cash","Balance","Change","Status");
+        $columns = array("Name","Date","Type","Total","Cash","Balance","Change","Status");
 
         $pdf = PDF::loadView('dashboard.general.export.transactions', [
             'transactions' => $transactions,

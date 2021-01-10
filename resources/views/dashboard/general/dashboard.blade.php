@@ -6,114 +6,10 @@
 <div class="pusher">
     <div class="main-content">
       <div class="ui secondary pointing top attached menu">
-        <a class="item active" data-tab="first" href="">Monthly</a>  
-        <a class="item" data-tab="second" href="">Daily</a>  
+        <a class="item active" data-tab="first" href="">Daily</a>
+        <a class="item" data-tab="second" href="">Monthly</a>
       </div>
-      <div class="ui basic active tab bottom attached segment" data-tab="first">
-        <div class="ui grid stackable padded">
-          <div class="four wide computer eight wide tablet sixteen wide mobile column">
-              <div class="ui fluid card">
-                  <div class="content">
-                  <div class="ui right floated header red">
-                      <i class="icon shopping cart"></i>
-                  </div>
-                  <div class="header">
-                      <div class="ui red header">
-                      {{($orderCount ?? '') ? $orderCount : '0'}}
-                      </div>
-                  </div>
-                  <div class="meta">
-                      Orders
-                  </div>
-                  <div class="description">
-                      Total number of orders this month
-                  </div>
-                  </div>
-                  <div class="extra content">
-                  <div class="ui two buttons">
-                      <div class="ui order button">More Info</div>
-                  </div>
-                  </div>
-              </div>
-          </div>
-          <div class="four wide computer eight wide tablet sixteen wide mobile column">
-            <div class="ui fluid card">
-              <div class="content">
-                <div class="ui right floated header green">
-                  <i class="bullseye icon"></i>
-                </div>
-                <div class="header">
-                  <div class="ui header green">
-                    {{($expense ?? '') ? $expense : '0'}}
-                  </div>
-                </div>
-                <div class="meta">
-                  Expenses
-                </div>
-                <div class="description">
-                  Total expense amount this month
-                </div>
-              </div>
-              <div class="extra content">
-                <div class="ui two buttons">
-                  <div class="ui expense button">More Info</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="four wide computer eight wide tablet sixteen wide mobile column">
-            <div class="ui fluid card">
-              <div class="content">
-                <div class="ui right floated header teal">
-                  <i class="icon money alternate"></i>
-                </div>
-                <div class="header">
-                  <div class="ui teal header">
-                    {{($gross ?? '') ? $gross : '0'}}
-                  </div>
-                </div>
-                <div class="meta">
-                  Gross Income
-                </div>
-                <div class="description">
-                  Gross income from sales this month
-                </div>
-              </div>
-              <div class="extra content">
-                <div class="ui two buttons">
-                  <div class="ui gross button">More Info</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="four wide computer eight wide tablet sixteen wide mobile column">
-            <div class="ui fluid card">
-              <div class="content">
-                <div class="ui right floated header purple">
-                  <i class="dollar sign icon"></i>
-                </div>
-                <div class="header">
-                  <div class="ui purple header">
-                    {{($net ?? '') ? $net : '0'}}
-                  </div>
-                </div>
-                <div class="meta">
-                  Net Income
-                </div>
-                <div class="description">
-                  Income deducted with expenses
-                </div>
-              </div>
-              <div class="extra content">
-                <div class="ui two buttons">
-                  <div class="ui net button">More Info</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui basic tab bottom attached segment" data-tab="second">
+      <div class="ui basic tab active bottom attached segment" data-tab="first">
         <div class="ui grid stackable padded">
           <div class="four wide computer eight wide tablet sixteen wide mobile column">
               <div class="ui fluid card">
@@ -199,6 +95,110 @@
                 <div class="header">
                   <div class="ui purple header">
                     {{($netDaily ?? '') ? $netDaily : '0'}}
+                  </div>
+                </div>
+                <div class="meta">
+                  Net Income
+                </div>
+                <div class="description">
+                  Income deducted with expenses
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui two buttons">
+                  <div class="ui net button">More Info</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui basic tab bottom attached segment" data-tab="second">
+        <div class="ui grid stackable padded">
+          <div class="four wide computer eight wide tablet sixteen wide mobile column">
+              <div class="ui fluid card">
+                  <div class="content">
+                  <div class="ui right floated header red">
+                      <i class="icon shopping cart"></i>
+                  </div>
+                  <div class="header">
+                      <div class="ui red header">
+                      {{($orderCount ?? '') ? $orderCount : '0'}}
+                      </div>
+                  </div>
+                  <div class="meta">
+                      Orders
+                  </div>
+                  <div class="description">
+                      Total number of orders this month
+                  </div>
+                  </div>
+                  <div class="extra content">
+                  <div class="ui two buttons">
+                      <div class="ui order button">More Info</div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+          <div class="four wide computer eight wide tablet sixteen wide mobile column">
+            <div class="ui fluid card">
+              <div class="content">
+                <div class="ui right floated header green">
+                  <i class="bullseye icon"></i>
+                </div>
+                <div class="header">
+                  <div class="ui header green">
+                    {{($expense ?? '') ? $expense : '0'}}
+                  </div>
+                </div>
+                <div class="meta">
+                  Expenses
+                </div>
+                <div class="description">
+                  Total expense amount this month
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui two buttons">
+                  <div class="ui expense button">More Info</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="four wide computer eight wide tablet sixteen wide mobile column">
+            <div class="ui fluid card">
+              <div class="content">
+                <div class="ui right floated header teal">
+                  <i class="icon money alternate"></i>
+                </div>
+                <div class="header">
+                  <div class="ui teal header">
+                    {{($gross ?? '') ? $gross : '0'}}
+                  </div>
+                </div>
+                <div class="meta">
+                  Gross Income
+                </div>
+                <div class="description">
+                  Gross income from sales this month
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui two buttons">
+                  <div class="ui gross button">More Info</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="four wide computer eight wide tablet sixteen wide mobile column">
+            <div class="ui fluid card">
+              <div class="content">
+                <div class="ui right floated header purple">
+                  <i class="dollar sign icon"></i>
+                </div>
+                <div class="header">
+                  <div class="ui purple header">
+                    {{($net ?? '') ? $net : '0'}}
                   </div>
                 </div>
                 <div class="meta">

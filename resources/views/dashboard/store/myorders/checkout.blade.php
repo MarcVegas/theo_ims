@@ -115,6 +115,10 @@
             $('.remove.modal').modal('show');
         });
 
+        $('.blue.button').click(function () {
+            $('.blue.button').addClass('loading disabled');
+        });
+
         $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

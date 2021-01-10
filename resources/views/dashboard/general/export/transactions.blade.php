@@ -64,6 +64,13 @@
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
+                            <td>
+                                @if ($customer ?? '')
+                                    
+                                @else
+                                {{$transaction->customer->firstname}} {{$transaction->customer->lastname}}
+                                @endif
+                            </td>
                             <td>{{date('d M Y, h:i A', strtotime($transaction->created_at))}}</td>
                             <td>{{$transaction->type}}</td>
                             <td>{{$transaction->total}}</td>

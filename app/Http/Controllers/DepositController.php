@@ -30,7 +30,8 @@ class DepositController extends Controller
             $deposit->save();
 
             $this->updateBalance($transaction_id,$remaining_balance, $deposit_amount);
-
+            cache()->forget('transactions-all');
+            cache()->forget('myorders-all');
             return redirect('/transactions/'.$transaction_id)->with('success', 'Deposit has been successfuly recorded');
         }else {
             return redirect('/transactions/'.$transaction_id)->with('error', 'Deposit amount cannot be greater than remaining balance');
