@@ -45,7 +45,7 @@
             </div>
         @endif
 
-        <small>Developed by Marc Vegas</small>
+        <small>Developed by Marc Cayam</small>
     </div>
 </div>
 @endsection
